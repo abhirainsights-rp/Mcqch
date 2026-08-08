@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bharat is My Home - MCQ Quiz | Abhira Insights</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-dark: #4338ca;
+            --secondary: #06b6d4;
+            --success: #10b981;
+            --error: #ef4444;
+            --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            --card-bg: #ffffff;
+            --text-color: #1f2937;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: var(--bg-gradient);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            color: var(--text-color);
+        }
+
+        /* Branding Header */
+        .brand-header {
+            text-align: center;
+            margin-bottom: 25px;
+            animation: fadeInDown 0.8s ease;
+        }
+
+        .brand-header h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        .brand-header p {
+            font-size: 1rem;
+            color: #4b5563;
+            font-weight: 500;
+            margin-top: 5px;
+        }
+
+        /* Quiz Container */
+        .quiz-container {
+            background: var(--card-bg);
+            width: 100%;
+            max-width: 700px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            position: relative;
+            animation: zoomIn 0.5s ease;
+        }
+
+        /* Quiz Header */
+        .quiz-header {
+            background: var(--primary);
+            color: white;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .quiz-header h2 {
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+
+        .timer {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 5px 15px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        /* Progress Bar */
+        .progress-bar-container {
+            width: 100%;
+            height: 6px;
+            background: #e5e7eb;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--secondary);
+            width: 0%;
+            transition: width 0.4s ease;
+        }
+
+        /* Question Box */
+        .quiz-body {
+            padding: 30px;
+        }
+
+        .question-text {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #111827;
+            line-height: 1.4;
+        }
+
+        /* Options Grid */
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option {
+            background: #f9fafb;
+            border: 2px solid #e5e7eb;
+            padding: 15px 20px;
+            border-radius: 12px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .option:hover:not(:disabled) {
+            border-color: var(--primary);
+            background: #eef2ff;
+            transform: translateY(-2px);
+        }
+
+        .option.correct {
+            background: #d1fae5 !important;
+            border-color: var(--success) !important;
+            color: #065f46;
+        }
+
+        .option.incorrect {
+            background: #fee2e2 !important;
+            border-color: var(--error) !important;
+            color: #991b1b;
+        }
+
+        .option:disabled {
+            cursor: default;
+        }
+
+        /* Footer Controls */
+        .quiz-footer {
+            padding: 20px 30px;
+            background: #f9fafb;
+            border-top: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+        }
+
+        .btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+
+        .btn:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+            box-shadow: none;
+            transform: none;
+        }
+
+        /* Score Card Screen */
+        .score-card {
+            display: none;
+            text-align: center;
+            padding: 40px 30px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .score-card h2 {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .score-card p {
+            font-size: 1.1rem;
+            margin-bottom: 25px;
+            color: #4b5563;
+        }
+
+        .score-badge {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--success);
+            margin-bottom: 20px;
+        }
+
+        /* Animations */
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes zoomIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Responsive */
+        @media(max-width: 600px) {
+            .brand-header h1 { font-size: 2rem; }
+            .question-text { font-size: 1.1rem; }
+            .quiz-body { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Large Branding Heading -->
+    <div class="brand-header">
+        <h1>Abhira Insights</h1>
+        <p>Interactive Mastery Quiz: "Bharat is My Home"</p>
+    </div>
+
+    <!-- Main Quiz Container -->
+    <div class="quiz-container" id="quizContainer">
+        <div class="quiz-header">
+            <h2 id="questionCount">Question 1 of 30</h2>
+            <div class="timer" id="timer">⏱️ 20s</div>
+        </div>
+        <div class="progress-bar-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+
+        <div class="quiz-body" id="quizBody">
+            <div class="question-text" id="questionText">Loading question...</div>
+            <div class="options-list" id="optionsList">
+                <!-- Options injected dynamically -->
+            </div>
+        </div>
+
+        <div class="quiz-footer">
+            <button class="btn" id="nextBtn" onclick="nextQuestion()" disabled>Next Question</button>
+        </div>
+    </div>
+
+    <!-- Score Card Screen -->
+    <div class="quiz-container score-card" id="scoreCard">
+        <h2>Quiz Completed! 🎉</h2>
+        <p>You have successfully finished the test on "Bharat is My Home".</p>
+        <div class="score-badge" id="finalScore">0 / 30</div>
+        <p id="performanceRemark">Amazing effort!</p>
+        <button class="btn" onclick="restartQuiz()">Try Again 🚀</button>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "Who is the author of “Bharat is My Home”?",
+                options: ["Bertrand Russell", "Dr. Zakir Husain", "H. E. Bates", "Manohar Malgaonkar"],
+                answer: 1
+            },
+            {
+                question: "“Bharat is My Home” is a/an —",
+                options: ["Poem", "Novel", "Speech", "Story"],
+                answer: 2
+            },
+            {
+                question: "Dr. Zakir Husain took oath as the —",
+                options: ["Prime Minister of India", "President of India", "Vice-President of India", "Governor of India"],
+                answer: 1
+            },
+            {
+                question: "Dr. Zakir Husain became President of India in —",
+                options: ["1952", "1962", "1967", "1972"],
+                answer: 2
+            },
+            {
+                question: "The central idea of the speech is —",
+                options: ["Economic development only", "Service to the nation", "Religious conflict", "Industrial development"],
+                answer: 1
+            },
+            {
+                question: "Dr. Zakir Husain considered India as his —",
+                options: ["Workplace", "Motherland only", "Home", "School"],
+                answer: 2
+            },
+            {
+                question: "According to Dr. Zakir Husain, the President should serve —",
+                options: ["Only one community", "Only educated people", "The whole nation", "Only government employees"],
+                answer: 2
+            },
+            {
+                question: "Dr. Zakir Husain emphasizes the unity of —",
+                options: ["Only religions", "Indian people", "Political parties", "States only"],
+                answer: 1
+            },
+            {
+                question: "The speech reflects Dr. Zakir Husain’s commitment to —",
+                options: ["Personal wealth", "National service", "Political power", "Foreign travel"],
+                answer: 1
+            },
+            {
+                question: "Dr. Zakir Husain wanted to preserve India’s —",
+                options: ["Cultural heritage", "Military power", "Foreign policy", "Industrial secrets"],
+                answer: 0
+            },
+            {
+                question: "The word “heritage” means —",
+                options: ["Property received from ancestors", "A new invention", "A political party", "A government order"],
+                answer: 0
+            },
+            {
+                question: "The word “diversity” means —",
+                options: ["Similarity", "Variety", "Conflict", "Separation"],
+                answer: 1
+            },
+            {
+                question: "Dr. Zakir Husain believed that India’s strength lies in its —",
+                options: ["Diversity and unity", "Wealth alone", "Military alone", "Population alone"],
+                answer: 0
+            },
+            {
+                question: "The President of India is expected to be above —",
+                options: ["National interests", "Personal and sectional interests", "Constitutional duties", "Public service"],
+                answer: 1
+            },
+            {
+                question: "“Bharat is My Home” mainly expresses the author’s —",
+                options: ["Love and dedication towards India", "Anger against India", "Desire to leave India", "Political ambition"],
+                answer: 0
+            },
+            {
+                question: "Dr. Zakir Husain wanted education to develop —",
+                options: ["Only professional skills", "The whole personality of a person", "Only physical strength", "Only political knowledge"],
+                answer: 1
+            },
+            {
+                question: "According to the chapter, education should help in building —",
+                options: ["Responsible citizens", "Rich businessmen only", "Political leaders only", "Government officers only"],
+                answer: 0
+            },
+            {
+                question: "Dr. Zakir Husain emphasized the importance of —",
+                options: ["Discipline and responsibility", "Luxury and comfort", "Competition alone", "Political power"],
+                answer: 0
+            },
+            {
+                question: "The speech is primarily concerned with —",
+                options: ["The duties of a responsible citizen", "A journey to another country", "A historical battle", "A scientific discovery"],
+                answer: 0
+            },
+            {
+                question: "The author wants Indians to work for —",
+                options: ["Their own interests only", "The welfare of the country", "Foreign countries", "Political parties"],
+                answer: 1
+            },
+            {
+                question: "“Unity” means —",
+                options: ["Division", "Togetherness", "Competition", "Isolation"],
+                answer: 1
+            },
+            {
+                question: "Dr. Zakir Husain’s vision of India is based on —",
+                options: ["Communalism", "National integration", "Regionalism", "Individualism"],
+                answer: 1
+            },
+            {
+                question: "The speech encourages people to respect —",
+                options: ["Only their own culture", "India’s composite culture", "Foreign culture only", "Political ideology"],
+                answer: 1
+            },
+            {
+                question: "The word “service” in the context of the chapter refers mainly to —",
+                options: ["Service to the nation and people", "Private business", "Military service only", "Personal benefit"],
+                answer: 0
+            },
+            {
+                question: "Dr. Zakir Husain’s speech promotes the ideal of —",
+                options: ["National unity", "Social division", "Religious hatred", "Regional conflict"],
+                answer: 0
+            },
+            {
+                question: "The author’s attitude towards India is —",
+                options: ["Indifferent", "Loving and patriotic", "Critical and hostile", "Uncertain"],
+                answer: 1
+            },
+            {
+                question: "“Bharat is My Home” teaches us that a citizen should —",
+                options: ["Think only about himself", "Contribute to the welfare of society", "Avoid social responsibilities", "Ignore national problems"],
+                answer: 1
+            },
+            {
+                question: "Dr. Zakir Husain’s ideas are closely connected with —",
+                options: ["Democracy and citizenship", "Dictatorship", "Colonialism", "Imperialism"],
+                answer: 0
+            },
+            {
+                question: "Which quality is most strongly emphasized in the chapter?",
+                options: ["Selfishness", "Responsibility", "Greed", "Hatred"],
+                answer: 1
+            },
+            {
+                question: "What is the main message of “Bharat is My Home”?",
+                options: ["India should be divided into different groups", "Every citizen should work for the unity and welfare of India", "Education is unnecessary", "Only the President is responsible for the nation"],
+                answer: 1
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let timer;
+        let timeLeft = 20;
+        let answered = false;
+
+        const questionCountElem = document.getElementById("questionCount");
+        const questionTextElem = document.getElementById("questionText");
+        const optionsListElem = document.getElementById("optionsList");
+        const nextBtn = document.getElementById("nextBtn");
+        const progressBar = document.getElementById("progressBar");
+        const timerElem = document.getElementById("timer");
+        const quizContainer = document.getElementById("quizContainer");
+        const scoreCard = document.getElementById("scoreCard");
+        const finalScoreElem = document.getElementById("finalScore");
+        const performanceRemark = document.getElementById("performanceRemark");
+
+        function loadQuestion() {
+            clearInterval(timer);
+            timeLeft = 20;
+            answered = false;
+            nextBtn.disabled = true;
+            timerElem.innerText = `⏱️ ${timeLeft}s`;
+
+            const currentQ = questions[currentQuestionIndex];
+            questionCountElem.innerText = `Question ${currentQuestionIndex + 1} of ${questions.length}`;
+            questionTextElem.innerText = currentQ.question;
+            
+            // Update Progress Bar
+            progressBar.style.width = `${((currentQuestionIndex) / questions.length) * 100}%`;
+
+            optionsListElem.innerHTML = "";
+            currentQ.options.forEach((option, index) => {
+                const button = document.createElement("button");
+                button.classList.add("option");
+                button.innerText = option;
+                button.onclick = () => selectOption(index, button);
+                optionsListElem.appendChild(button);
+            });
+
+            startTimer();
+        }
+
+        function startTimer() {
+            timer = setInterval(() => {
+                timeLeft--;
+                timerElem.innerText = `⏱️ ${timeLeft}s`;
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    timeOutHandler();
+                }
+            }, 1000);
+        }
+
+        function timeOutHandler() {
+            if (answered) return;
+            answered = true;
+            const currentQ = questions[currentQuestionIndex];
+            const optionButtons = optionsListElem.children;
+            
+            optionButtons[currentQ.answer].classList.add("correct");
+            disableAllOptions();
+            nextBtn.disabled = false;
+        }
+
+        function selectOption(selectedIndex, selectedButton) {
+            if (answered) return;
+            answered = true;
+            clearInterval(timer);
+
+            const currentQ = questions[currentQuestionIndex];
+            const optionButtons = optionsListElem.children;
+
+            if (selectedIndex === currentQ.answer) {
+                selectedButton.classList.add("correct");
+                score++;
+            } else {
+                selectedButton.classList.add("incorrect");
+                optionButtons[currentQ.answer].classList.add("correct");
+            }
+
+            disableAllOptions();
+            nextBtn.disabled = false;
+        }
+
+        function disableAllOptions() {
+            const optionButtons = optionsListElem.children;
+            for (let btn of optionButtons) {
+                btn.disabled = true;
+            }
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < questions.length) {
+                loadQuestion();
+            } else {
+                showScoreCard();
+            }
+        }
+
+        function showScoreCard() {
+            quizContainer.style.display = "none";
+            scoreCard.style.display = "block";
+            finalScoreElem.innerText = `${score} / ${questions.length}`;
+
+            let percentage = (score / questions.length) * 100;
+            if (percentage === 100) {
+                performanceRemark.innerText = "🏆 Extraordinary! You're a true champion!";
+            } else if (percentage >= 70) {
+                performanceRemark.innerText = "🌟 Great job! Excellent grasp on the chapter.";
+            } else if (percentage >= 40) {
+                performanceRemark.innerText = "👍 Good effort! Review the chapter to boost your score.";
+            } else {
+                performanceRemark.innerText = "💪 Keep practicing! Read through the text once more.";
+            }
+        }
+
+        function restartQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            scoreCard.style.display = "none";
+            quizContainer.style.display = "block";
+            loadQuestion();
+        }
+
+        // Initialize first question
+        loadQuestion();
+    </script>
+</body>
+</html>
