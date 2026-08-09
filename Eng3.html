@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bihar Board 12th English - A Pinch of Snuff MCQ Challenge</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1f4068, #162447);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: #0f4c81;
+            width: 100%;
+            max-width: 700px;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border: 2px solid #e43f5a;
+        }
+
+        /* Heading Style */
+        h1.brand-title {
+            text-align: center;
+            font-size: 2.8rem;
+            font-weight: 900;
+            color: #ffdda1;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
+        }
+
+        .subtitle {
+            text-align: center;
+            font-size: 1.1rem;
+            color: #dcd6m7;
+            margin-bottom: 25px;
+            color: #e4f9f5;
+        }
+
+        .quiz-box {
+            background: #1b262c;
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid #3282b8;
+        }
+
+        .question-number {
+            font-size: 1rem;
+            color: #00adb5;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .question-text {
+            font-size: 1.25rem;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+
+        .options-list {
+            list-style: none;
+        }
+
+        .option {
+            background: #0f4c81;
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+            font-size: 1rem;
+        }
+
+        .option:hover {
+            background: #3282b8;
+            border-color: #ffdda1;
+        }
+
+        .option.correct {
+            background: #28a745 !important;
+            color: white;
+            border-color: #fff;
+        }
+
+        .option.wrong {
+            background: #dc3545 !important;
+            color: white;
+            border-color: #fff;
+        }
+
+        .btn-next {
+            display: block;
+            width: 100%;
+            background: #e43f5a;
+            color: white;
+            border: none;
+            padding: 12px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background 0.3s;
+        }
+
+        .btn-next:hover {
+            background: #c22540;
+        }
+
+        .score-container {
+            text-align: center;
+            display: none;
+        }
+
+        .score-container h2 {
+            font-size: 2.2rem;
+            color: #ffdda1;
+            margin-bottom: 15px;
+        }
+
+        .score-container p {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+        }
+
+        .restart-btn {
+            background: #28a745;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            font-size: 1.1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .restart-btn:hover {
+            background: #218838;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1 class="brand-title">Abhira Insight</h1>
+        <p class="subtitle">Bihar Board 12th English | Chapter 3: A Pinch of Snuff - 30 MCQ Challenge</p>
+
+        <div class="quiz-box" id="quizBox">
+            <div class="question-number" id="questionNumber">Question 1 of 30</div>
+            <div class="question-text" id="questionText">Loading question...</div>
+            <ul class="options-list" id="optionsList">
+                <!-- Options will load dynamically -->
+            </ul>
+            <button class="btn-next" id="nextBtn" onclick="nextQuestion()" style="display:none;">Next Question</button>
+        </div>
+
+        <div class="score-container" id="scoreContainer">
+            <h2>Quiz Completed! 🎉</h2>
+            <p id="scoreText">Your Score: 0 / 30</p>
+            <button class="restart-btn" onclick="restartQuiz()">Play Again</button>
+        </div>
+    </div>
+
+    <script>
+        const quizData = [
+            { q: "Who is the author of 'A Pinch of Snuff'?", options: ["A) Mahatma Gandhi", "B) Manohar Malgaonkar", "C) Dr. Zakir Hussain", "D) Shiga Naoya"], answer: 1 },
+            { q: "'A Pinch of Snuff' is a ______.", options: ["A) Short story", "B) Drama", "C) Essay", "D) Speech"], answer: 0 },
+            { q: "Nanukaka was the narrator's ______.", options: ["A) Uncle", "B) Maternal uncle", "C) Father", "D) Friend"], answer: 1 },
+            { q: "Who was coming to visit the narrator's family?", options: ["A) Sohanlal", "B) Ratiram", "C) Nanukaka", "D) Minister"], answer: 2 },
+            { q: "Nanukaka was to stay for ______.", options: ["A) Two or three days", "B) One month", "C) Ten days", "D) A week"], answer: 0 },
+            { q: "The narrator in the story was a/an ______.", options: ["A) Clerk", "B) Under-secretary", "C) Doctor", "D) Professor"], answer: 1 },
+            { q: "Nanukaka managed to travel in the second class on a ______ ticket.", options: ["A) First class", "B) General", "C) Third class", "D) Sleeper"], answer: 2 },
+            { q: "What did Nanukaka bring with him in a basket?", options: ["A) A puppy", "B) A kitten", "C) A rabbit", "D) A parrot"], answer: 1 },
+            { q: "Nanukaka went to Delhi to meet ______.", options: ["A) Some ministers", "B) The Prime Minister", "C) His friends", "D) A doctor"], answer: 0 },
+            { q: "Where was Nanukaka installed in the narrator's house?", options: ["A) Drawing room", "B) Author's bedroom", "C) Guest room", "D) Verandah"], answer: 1 },
+            { q: "Nanukaka tied a huge ______ turban round his head.", options: ["A) White", "B) Red silk", "C) Orange", "D) Yellow"], answer: 1 },
+            { q: "Who is Lala Sohanlal Ratiram?", options: ["A) Party boss in Delhi", "B) Minister", "C) Foreign Ambassador", "D) Narrator's boss"], answer: 0 },
+            { q: "Ratiram was the son of ______.", options: ["A) Mohanlal Ratiram", "B) Sohanlal Ratiram", "C) Jaganlal Ratiram", "D) None of these"], answer: 1 },
+            { q: "Hajrat Barkat Ali was a/an ______.", options: ["A) Minister", "B) Ambassador", "C) Doctor", "D) Secretary"], answer: 1 },
+            { q: "The portfolio of the minister whom Nanukaka wanted to meet was ______.", options: ["A) Home", "B) Railway", "C) Welfare", "D) Finance"], answer: 2 },
+            { q: "Nanukaka took out his silver snuffbox and took a ______.", options: ["A) Pinch", "B) Dose", "C) Puff", "D) Sip"], answer: 0 },
+            { q: "In a linguistic emergency, Nanukaka always turned to his ______.", options: ["A) English", "B) Hindi", "C) Mother-tongue", "D) Sanskrit"], answer: 2 },
+            { q: "Nanukaka wrote a check for ______ rupees.", options: ["A) Five hundred", "B) Thousand", "C) Ten thousand", "D) Two thousand"], answer: 1 },
+            { q: "The speaker put on his white Jodhpuri coat and the ______ turban.", options: ["A) Orange", "B) Red", "C) Blue", "D) Green"], answer: 0 },
+            { q: "Nanukaka went to the North Block to meet the ______.", options: ["A) Home Minister", "B) Welfare Minister", "C) Finance Minister", "D) Foreign Minister"], answer: 1 },
+            { q: "Manohar Malgaonkar's mother assured him that ______ would manage everything.", options: ["A) Nanukaka", "B) Sohanlal", "C) Himself", "D) The minister"], answer: 0 },
+            { q: "Why did the under-secretary obey Nanukaka?", options: ["A) Out of respect", "B) Because of his mother", "C) Fear of job loss", "D) Friendship"], answer: 1 },
+            { q: "What did Nanukaka give to the minister in the visitor's book?", options: ["A) His home address", "B) Hereditary Astrologer to Maharaja of Ninnore", "C) Fake card", "D) Business proposal"], answer: 1 },
+            { q: "Which car did Nanukaka borrow from the auto dealers?", options: ["A) Sikka auto dealers car", "B) Ford", "C) Fiat", "D) Ambassador"], answer: 0 },
+            { q: "Who drove the car for Nanukaka?", options: ["A) Chauffeur", "B) Manohar Malgaonkar", "C) Sohanlal", "D) Ratiram"], answer: 1 },
+            { q: "What was the name of the minister's daughter engagement rumor?", options: ["A) Prince of Ninnore", "B) Ratiram", "C) Under-secretary", "D) Foreign envoy"], answer: 0 },
+            { q: "A pinch of snuff means ______.", options: ["A) Tobacco intake by nose", "B) Cold medicine", "C) Tea powder", "D) Herbal medicine"], answer: 0 },
+            { q: "Manohar Malgaonkar is essentially a ______.", options: ["A) Novelist and short-story writer", "B) Poet", "C) Dramatist", "D) Scientist"], answer: 0 },
+            { q: "According to the narrator, ministers are ______.", options: ["A) Normal people", "B) Two steps higher than God", "C) Public servants", "D) Corrupt"], answer: 1 },
+            { q: "How did Nanukaka impress Lala Sohanlal?", options: ["A) By talking about Hajrat Barkat Ali", "B) By giving money", "C) By showing power", "D) By threatening"], answer: 0 }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let selectedOption = null;
+
+        const questionNumber = document.getElementById("questionNumber");
+        const questionText = document.getElementById("questionText");
+        const optionsList = document.getElementById("optionsList");
+        const nextBtn = document.getElementById("nextBtn");
+        const quizBox = document.getElementById("quizBox");
+        const scoreContainer = document.getElementById("scoreContainer");
+        const scoreText = document.getElementById("scoreText");
+
+        function loadQuestion() {
+            selectedOption = null;
+            nextBtn.style.display = "none";
+            const currentQ = quizData[currentQuestionIndex];
+            
+            questionNumber.innerText = `Question ${currentQuestionIndex + 1} of ${quizData.length}`;
+            questionText.innerText = currentQ.q;
+            
+            optionsList.innerHTML = "";
+            currentQ.options.forEach((option, index) => {
+                const li = document.createElement("li");
+                li.classList.add("option");
+                li.innerText = option;
+                li.onclick = () => selectOption(index, li);
+                optionsList.appendChild(li);
+            });
+        }
+
+        function selectOption(index, element) {
+            if (selectedOption !== null) return; // Prevent multiple selection
+            selectedOption = index;
+
+            const currentQ = quizData[currentQuestionIndex];
+            const allOptions = optionsList.children;
+
+            if (index === currentQ.answer) {
+                element.classList.add("correct");
+                score++;
+            } else {
+                element.classList.add("wrong");
+                allOptions[currentQ.answer].classList.add("correct");
+            }
+
+            nextBtn.style.display = "block";
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < quizData.length) {
+                loadQuestion();
+            } else {
+                showScore();
+            }
+        }
+
+        function showScore() {
+            quizBox.style.display = "none";
+            scoreContainer.style.display = "block";
+            scoreText.innerText = `Your Score: ${score} / ${quizData.length}`;
+        }
+
+        function restartQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            quizBox.style.display = "block";
+            scoreContainer.style.display = "none";
+            loadQuestion();
+        }
+
+        // Initialize Quiz
+        loadQuestion();
+    </script>
+</body>
+</html>
