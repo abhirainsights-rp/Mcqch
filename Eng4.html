@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bihar Board 12th English Grammar - 30 MCQ Challenge</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(25, 42, 86, 0.9);
+            width: 100%;
+            max-width: 750px;
+            padding: 35px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+            border: 2px solid #00d2d3;
+            backdrop-filter: blur(10px);
+        }
+
+        /* Branding Heading Style */
+        h1.brand-title {
+            text-align: center;
+            font-size: 3rem;
+            font-weight: 900;
+            color: #ff9f43;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+            letter-spacing: 2.5px;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.7);
+        }
+
+        .subtitle {
+            text-align: center;
+            font-size: 1.1rem;
+            color: #c8d6e5;
+            margin-bottom: 25px;
+            font-weight: 500;
+        }
+
+        .quiz-box {
+            background: #1e272e;
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid #48dbfb;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+        }
+
+        .question-number {
+            font-size: 1.05rem;
+            color: #00d2d3;
+            margin-bottom: 12px;
+            font-weight: bold;
+        }
+
+        .question-text {
+            font-size: 1.25rem;
+            margin-bottom: 20px;
+            line-height: 1.5;
+            color: #f1f2f6;
+        }
+
+        .options-list {
+            list-style: none;
+        }
+
+        .option {
+            background: #2f3640;
+            padding: 14px 18px;
+            margin-bottom: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1.5px solid transparent;
+            font-size: 1.05rem;
+            color: #f5f6fa;
+        }
+
+        .option:hover {
+            background: #353b48;
+            border-color: #ff9f43;
+            transform: translateX(5px);
+        }
+
+        .option.correct {
+            background: #2ed573 !important;
+            color: #ffffff;
+            border-color: #fff;
+            font-weight: bold;
+        }
+
+        .option.wrong {
+            background: #ff4757 !important;
+            color: #ffffff;
+            border-color: #fff;
+            font-weight: bold;
+        }
+
+        .btn-next {
+            display: block;
+            width: 100%;
+            background: #ff9f43;
+            color: #1e272e;
+            border: none;
+            padding: 14px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 25px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 159, 67, 0.4);
+        }
+
+        .btn-next:hover {
+            background: #e67e22;
+            color: #fff;
+        }
+
+        .score-container {
+            text-align: center;
+            display: none;
+        }
+
+        .score-container h2 {
+            font-size: 2.5rem;
+            color: #ff9f43;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .score-container p {
+            font-size: 1.4rem;
+            margin-bottom: 25px;
+            color: #f1f2f6;
+        }
+
+        .restart-btn {
+            background: #2ed573;
+            color: white;
+            padding: 14px 35px;
+            border: none;
+            font-size: 1.15rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+            box-shadow: 0 4px 15px rgba(46, 213, 115, 0.4);
+        }
+
+        .restart-btn:hover {
+            background: #26af5f;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1 class="brand-title">Abhira Insights</h1>
+        <p class="subtitle">Bihar Board Class 12th English Grammar | 30 Marks Mock Test</p>
+
+        <div class="quiz-box" id="quizBox">
+            <div class="question-number" id="questionNumber">Question 1 of 30</div>
+            <div class="question-text" id="questionText">Loading question...</div>
+            <ul class="options-list" id="optionsList">
+                <!-- Options injected dynamically -->
+            </ul>
+            <button class="btn-next" id="nextBtn" onclick="nextQuestion()" style="display:none;">Next Question</button>
+        </div>
+
+        <div class="score-container" id="scoreContainer">
+            <h2>Challenge Completed! 🚀</h2>
+            <p id="scoreText">Your Score: 0 / 30</p>
+            <button class="restart-btn" onclick="restartQuiz()">Try Again</button>
+        </div>
+    </div>
+
+    <script>
+        const quizData = [
+            // Articles
+            { q: "Choose the correct article: He is ______ honor to his profession.", options: ["A) a", "B) an", "C) the", "D) no article"], answer: 1 },
+            { q: "Choose the correct article: Copper is ______ useful metal.", options: ["A) an", "B) the", "C) a", "D) no article"], answer: 2 },
+            { q: "Choose the correct article: She wants to be ______ university professor.", options: ["A) an", "B) a", "C) the", "D) no article"], answer: 1 },
+            
+            // Prepositions
+            { q: "Choose the correct preposition: He is afraid ______ dogs.", options: ["A) from", "B) of", "C) with", "D) in"], answer: 1 },
+            { q: "Choose the correct preposition: Divide this apple ______ two halves.", options: ["A) between", "B) among", "C) into", "D) in"], answer: 2 },
+            { q: "Choose the correct preposition: She has been living here ______ 2018.", options: ["A) for", "B) since", "C) from", "D) by"], answer: 1 },
+            { q: "Choose the correct preposition: The book is ______ the table.", options: ["A) in", "B) at", "C) on", "D) upon"], answer: 2 },
+
+            // Subject-Verb Agreement
+            { q: "Choose the correct sentence (Subject-Verb Agreement):", options: ["A) Bread and butter are my favourite breakfast.", "B) Bread and butter is my favourite breakfast.", "C) Bread with butter are good.", "D) Bread and butter were eaten."], answer: 1 },
+            { q: "Choose the correct form of verb: Neither he nor his friends ______ present yesterday.", options: ["A) was", "B) were", "C) is", "D) are"], answer: 1 },
+            { q: "Choose the correct form of verb: Slow and steady ______ the race.", options: ["A) win", "B) wins", "C) winning", "D) won"], answer: 1 },
+            { q: "Choose the correct form of verb: Mathematics ______ a difficult subject.", options: ["A) are", "B) were", "C) is", "D) have"], answer: 2 },
+
+            // Tenses & Verb Forms
+            { q: "Choose the correct tense form: He ______ to Delhi yesterday.", options: ["A) goes", "B) went", "C) has gone", "D) going"], answer: 1 },
+            { q: "Choose the correct tense form: Look! The child ______.", options: ["A) sleep", "B) sleeps", "C) is sleeping", "D) slept"], answer: 2 },
+            { q: "Choose the correct tense form: I ______ English for five years.", options: ["A) learn", "B) have been learning", "C) am learning", "D) learned"], answer: 1 },
+
+            // Correct Spelling
+            { q: "Choose the correctly spelt word:", options: ["A) Environment", "B) Envirnoment", "C) Enviroment", "D) Enviornment"], answer: 0 },
+            { q: "Choose the correctly spelt word:", options: ["A) Grammer", "B) Grammar", "C) Gramar", "D) Gremmar"], answer: 1 },
+            { q: "Choose the correctly spelt word:", options: ["A) Occasion", "B) Ocassion", "C) Ocasin", "D) Occassion"], answer: 0 },
+
+            // Voice (Active/Passive)
+            { q: "Choose the correct passive voice: 'Open the door.'", options: ["A) The door should open.", "B) Let the door be opened.", "C) Let opened the door.", "D) Open be the door."], answer: 1 },
+            { q: "Choose the correct passive voice: 'Ram killed a tiger.'", options: ["A) A tiger was killed by Ram.", "B) A tiger is killed by Ram.", "C) A tiger has been killed by Ram.", "D) A tiger killed Ram."], answer: 0 },
+            { q: "Choose the correct active voice: 'English is spoken all over the world.'", options: ["A) All over the world speaks English.", "B) People speak English all over the world.", "C) The world speaks English.", "D) Everyone is speaking English."], answer: 1 },
+
+            // Narration (Direct/Indirect)
+            { q: "Choose the correct indirect speech: He said, 'I am reading a book.'", options: ["A) He said that he is reading a book.", "B) He said that he was reading a book.", "C) He says that he was reading a book.", "D) He told that he read a book."], answer: 1 },
+            { q: "Choose the correct indirect speech: She said to me, 'Are you happy?'", options: ["A) She asked me that I am happy.", "B) She asked me if I was happy.", "C) She told me whether are you happy.", "D) She asked me you are happy."], answer: 1 },
+
+            // Synonyms & Antonyms / Vocabulary
+            { q: "Choose the correct synonym of 'Active':", options: ["A) Dull", "B) Lazy", "C) Agile", "D) Slow"], answer: 2 },
+            { q: "Choose the correct antonym of 'Ancient':", options: ["A) Old", "B) Modern", "C) Aged", "D) Antique"], answer: 1 },
+            { q: "Choose the correct synonym of 'Brave':", options: ["A) Coward", "B) Timid", "C) Courageous", "D) Fearful"], answer: 2 },
+
+            // One Word Substitution / Miscellaneous
+            { q: "Choose the correct word: 'A person who speaks many languages'", options: ["A) Bilingual", "B) Linguist", "C) Polyglot", "D) Translator"], answer: 2 },
+            { q: "Choose the correct combination of sentences: He is poor. He is honest.", options: ["A) He is poor and honest.", "B) Though he is poor, he is honest.", "C) He is poor because he is honest.", "D) He is honest so he is poor."], answer: 1 },
+            { q: "Choose the correct translation: 'वह कल पटना जाएगा।'", options: ["A) He goes to Patna tomorrow.", "B) He went to Patna yesterday.", "C) He will go to Patna tomorrow.", "D) He is going to Patna."], answer: 2 },
+            { q: "Choose the correct translation: 'तुम क्या कर رہے हो?' (What are you doing?)", options: ["A) What did you do?", "B) What are you doing?", "C) What will you do?", "D) What do you do?"], answer: 1 },
+            { q: "Choose the correct option to fill in the blank: He ran fast, ______ he missed the train.", options: ["A) but", "B) and", "C) so", "D) because"], answer: 0 }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let selectedOption = null;
+
+        const questionNumber = document.getElementById("questionNumber");
+        const questionText = document.getElementById("questionText");
+        const optionsList = document.getElementById("optionsList");
+        const nextBtn = document.getElementById("nextBtn");
+        const quizBox = document.getElementById("quizBox");
+        const scoreContainer = document.getElementById("scoreContainer");
+        const scoreText = document.getElementById("scoreText");
+
+        function loadQuestion() {
+            selectedOption = null;
+            nextBtn.style.display = "none";
+            const currentQ = quizData[currentQuestionIndex];
+            
+            questionNumber.innerText = `Question ${currentQuestionIndex + 1} of ${quizData.length}`;
+            questionText.innerText = currentQ.q;
+            
+            optionsList.innerHTML = "";
+            currentQ.options.forEach((option, index) => {
+                const li = document.createElement("li");
+                li.classList.add("option");
+                li.innerText = option;
+                li.onclick = () => selectOption(index, li);
+                optionsList.appendChild(li);
+            });
+        }
+
+        function selectOption(index, element) {
+            if (selectedOption !== null) return; 
+            selectedOption = index;
+
+            const currentQ = quizData[currentQuestionIndex];
+            const allOptions = optionsList.children;
+
+            if (index === currentQ.answer) {
+                element.classList.add("correct");
+                score++;
+            } else {
+                element.classList.add("wrong");
+                allOptions[currentQ.answer].classList.add("correct");
+            }
+
+            nextBtn.style.display = "block";
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < quizData.length) {
+                loadQuestion();
+            } else {
+                showScore();
+            }
+        }
+
+        function showScore() {
+            quizBox.style.display = "none";
+            scoreContainer.style.display = "block";
+            scoreText.innerText = `Your Score: ${score} / ${quizData.length}`;
+        }
+
+        function restartQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            quizBox.style.display = "block";
+            scoreContainer.style.display = "none";
+            loadQuestion();
+        }
+
+        loadQuestion();
+    </script>
+</body>
+</html>
