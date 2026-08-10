@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abhira Insights - Bihar Board 12th Grammar Master Quiz</title>
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-hover: #4f46e5;
+            --bg: #0f172a;
+            --card: #1e293b;
+            --text: #f8fafc;
+            --accent: #22c55e;
+            --danger: #ef4444;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 650px;
+            background: var(--card);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            padding: 25px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        header h1 {
+            font-size: 1.8rem;
+            color: #818cf8;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        header p {
+            font-size: 0.9rem;
+            color: #94a3b8;
+        }
+
+        .timer-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: #38bdf8;
+        }
+
+        .timer-bar {
+            width: 100%;
+            height: 8px;
+            background: #334155;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        #progress {
+            width: 100%;
+            height: 100%;
+            background: var(--accent);
+            transition: width 1s linear, background-color 0.5s ease;
+        }
+
+        .question-box {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            line-height: 1.5;
+            font-weight: 600;
+        }
+
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .option-btn {
+            background: rgba(51, 65, 85, 0.8);
+            border: 2px solid rgba(255, 255, 255, 0.05);
+            color: var(--text);
+            padding: 12px 16px;
+            text-align: left;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            background: rgba(99, 102, 241, 0.3);
+            border-color: var(--primary);
+            transform: translateX(5px);
+        }
+
+        .option-btn.correct {
+            background: rgba(34, 197, 94, 0.3);
+            border-color: var(--accent);
+            color: #dcfce7;
+        }
+
+        .option-btn.wrong {
+            background: rgba(239, 68, 68, 0.3);
+            border-color: var(--danger);
+            color: #fee2e2;
+        }
+
+        .result-screen {
+            text-align: center;
+            display: none;
+        }
+
+        .result-screen h2 {
+            font-size: 2rem;
+            color: #38bdf8;
+            margin-bottom: 15px;
+        }
+
+        .result-screen p {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            color: #cbd5e1;
+        }
+
+        .restart-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .restart-btn:hover {
+            background: var(--primary-hover);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Abhira Insights</h1>
+        <p>Bihar Board Class 12th English Grammar - 30 Model Questions</p>
+    </header>
+
+    <div id="quiz-area">
+        <div class="timer-container">
+            <span id="question-tracker">Question: 1/30</span>
+            <span id="timer-text">Time Left: 40s</span>
+        </div>
+        
+        <div class="timer-bar">
+            <div id="progress"></div>
+        </div>
+
+        <div class="question-box" id="question-text">Loading question...</div>
+        <div class="options-list" id="options-container"></div>
+    </div>
+
+    <div class="result-screen" id="result-screen">
+        <h2>Quiz Completed! 🎉</h2>
+        <p id="final-score">Your Score: 0/30</p>
+        <button class="restart-btn" onclick="location.reload()">Play Again 🔄</button>
+    </div>
+</div>
+
+<script>
+    const quizData = [
+        { q: "He ____ to school every day.", a: ["go", "goes", "going", "gone"], correct: 1 },
+        { q: "Choose the correct spelling:", a: ["Commitee", "Committee", "Comitte", "Comittee"], correct: 1 },
+        { q: "I ____ my work just now.", a: ["have finished", "had finished", "finished", "finishing"], correct: 0 },
+        { q: "He is senior ____ me.", a: ["to", "than", "from", "with"], correct: 0 },
+        { q: "Choose the correct sentence:", a: ["He gave me a good advice.", "He gave me good advices.", "He gave me pieces of advice.", "He gave me a piece of advice."], correct: 3 },
+        { q: "The train will leave ____ time.", a: ["on", "in", "at", "by"], correct: 0 },
+        { q: "Passive voice of: 'Open the door.'", a: ["The door should be opened.", "Let the door be opened.", "Open is the door.", "Let be opened the door."], correct: 1 },
+        { q: "Choose the correct antonym of 'Fresh':", a: ["Stale", "New", "Clean", "Pure"], correct: 0 },
+        { q: "She said, 'I am reading a book.' (Indirect Speech)", a: ["She said that she is reading a book.", "She said that she was reading a book.", "She says that she was reading a book.", "She told that she is reading a book."], correct: 1 },
+        { q: "Milk is converted ____ curd.", a: ["into", "to", "in", "from"], correct: 0 },
+        { q: "Choose the correct synonym of 'Journey':", a: ["Stay", "Trip", "Stop", "Rest"], correct: 1 },
+        { q: "Bread and butter ____ my favourite breakfast.", a: ["are", "is", "were", "have"], correct: 1 },
+        { q: "He speaks English ____.", a: ["fluent", "fluently", "fluency", "more fluent"], correct: 1 },
+        { q: "Choose the correct combination: 'He is poor. He is honest.'", a: ["He is poor and honest.", "Though he is poor, he is honest.", "He is poor but he is honest.", "Both B and C"], correct: 3 },
+        { q: "Neither of the two boys ____ selected.", a: ["were", "was", "have", "are"], correct: 1 },
+        { q: "Choose the correct preposition: 'He jumped ____ the river.'", a: ["in", "into", "on", "upon"], correct: 1 },
+        { q: "The antonym of 'Victory' is:", a: ["Win", "Defeat", "Success", "Triumph"], correct: 1 },
+        { q: "Choose the correct spelling:", a: ["Environment", "Envirment", "Enviornment", "Enveronment"], correct: 0 },
+        { q: "One who loves his country is called a:", a: ["Traitor", "Patriot", "Martyr", "Hero"], correct: 1 },
+        { q: "What time ____ you get up?", a: ["do", "does", "did", "done"], correct: 0 },
+        { q: "He is looking ____ his lost book.", a: ["at", "for", "after", "into"], correct: 1 },
+        { q: "Choose the correct sentence:", a: ["He does not knows me.", "He do not know me.", "He does not know me.", "He know not me."], correct: 2 },
+        { q: "The synonym of 'Danger' is:", a: ["Safety", "Peril", "Protection", "Security"], correct: 1 },
+        { q: "Spot the correct spelling:", a: ["Occasion", "Ocasion", "Occassion", "Okasion"], correct: 0 },
+        { q: "He will pass the exam if he ____ hard.", a: ["worked", "works", "work", "will work"], correct: 1 },
+        { q: "Active voice of: 'A book was read by him.'", a: ["He read a book.", "He reads a book.", "He is reading a book.", "He has read a book."], correct: 0 },
+        { q: "Physics ____ a difficult subject.", a: ["are", "is", "were", "have"], correct: 1 },
+        { q: "Choose the correct indirect form: He said to me, 'Where are you going?'", a: ["He asked me where I am going.", "He asked me where I was going.", "He told me where you are going.", "He asked where was I going."], correct: 1 },
+        { q: "A person who writes poems is a:", a: ["Novelists", "Poet", "Author", "Painter"], correct: 1 },
+        { q: "She sings a song, ____?", a: ["does she?", "doesn't she?", "is she?", "isn't she?"], correct: 1 }
+    ];
+
+    let currentQ = 0;
+    let score = 0;
+    let timer;
+    let timeLeft = 40;
+    let answered = false;
+
+    const questionTracker = document.getElementById("question-tracker");
+    const timerText = document.getElementById("timer-text");
+    const progress = document.getElementById("progress");
+    const questionText = document.getElementById("question-text");
+    const optionsContainer = document.getElementById("options-container");
+    const quizArea = document.getElementById("quiz-area");
+    const resultScreen = document.getElementById("result-screen");
+    const finalScore = document.getElementById("final-score");
+
+    function startTimer() {
+        clearInterval(timer);
+        timeLeft = 40;
+        timerText.innerText = `Time Left: ${timeLeft}s`;
+        progress.style.width = "100%";
+        progress.style.backgroundColor = "var(--accent)";
+
+        timer = setInterval(() => {
+            timeLeft--;
+            timerText.innerText = `Time Left: ${timeLeft}s`;
+            let percentage = (timeLeft / 40) * 100;
+            progress.style.width = percentage + "%";
+
+            if (timeLeft <= 10) {
+                progress.style.backgroundColor = "var(--danger)";
+            }
+
+            if (timeLeft <= 0) {
+                clearInterval(timer);
+                handleTimeout();
+            }
+        }, 1000);
+    }
+
+    function loadQuestion() {
+        if (currentQ >= quizData.length) {
+            showResult();
+            return;
+        }
+
+        answered = false;
+        const currentData = quizData[currentQ];
+        questionTracker.innerText = `Question: ${currentQ + 1}/${quizData.length}`;
+        questionText.innerText = currentData.q;
+        optionsContainer.innerHTML = "";
+
+        currentData.a.forEach((option, index) => {
+            const btn = document.createElement("button");
+            btn.classList.add("option-btn");
+            btn.innerText = option;
+            btn.onclick = () => selectOption(index, btn);
+            optionsContainer.appendChild(btn);
+        });
+
+        startTimer();
+    }
+
+    function selectOption(selectedIndex, buttonElement) {
+        if (answered) return;
+        answered = true;
+        clearInterval(timer);
+
+        const currentData = quizData[currentQ];
+        const allButtons = optionsContainer.children;
+
+        if (selectedIndex === currentData.correct) {
+            buttonElement.classList.add("correct");
+            score++;
+        } else {
+            buttonElement.classList.add("wrong");
+            allButtons[currentData.correct].classList.add("correct");
+        }
+
+        Array.from(allButtons).forEach(btn => btn.disabled = true);
+
+        setTimeout(() => {
+            currentQ++;
+            loadQuestion();
+        }, 1000);
+    }
+
+    function handleTimeout() {
+        if (answered) return;
+        answered = true;
+
+        const currentData = quizData[currentQ];
+        const allButtons = optionsContainer.children;
+        allButtons[currentData.correct].classList.add("correct");
+
+        Array.from(allButtons).forEach(btn => btn.disabled = true);
+
+        setTimeout(() => {
+            currentQ++;
+            loadQuestion();
+        }, 1200);
+    }
+
+    function showResult() {
+        clearInterval(timer);
+        quizArea.style.display = "none";
+        resultScreen.style.display = "block";
+        finalScore.innerText = `Your Score: ${score} / ${quizData.length}`;
+    }
+
+    // Initialize Quiz
+    loadQuestion();
+</script>
+</body>
+</html>
