@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abhira Insights - Solid State Quiz</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --primary: #6366f1;
+            --primary-hover: #4f46e5;
+            --accent: #ffd700;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --success: #10b981;
+            --error: #ef4444;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .quiz-container {
+            width: 100%;
+            max-width: 700px;
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            padding: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Header Styling with Bright Abhira Insights */
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 15px;
+        }
+
+        .brand-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffdf00 0%, #ff8c00 50%, #ff007f 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+
+        .sub-title {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            font-weight: 400;
+        }
+
+        /* Quiz Info Bar (Timer & Score) */
+        .quiz-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            background: rgba(15, 23, 42, 0.5);
+            padding: 10px 18px;
+            border-radius: 12px;
+            font-weight: 500;
+        }
+
+        .timer-box {
+            color: #f59e0b;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Timer Progress Bar */
+        .timer-bar-container {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            margin-bottom: 25px;
+            overflow: hidden;
+        }
+
+        .timer-bar {
+            width: 100%;
+            height: 100%;
+            background: #f59e0b;
+            transition: width 1s linear;
+        }
+
+        /* Question Section */
+        .question-text {
+            font-size: 1.15rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        /* Options Grid */
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .option-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-main);
+            padding: 14px 18px;
+            border-radius: 12px;
+            text-align: left;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            background: rgba(99, 102, 241, 0.2);
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .option-btn.correct {
+            background: var(--success) !important;
+            border-color: var(--success) !important;
+            color: #fff;
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
+        }
+
+        .option-btn.incorrect {
+            background: var(--error) !important;
+            border-color: var(--error) !important;
+            color: #fff;
+            box-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
+        }
+
+        .option-btn:disabled {
+            cursor: not-allowed;
+        }
+
+        /* Explanation Box */
+        .explanation-box {
+            background: rgba(15, 23, 42, 0.8);
+            border-left: 4px solid var(--accent);
+            padding: 14px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            color: #cbd5e1;
+        }
+
+        .explanation-box strong {
+            color: var(--accent);
+        }
+
+        /* Next Button */
+        .next-btn {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%);
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 14px;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+            display: none;
+        }
+
+        .next-btn:hover {
+            opacity: 0.9;
+        }
+
+        /* Scorecard Section */
+        .score-card {
+            text-align: center;
+            display: none;
+        }
+
+        .score-card h2 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: var(--accent);
+        }
+
+        .score-card p {
+            font-size: 1.1rem;
+            margin-bottom: 25px;
+            color: var(--text-muted);
+        }
+
+        .restart-btn {
+            background: linear-gradient(135deg, var(--success) 0%, #059669 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="quiz-container">
+        <!-- Header -->
+        <div class="header">
+            <h1 class="brand-title">✨ ABHIRA INSIGHTS ✨</h1>
+            <p class="sub-title">बिहार बोर्ड (BSEB) - रसायन विज्ञान: ठोस अवस्था (Solid State)</p>
+        </div>
+
+        <!-- Quiz Screen -->
+        <div id="quiz-screen">
+            <div class="quiz-info">
+                <span id="question-count">प्रश्न: 1 / 40</span>
+                <span class="timer-box">⏳ <span id="time-left">30</span>s</span>
+            </div>
+
+            <div class="timer-bar-container">
+                <div class="timer-bar" id="timer-bar"></div>
+            </div>
+
+            <div class="question-text" id="question-text">प्रश्न यहाँ दिखाई देगा</div>
+
+            <div class="options-list" id="options-list">
+                <!-- Options will be injected via JS -->
+            </div>
+
+            <div class="explanation-box" id="explanation-box">
+                <!-- Explanation will be injected here -->
+            </div>
+
+            <button class="next-btn" id="next-btn" onclick="nextQuestion()">अगला प्रश्न</button>
+        </div>
+
+        <!-- Score Screen -->
+        <div class="score-card" id="score-card">
+            <h2>क्विज़ समाप्त! 🎉</h2>
+            <p id="final-score-text">आपका स्कोर: 0 / 40</p>
+            <button class="restart-btn" onclick="restartQuiz()">फिर से शुरू करें</button>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "1. क्रिस्टलीय ठोस का एक उदाहरण है:",
+                options: ["काँच", "रबर", "प्लास्टिक", "NaCl (साधारण नमक)"],
+                answer: 3,
+                explanation: "NaCl एक आयनिक क्रिस्टलीय ठोस है, जबकि काँच, रबर और प्लास्टिक अतिशीतित द्रव (अक्रिस्टलीय ठोस) हैं।"
+            },
+            {
+                question: "2. अक्रिस्टलीय ठोस (Amorphous solid) का उदाहरण कौन सा है?",
+                options: ["ग्रेफाइट", "क्वांटम काँच (Quartz Glass)", "सामान्य नमक", "सिलिकॉन कार्बाइड"],
+                answer: 1,
+                explanation: "क्वांटम काँच (Quartz Glass) एक अक्रिस्टलीय ठोस है, जबकि ग्रेफाइट और NaCl क्रिस्टलीय हैं।"
+            },
+            {
+                question: "3. फ्रेंकल दोष (Frenkel defect) के कारण क्रिस्टल का घनत्व:",
+                options: ["बढ़ जाता है", "घट जाता है", "परिवर्तित नहीं होता है", "शून्य हो जाता है"],
+                answer: 2,
+                explanation: "फ्रेंकल दोष में आयन अपनी मूल स्थिति से हटकर अंतराकाशी स्थान में चले जाते हैं, जिससे द्रव्यमान और आयतन अपरिवर्तित रहने के कारण घनत्व पर कोई असर नहीं पड़ता।"
+            },
+            {
+                question: "4. शॉटकी दोष (Schottky defect) मुख्य रूप से पाया जाता है:",
+                options: ["NaCl में", "KCl में", "CsCl में", "इन सभी में"],
+                answer: 3,
+                explanation: "शॉटकी दोष उच्च समन्वय संख्या वाले आयनिक यौगिकों जैसे NaCl, KCl, CsCl और AgBr में पाया जाता है।"
+            },
+            {
+                question: "5. hcp संरचना में संकुलन क्षमता (Packing fraction) कितनी होती है?",
+                options: ["68%", "74%", "52.4%", "47.6%"],
+                answer: 1,
+                explanation: "षट्कोणीय संकुलन (hcp) और ccp/fcc दोनों संरचनाओं में कुल उपलब्ध स्थान का 74% भाग गोलों द्वारा भरा होता है।"
+            },
+            {
+                question: "6. सरल घनीय जालक (Simple Cubic Unit Cell) की संकुलन दक्षता होती है:",
+                options: ["52.4%", "68%", "74%", "32%"],
+                answer: 0,
+                explanation: "सरल घनीय इकाई सेल में परमाणुओं द्वारा घेरा गया स्थान केवल 52.4% होता है।"
+            },
+            {
+                question: "7. बॉडी सेंटर्ड क्यूबिक (BCC) जालक की संकुलन क्षमता कितनी होती है?",
+                options: ["52.4%", "68%", "74%", "32%"],
+                answer: 1,
+                explanation: "BCC व्यवस्था में परमाणु कुल आयतन का 68% स्थान घेरते हैं।"
+            },
+            {
+                question: "8. NaCl क्रिस्टल की संरचना किस प्रकार की होती है?",
+                options: ["फलक केन्द्रित घनीय (fcc)", "अन्तः केन्द्रित घनीय (bcc)", "सरल घनीय", "षट्कोणीय (hcp)"],
+                answer: 0,
+                explanation: "NaCl में Na+ और Cl- आयन fcc (या ccp) जालक बनाते हैं।"
+            },
+            {
+                question: "9. काय-केंद्रित घनीय इकाई सेल (BCC) में समन्वय संख्या (Coordination number) कितनी होती है?",
+                options: ["6", "8", "12", "4"],
+                answer: 1,
+                explanation: "BCC संरचना में प्रत्येक केंद्रीय परमाणु अपने चारों ओर 8 निकटतम पड़ोसी परमाणुओं से घिरा होता है।"
+            },
+            {
+                question: "10. फलक-केंद्रित घनीय (FCC/CCP) संरचना में समन्वय संख्या क्या है?",
+                options: ["6", "8", "12", "4"],
+                answer: 2,
+                explanation: "FCC या CCP संरचना में समन्वय संख्या 12 होती है।"
+            },
+            {
+                question: "11. किस प्रकार के दोष के कारण ठोस के घनत्व में कमी आती है?",
+                options: ["फ्रेंकल दोष", "शॉटकी दोष", "धातु आधिक्य दोष", "अशुद्धि दोष"],
+                answer: 1,
+                explanation: "शॉटकी दोष में धनायन और ऋणायन दोनों युग्म रूप में क्रिस्टल से बाहर निकल जाते हैं, जिससे घनत्व घट जाता है।"
+            },
+            {
+                question: "12. Fe3O4 का चुंबकीय व्यवहार किस प्रकार का होता है?",
+                options: ["प्रतिलोम लौहचुंबकीय (Ferrimagnetic)", "लौहचुंबकीय (Ferromagnetic)", "प्रतिलौहचुंबकीय (Antiferromagnetic)", "अनुचुंबकीय"],
+                answer: 0,
+                explanation: "Fe3O4 (मैग्नेटाइट) फेरीमैग्नेटिक (प्रतिलोम लौहचुंबकीय) पदार्थ है, जो चुंबक द्वारा दृढ़ता से आकर्षित होता है लेकिन इसके डोमेन असमान दिशाओं में होते हैं।"
+            },
+            {
+                question: "13. अर्धचालक (Semiconductors) की चालकता बढ़ाने के लिए अशुद्धि मिलाने की क्रिया को क्या कहते हैं?",
+                options: ["मिश्रधातु निर्माण", "डोपिंग (Doping)", "शोधन", "प्रगलन"],
+                answer: 1,
+                explanation: "अर्धचालकों की विद्युत चालकता बढ़ाने के लिए उनमें उपयुक्त अशुद्धि मिलाने की प्रक्रिया को डोपिंग (Doping) कहा जाता है।"
+            },
+            {
+                question: "14. n-प्रकार के अर्धचालक बनाने के लिए मिलाई जाने वाली अशुद्धि में संयोजकता इलेक्ट्रॉन कितने होने चाहिए?",
+                options: ["3", "4", "5", "2"],
+                answer: 2,
+                explanation: "सिलिकॉन या जर्मेनियम (समूह 14) में समूह 15 के तत्व (जैसे फॉस्फोरस या आर्सेनिक, जिनके पास 5 संयोजी इलेक्ट्रॉन होते हैं) मिलाने पर n-प्रकार का अर्धचालक बनता है।"
+            },
+            {
+                question: "15. p-प्रकार के अर्धचालक के निर्माण हेतु किस समूह के तत्वों की अशुद्धि मिलाई जाती है?",
+                options: ["समूह 13", "समूह 15", "समूह 16", "समूह 12"],
+                answer: 0,
+                explanation: "समूह 13 के तत्व (जैसे बोरॉन, एल्युमिनियम, जिनकी संयोजकता 3 है) मिलाने से इलेक्ट्रॉन छिद्र (Holes) बनते हैं, जिससे p-प्रकार का अर्धचालक बनता है।"
+            },
+            {
+                question: "16. फ्रेंकल और शॉटकी दोनों दोष प्रदर्शित करने वाला यौगिक कौन सा है?",
+                options: ["NaCl", "KCl", "AgBr", "CsCl"],
+                answer: 2,
+                explanation: "सिल्वर ब्रोमाइड (AgBr) एक ऐसा अपवाद है जो फ्रेंकल और शॉटकी दोनों प्रकार के क्रिस्टल दोष प्रदर्शित करता है।"
+            },
+            {
+                question: "17. निम्नलिखित में से कौन सा यौगिक अतिचालक (Superconductor) की तरह व्यवहार करता है?",
+                options: ["TiO2", "BaTiO3", "NaCl", "SiO2"],
+                answer: 1,
+                explanation: "बेरियम टाइटेनेट (BaTiO3) एक महत्वपूर्ण फेरोइलेक्ट्रिक और पाइरोइलेक्ट्रिक यौगिक है।"
+            },
+            {
+                question: "18. क्रिस्टल तंत्रों (Crystal Systems) की कुल संख्या कितनी होती है?",
+                options: ["4", "7", "14", "32"],
+                answer: 1,
+                explanation: "ब्रैविस ने कुल 7 प्रकार के मूल क्रिस्टल तंत्र (Crystal Systems) बताए हैं।"
+            },
+            {
+                question: "19. ब्रेविस जालकों (Bravais lattices) की कुल संख्या कितनी होती है?",
+                options: ["7", "14", "230", "32"],
+                answer: 1,
+                explanation: "7 क्रिस्टल तंत्रों के अंतर्गत कुल 14 ब्रेविस जालक (Bravais lattices) संभव हैं।"
+            },
+            {
+                question: "20. सोडियम क्लोराइड (NaCl) क्रिस्टल में प्रत्येक Na+ आयन कितने Cl- आयनों से घिरा होता है?",
+                options: ["4", "6", "8", "12"],
+                answer: 1,
+                explanation: "NaCl की समन्वय संख्या (6:6) होती है, अर्थात प्रत्येक Na+ को 6 क्लोराइड आयन घेरते हैं।"
+            },
+            {
+                question: "21. सीजियम क्लोराइड (CsCl) की समन्वय संख्या अनुपात क्या होता है?",
+                options: ["6:6", "8:8", "4:4", "12:12"],
+                answer: 1,
+                explanation: "CsCl क्रिस्टल में Cs+ और Cl- दोनों की समन्वय संख्या 8 होती है (अतः अनुपात 8:8 है)।"
+            },
+            {
+                question: "22. कौन सा पदार्थ गर्म करने पर विद्युत का सुचालक बन जाता है?",
+                options: ["AgBr", "ZnO", "NaCl", "SiO2"],
+                answer: 1,
+                explanation: "जिंक ऑक्साइड (ZnO) कमरे के तापमान पर सफेद होता है, लेकिन गर्म करने पर ऑक्सीजन खो देता है और पीले रंग का तथा विद्युत का सुचालक बन जाता है (धातु आधिक्य दोष के कारण)।"
+            },
+            {
+                question: "23. प्रतिलौहचुंबकीय (Antiferromagnetic) पदार्थ का उदाहरण है:",
+                options: ["MnO", "Fe3O4", "O2", "NaCl"],
+                answer: 0,
+                explanation: "मैंगनीज ऑक्साइड (MnO) एक प्रतिलौहचुंबकीय पदार्थ है जिसमें चुंबकीय आघूर्ण विपरीत दिशा में एक-दूसरे को निरस्त कर देते हैं।"
+            },
+            {
+                question: "24. काँच (Glass) को क्या माना जाता है?",
+                options: ["क्रिस्टलीय ठोस", "अतिशीतित द्रव (Supercooled liquid)", "द्रव क्रिस्टल", "गेस मिश्रण"],
+                answer: 1,
+                explanation: "काँच की बहने की हल्की प्रवृत्ति (विशेषकर पुरानी खिड़कियों के शीशे ऊपर पतले और नीचे से थोड़े मोटे होना) के कारण इसे अतिशीतित द्रव कहा जाता है।"
+            },
+            {
+                question: "25. घनीय क्रिस्टल में त्रיविमीय जालक में अक्षीय दूरियाँ (Edges) a, b और c तथा कोण α, β, γ होते हैं:",
+                options: ["a=b=c, α=β=γ=90°", "a≠b≠c, α=β=γ=90°", "a=b≠c, α=β=90°, γ=120°", "a≠b≠c, α≠β≠γ≠90°"],
+                answer: 0,
+                explanation: "घनीय (Cubic) प्रणाली में सभी भुजाएँ बराबर (a=b=c) और सभी अक्षीय कोण 90 डिग्री के होते हैं।"
+            },
+            {
+                question: "26. यदि किसी क्रिस्टल में त्रिज्या अनुपात (Radius ratio) 0.414 से 0.732 के बीच हो, तो समन्वय संख्या होगी:",
+                options: ["4", "6", "8", "12"],
+                answer: 1,
+                explanation: "0.414 - 0.732 त्रिज्या अनुपात सीमा अष्टफलकीय रिक्ति (Octahedral void) के लिए होती है, जिसकी समन्वय संख्या 6 होती है।"
+            },
+            {
+                question: "27. चतुष्फलकीय रिक्ति (Tetrahedral void) के लिए त्रिज्या अनुपात सीमा क्या है?",
+                options: ["0.155 - 0.225", "0.225 - 0.414", "0.414 - 0.732", "0.732 - 1.000"],
+                answer: 1,
+                explanation: "चतुष्फलकीय रिक्तियों के लिए त्रिज्या अनुपात का मान 0.225 से 0.414 के मध्य होता है।"
+            },
+            {
+                question: "28. ग्रेफाइट किसका उदाहरण है?",
+                options: ["आयनिक ठोस", "सहसंयोजक नेटवर्क ठोस", "आणविक ठोस", "धात्विक ठोस"],
+                answer: 1,
+                explanation: "ग्रेफाइट एक सहसंयोजक (Covalent/Network) ठोस है जिसमें कार्बन परमाणु पर्तदार संरचना बनाते हैं।"
+            },
+            {
+                question: "29. ठोस आयोडीन (I2) किस प्रकार का ठोस है?",
+                options: ["सहसंयोजक ठोस", "ध्रुवीय आणविक ठोस", "अध्रुवीय आणविक ठोस", "आयनिक ठोस"],
+                answer: 2,
+                explanation: "आयोडीन के अणु दुर्बल वांडरवाल्स बलों से बंधे होते हैं, अतः यह एक अध्रुवीय आणविक ठोस है।"
+            },
+            {
+                question: "30. लोहे (Iron) का चुंबकत्व किस कारण से होता है?",
+                options: ["लौहचुंबकत्व (Ferromagnetism)", "अनुचुंबकत्व", "प्रतिचुंबकत्व", "फेरीमैग्नेटिज्म"],
+                answer: 0,
+                explanation: "लोहा, कोबाल्ट और निकेल लौहचुंबकीय (Ferromagnetic) पदार्थ हैं जो चुंबकीय क्षेत्र में शक्तिशाली रूप से आकर्षित होते हैं।"
+            },
+            {
+                question: "31. किस दोष के कारण क्रिस्टल का रंग पीला या नीला हो जाता है (उदा. NaCl का पीला होना)?",
+                options: ["F-केन्द्र (F-centre)", "शॉटकी दोष", "फ्रेंकल दोष", "अंतराकाशी दोष"],
+                answer: 0,
+                explanation: "ऋणायनिक रिक्तियों में फंसे हुए इलेक्ट्रॉन (F-Centre / Farben centres) दृश्य प्रकाश को अवशोषित करके क्रिस्टल को रंग प्रदान करते हैं।"
+            },
+            {
+                question: "32. निम्नलिखित में से कौन सा अक्रिस्टलीय (Amorphous) ठोस है?",
+                options: ["पॉलीयूरीथेन", "बेंजोइक अम्ल", "टेफ्लॉन", "ग्लूकोज"],
+                answer: 0,
+                explanation: "पॉलीयूरीथेन, पॉलीथीन, पीवीसी आदि बहुलक (Polymers) अक्रिस्टलीय ठोस श्रेणी में आते हैं।"
+            },
+            {
+                question: "33. निम्नलिखित में से कौन आयनिक ठोस का गुण नहीं है?",
+                options: ["गले हुई अवस्था में विद्युत सुचालक", "कठिन और भंगुर", "उच्च गलनांक", "ठोस अवस्था में विद्युत का सुचालक"],
+                answer: 3,
+                explanation: "आयनिक ठोस अपनी ठोस अवस्था में विद्युत के कुचालक होते हैं क्योंकि आयन अपनी निश्चित स्थिति पर स्थिर होते हैं; वे केवल पिघली हुई या जलीय अवस्था में विद्युत चालन करते हैं।"
+            },
+            {
+                question: "34. एकक कोष्ठिका (Unit Cell) के घनत्व 'd' का सूत्र क्या होता है?",
+                options: ["d = (Z * M) / (a³ * NA)", "d = (a³ * NA) / (Z * M)", "d = (Z * NA) / (a³ * M)", "d = (M * NA) / (Z * a³)"],
+                answer: 0,
+                explanation: "घनत्व निकालने का सही सूत्र d = (Z × M) / (a³ × NA) है, जहाँ Z प्रभावी परमाणु संख्या, M मोलर द्रव्यमान, a भुजा की लंबाई और NA आवोगाद्रो संख्या है।"
+            },
+            {
+                question: "35. bcc इकाई सेल में परमाणुओं की कुल प्रभावी संख्या (Z) कितनी होती है?",
+                options: ["1", "2", "4", "6"],
+                answer: 1,
+                explanation: "BCC में 8 कोने वाले परमाणु (8 × 1/8 = 1) और 1 केंद्र का परमाणु होता है, कुल मिलाकर प्रभावी संख्या Z = 2 होती है।"
+            },
+            {
+                question: "36. fcc इकाई सेल में प्रति इकाई सेल परमाणुओं की संख्या कितनी होती है?",
+                options: ["1", "2", "4", "8"],
+                answer: 2,
+                explanation: "FCC में कोने के 8 परमाणु (8 × 1/8 = 1) और 6 फलकों के केंद्र वाले परमाणु (6 × 1/2 = 3) मिलकर कुल Z = 4 बनाते हैं।"
+            },
+            {
+                question: "37. शुष्क बर्फ (Solid CO2) किस प्रकार का ठोस है?",
+                options: ["आयनिक ठोस", "सहसंयोजक ठोस", "अध्रुवीय आणविक ठोस", "ध्रुवीय आणविक ठोस"],
+                answer: 2,
+                explanation: "ठोस कार्बन डाइऑक्साइड (ड्राई आइस) अणुओं के बीच दुर्बल वांडरवाल्स आकर्षण बलों से बनी होने के कारण अध्रुवीय आणविक ठोस है।"
+            },
+            {
+                question: "38. किस तापमान पर सभी पदार्थ अतिचालकता प्रदर्शित करते हैं?",
+                options: ["0 °C", "273 K", "परम शून्य के करीब (Absolute Zero)", "सामान्य कमरे का तापमान"],
+                answer: 2,
+                explanation: "अतिचालकता (Superconductivity) बहुत कम तापमान यानी परम शून्य (Absolute Zero / 0 Kelvin) के पास देखी जाती है।"
+            },
+            {
+                question: "39. यदि किसी क्रिस्टल में धातु आधिक्य दोष (Metal excess defect) के कारण धनायन अंतराकाशी स्थान में उपस्थित हों, तो यह किसमें देखा जाता है?",
+                options: ["ZnO", "NaCl", "KCl", "CsCl"],
+                answer: 0,
+                explanation: "ZnO को गर्म करने पर अतिरिक्त Zn²⁺ आयन और इलेक्ट्रॉन अंतराकाशी स्थल में प्रवेश कर जाते हैं।"
+            },
+            {
+                question: "40. निम्नलिखित में से कौन सा यौगिक ऑक्साइड श्रेणी में फेरोमैग्नेटिक (लौहचुंबकीय) होता है?",
+                options: ["CrO2", "NaCl", "MgO", "TiO2"],
+                answer: 0,
+                explanation: "क्रोमियम डाइऑक्साइड (CrO2) एक लौहचुंबकीय पदार्थ है जिसका उपयोग ऑडियो/वीडियो कैसेट की मैग्नेटिक रिकॉर्डिंग में किया जाता है।"
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let timer;
+        let timeLeft = 30;
+        const totalTime = 30;
+
+        const questionCountElem = document.getElementById("question-count");
+        const timeLeftElem = document.getElementById("time-left");
+        const timerBar = document.getElementById("timer-bar");
+        const questionTextElem = document.getElementById("question-text");
+        const optionsListElem = document.getElementById("options-list");
+        const explanationBoxElem = document.getElementById("explanation-box");
+        const nextBtnElem = document.getElementById("next-btn");
+        const quizScreen = document.getElementById("quiz-screen");
+        const scoreCard = document.getElementById("score-card");
+        const finalScoreText = document.getElementById("final-score-text");
+
+        function startQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            quizScreen.style.display = "block";
+            scoreCard.style.display = "none";
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            clearInterval(timer);
+            timeLeft = totalTime;
+            timeLeftElem.innerText = timeLeft;
+            timerBar.style.width = "100%";
+
+            const currentQ = questions[currentQuestionIndex];
+            questionCountElem.innerText = `प्रश्न: ${currentQuestionIndex + 1} / ${questions.length}`;
+            questionTextElem.innerText = currentQ.question;
+            
+            optionsListElem.innerHTML = "";
+            explanationBoxElem.style.display = "none";
+            nextBtnElem.style.display = "none";
+
+            currentQ.options.forEach((option, index) => {
+                const btn = document.createElement("button");
+                btn.className = "option-btn";
+                btn.innerText = option;
+                btn.onclick = () => selectOption(index);
+                optionsListElem.appendChild(btn);
+            });
+
+            startTimer();
+        }
+
+        function startTimer() {
+            timer = setInterval(() => {
+                timeLeft--;
+                timeLeftElem.innerText = timeLeft;
+                const progressPercent = (timeLeft / totalTime) * 100;
+                timerBar.style.width = `${progressPercent}%`;
+
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    timeOutAnswer();
+                }
+            }, 1000);
+        }
+
+        function selectOption(selectedIndex) {
+            clearInterval(timer);
+            const currentQ = questions[currentQuestionIndex];
+            const buttons = optionsListElem.getElementsByClassName("option-btn");
+
+            for (let i = 0; i < buttons.length; i++) {
+                buttons[i].disabled = true;
+                if (i === currentQ.answer) {
+                    buttons[i].classList.add("correct");
+                }
+            }
+
+            if (selectedIndex === currentQ.answer) {
+                score++;
+            } else {
+                buttons[selectedIndex].classList.add("incorrect");
+            }
+
+            showExplanation(currentQ.explanation);
+        }
+
+        function timeOutAnswer() {
+            const currentQ = questions[currentQuestionIndex];
+            const buttons = optionsListElem.getElementsByClassName("option-btn");
+
+            for (let i = 0; i < buttons.length; i++) {
+                buttons[i].disabled = true;
+                if (i === currentQ.answer) {
+                    buttons[i].classList.add("correct");
+                }
+            }
+
+            showExplanation("⏰ समय समाप्त! " + currentQ.explanation);
+        }
+
+        function showExplanation(text) {
+            explanationBoxElem.innerHTML = `<strong>💡 स्पष्टीकरण:</strong> ${text}`;
+            explanationBoxElem.style.display = "block";
+            
+            if (currentQuestionIndex < questions.length - 1) {
+                nextBtnElem.innerText = "अगला प्रश्न";
+            } else {
+                nextBtnElem.innerText = "रिजल्ट देखें";
+            }
+            nextBtnElem.style.display = "block";
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < questions.length) {
+                loadQuestion();
+            } else {
+                showScore();
+            }
+        }
+
+        function showScore() {
+            quizScreen.style.display = "none";
+            scoreCard.style.display = "block";
+            finalScoreText.innerText = `आपका स्कोर: ${score} / ${questions.length}`;
+        }
+
+        function restartQuiz() {
+            startQuiz();
+        }
+
+        // Initialize Quiz on load
+        window.onload = startQuiz;
+    </script>
+</body>
+</html>
