@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abhira Insights - Hindi Chapter 1 Quiz</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --primary: #7c3aed;
+            --accent: #d97706;
+            --text-main: #1e293b;
+            --success: #16a34a;
+            --error: #dc2626;
+        }
+
+        body {
+            background: var(--bg-gradient);
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+            color: var(--text-main);
+        }
+
+        .quiz-container {
+            width: 100%;
+            max-width: 650px;
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+
+        .header { text-align: center; margin-bottom: 20px; }
+        .brand-title {
+            font-size: 2rem;
+            background: linear-gradient(to right, #7c3aed, #d97706);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+        }
+
+        .timer-bar-container { width: 100%; height: 8px; background: #e2e8f0; border-radius: 4px; margin: 15px 0; overflow: hidden; }
+        .timer-bar { width: 100%; height: 100%; background: var(--accent); transition: width 0.1s linear; }
+
+        .options-list { display: flex; flex-direction: column; gap: 10px; margin-top: 20px; }
+        .option-btn { padding: 12px; border: 2px solid #e2e8f0; border-radius: 10px; cursor: pointer; background: white; transition: 0.3s; }
+        .option-btn:hover:not(:disabled) { background: #f1f5f9; }
+        .correct { background: var(--success) !important; color: white; border-color: var(--success); }
+        .incorrect { background: var(--error) !important; color: white; border-color: var(--error); }
+
+        .explanation { background: #fff7ed; padding: 15px; border-radius: 10px; margin-top: 20px; border-left: 4px solid var(--accent); display: none; }
+        .next-btn { width: 100%; padding: 15px; background: var(--primary); color: white; border: none; border-radius: 10px; cursor: pointer; margin-top: 20px; display: none; }
+    </style>
+</head>
+<body>
+
+<div class="quiz-container">
+    <div class="header">
+        <h1 class="brand-title">ABHIRA INSIGHTS</h1>
+        <p>हिंदी (दिगंत): बातचीत - 40 महत्वपूर्ण प्रश्न</p>
+    </div>
+    
+    <div id="quiz-ui">
+        <div class="timer-bar-container"><div id="timer-bar" class="timer-bar"></div></div>
+        <div id="question-box" style="font-weight:600; font-size:1.1rem;">प्रश्न लोड हो रहा है...</div>
+        <div id="options-list" class="options-list"></div>
+        <div id="explanation" class="explanation"></div>
+        <button id="next-btn" class="next-btn" onclick="nextQuestion()">अगला प्रश्न</button>
+    </div>
+</div>
+
+<script>
+    const questions = [
+        { q: "बालकृष्ण भट्ट की रचना 'बातचीत' क्या है?", options: ["एकांकी", "कहानी", "यात्रा संस्मरण", "ललित निबंध"], a: 3, exp: "'बातचीत' बालकृष्ण भट्ट द्वारा रचित एक ललित निबंध है।" },
+        { q: "बालकृष्ण भट्ट किस काल के रचनाकार हैं?", options: ["आदिकाल", "भक्तिकाल", "रीतिकााल", "आधुनिक काल"], a: 3, exp: "बालकृष्ण भट्ट आधुनिक काल (भारतेन्दु युग) के प्रमुख रचनाकार थे।" },
+        { q: "बालकृष्ण भट्ट का जन्म कब हुआ था?", options: ["23 जून 1844", "20 जुलाई 1842", "15 अगस्त 1845", "10 मार्च 1840"], a: 0, exp: "बालकृष्ण भट्ट का जन्म 23 जून 1844 को हुआ था।" },
+        { q: "बालकृष्ण भट्ट का निवास स्थान कौन-सा है?", options: ["लखनऊ", "इलाहाबाद (प्रयागराज)", "मथुरा", "वाराणसी"], a: 1, exp: "वे इलाहाबाद, उत्तर प्रदेश के निवासी थे।" },
+        { q: "बालकृष्ण भट्ट ने किस पत्रिका का संपादन किया?", options: ["आर्यावर्त", "हुंकार", "हिंदी प्रदीप", "पंजाब केसरी"], a: 2, exp: "उन्होंने 1877 में 'हिंदी प्रदीप' नामक मासिक पत्रिका निकाली थी।" },
+        { q: "बालकृष्ण भट्ट ने हिंदी प्रदीप का संचालन कितने वर्षों तक किया?", options: ["15 वर्ष", "20 वर्ष", "33 वर्ष", "40 वर्ष"], a: 2, exp: "उन्होंने लगभग 33 वर्षों तक इस पत्रिका का संचालन किया।" },
+        { q: "बातचीत के माध्यम से बालकृष्ण भट्ट क्या बताना चाहते हैं?", options: ["बातचीत की शैली", "भाषण की शैली", "संवाद की शैली", "इनमें से कोई नहीं"], a: 0, exp: "लेखक बातचीत की शैली को समझाना चाहते हैं।" },
+        { q: "भट्ट जी को किसने अंग्रेजी साहित्य के एडिशन और स्टील की श्रेणी में रखा है?", options: ["हजारी प्रसाद द्विवेदी", "रामचंद्र शुक्ल", "नामवर सिंह", "डॉ. नगेन्द्र"], a: 1, exp: "आचार्य रामचंद्र शुक्ल ने उन्हें साहित्य का एडिशन और स्टील कहा है।" },
+        { q: "बालकृष्ण भट्ट किस युग के निबंधकार थे?", options: ["प्रसाद युग", "भारतेन्दु युग", "द्विवेदी युग", "स्वतंत्र्योत्तर युग"], a: 1, exp: "वे भारतेन्दु युग के अग्रणी निबंधकार थे।" },
+        { q: "मनुष्य की बातचीत का उत्तम तरीका क्या है?", options: ["विद्वतापूर्ण बात करना", "तर्कपूर्ण बात करना", "आवाक होकर अपने से बातचीत करना", "इनमें से कोई नहीं"], a: 2, exp: "लेखक के अनुसार, आत्म-संवाद (Self-talk) ही बातचीत का सर्वोत्तम तरीका है।" },
+        { q: "संवाद में सबसे महत्वपूर्ण क्या है?", options: ["तर्क", "जिज्ञासा", "आत्मीयता", "प्रवाहपूर्ण भाषा"], a: 2, exp: "संवाद में आत्मीयता (Connection) का होना अनिवार्य है।" },
+        { q: "बालकृष्ण भट्ट का निधन कब हुआ था?", options: ["20 जुलाई 1914", "23 जून 1915", "15 अगस्त 1920", "10 मार्च 1910"], a: 0, exp: "उनका निधन 20 जुलाई 1914 को हुआ था।" },
+        { q: "'बातचीत' निबंध के निबंधकार हैं?", options: ["जयप्रकाश नारायण", "मोहन राकेश", "नामवर सिंह", "बालकृष्ण भट्ट"], a: 3, exp: "इसके रचयिता बालकृष्ण भट्ट हैं।" },
+        { q: "आर्ट ऑफ़ कन्वर्सेशन कहाँ के लोगों में सर्वाधिक प्रचलित है?", options: ["अफ्रीका के", "भारत के", "यूरोप के", "कनाडा के"], a: 2, exp: "यूरोप के लोगों में बातचीत करने की कला (Art of conversation) विकसित है।" },
+        { q: "बालकृष्ण भट्ट के पिता का नाम क्या था?", options: ["बेनी प्रसाद भट्ट", "रवि प्रसाद भट्ट", "शिव प्रसाद भट्ट", "राधा कृष्ण भट्ट"], a: 0, exp: "उनके पिता का नाम बेनी प्रसाद भट्ट था।" },
+        { q: "'हिंदी प्रदीप' किस वर्ष शुरू हुई थी?", options: ["1875", "1877", "1880", "1885"], a: 1, exp: "यह पत्रिका 1877 में शुरू हुई थी।" },
+        { q: "भट्ट जी ने किस शब्दकोश का संपादन किया?", options: ["हिंदी शब्दकोश", "अंग्रेजी शब्दकोश", "संस्कृत शब्दकोश", "उर्दू शब्दकोश"], a: 0, exp: "उन्होंने हिंदी शब्दकोश का संपादन किया था।" },
+        { q: "भट्ट जी की माता का नाम क्या था?", options: ["पार्वती देवी", "सुनीता देवी", "लीलावती देवी", "राजकुमारी"], a: 0, exp: "उनकी माता का नाम पार्वती देवी था।" },
+        { q: "बालकृष्ण भट्ट ने कौन सा मासिक पत्र निकाला था?", options: ["प्रताप", "कर्मवीर", "हिंदी प्रदीप", "ज्योति"], a: 2, exp: "उन्होंने 'हिंदी प्रदीप' नामक मासिक पत्र निकाला था।" },
+        { q: "बातचीत शीर्षक निबंध के अनुसार, रस का समुद्र किनकी बातचीत में उमड़ा चला आता है?", options: ["दो हमजोलियों की", "दो बूढ़ों की", "दो बच्चों की", "दो मूर्खों की"], a: 0, exp: "लेखक के अनुसार, दो हमजोलियों (मित्रों) की बातचीत में दिल खोलकर बातें होती हैं।" },
+        { q: "असल बातचीत सिर्फ दो व्यक्तियों में हो सकती है, यह किसका मत है?", options: ["एडिशन", "स्टील", "आर्थर", "बेकन"], a: 0, exp: "यह एडिसन का प्रसिद्ध मत है।" },
+        { q: "एडिशन के अनुसार असल बातचीत कितने लोगों के बीच हो सकती है?", options: ["छह", "दो", "तीन", "चार"], a: 1, exp: "एडिशन ने कहा है कि असल बातचीत केवल दो व्यक्तियों के बीच हो सकती है।" },
+        { q: "कौन सी रचना बालकृष्ण भट्ट की नहीं है?", options: ["नूतन ब्रह्मचारी", "सौ अजान एक सुजान", "सद्भाव का अभाव", "परीक्षा गुरु"], a: 3, exp: "'परीक्षा गुरु' लाला श्रीनिवास दास की रचना है।" },
+        { q: "कौन सी रचना बालकृष्ण भट्ट की है?", options: ["रेल का विकट खेल", "कछुआ धर्म", "रेणुका", "प्राच्य विद्या"], a: 0, exp: "'रेल का विकट खेल' बालकृष्ण भट्ट का प्रहसन (नाटक) है।" },
+        { q: "भट्ट जी के मन में अध्ययन की रुचि किसने जगाई?", options: ["माता ने", "पिता ने", "मित्रों ने", "गुरुजी ने"], a: 0, exp: "उनकी माता पार्वती देवी ने उनके मन में साहित्य के अध्ययन की रुचि जगाई।" },
+        { q: "'बातचीत' निबंध में किस प्रश्न पर विशेष बल दिया गया है?", options: ["भाषा की शुद्धता", "संवाद शैली", "विषय वस्तु", "इनमें से कोई नहीं"], a: 1, exp: "इसमें संवाद और बातचीत की शैली पर जोर दिया गया है।" },
+        { q: "बालकृष्ण भट्ट किस प्रकार के लेखक थे?", options: ["कठोर", "भावुक", "व्यंग्यात्मक", "समाज सुधारक"], a: 2, exp: "वे अपनी रचनाओं में व्यंग्य का प्रयोग करते थे।" },
+        { q: "जहाँ बहुत से लोग मिल जाते हैं, वहाँ बातचीत क्या बन जाती है?", options: ["भाषण", "गपशप", "सम्मेलन", "परिचर्चा"], a: 1, exp: "जहाँ लोग अधिक होते हैं, वहाँ बातचीत केवल 'राम-रमौअल' या 'गपशप' बन जाती है।" },
+        { q: "भट्ट जी ने कौन सा नाटक नहीं लिखा?", options: ["वेणी-संहार", "शिशुपाल वध", "नल-दमयंती", "अंधेर नगरी"], a: 3, exp: "'अंधेर नगरी' भारतेन्दु हरिश्चंद्र की रचना है।" },
+        { q: "बातचीत का उद्देश्य क्या है?", options: ["समय काटना", "मन हल्का करना", "ज्ञान बढ़ाना", "तर्क करना"], a: 1, exp: "मन की शांति और हलकापन बातचीत का एक मुख्य उद्देश्य है।" },
+        { q: "बालकृष्ण भट्ट का कौन सा उपन्यास नहीं है?", options: ["नूतन ब्रह्मचारी", "सौ अजान एक सुजान", "गुप्त वैरी", "गोदान"], a: 3, exp: "'गोदान' मुंशी प्रेमचंद का प्रसिद्ध उपन्यास है।" },
+        { q: "भट्ट जी को किस संस्था ने सम्मानित किया?", options: ["हिंदी साहित्य सम्मेलन", "साहित्य अकादमी", "भारतेन्दु समिति", "इनमें से कोई नहीं"], a: 0, exp: "वे हिंदी साहित्य के विकास में सक्रिय रहे।" },
+        { q: "बातचीत के दौरान मनुष्य क्या महसूस करता है?", options: ["थकान", "हल्कापन", "डर", "गुस्सा"], a: 1, exp: "मनुष्य का मन बातचीत के बाद हल्का हो जाता है।" },
+        { q: "क्या बातचीत में तर्क जरूरी है?", options: ["हाँ", "कभी-कभी", "नहीं", "हमेशा"], a: 2, exp: "लेखक ने निजी बातचीत में तर्क से अधिक संवेदना को महत्व दिया है।" },
+        { q: "भट्ट जी के निबंध किस शैली में हैं?", options: ["भावात्मक", "तार्किक", "संवादात्मक", "वर्णनात्मक"], a: 2, exp: "उनके निबंधों में बातचीत की शैली (संवादात्मक) है।" },
+        { q: "बालकृष्ण भट्ट के नाम से कौन सा पुस्तकालय प्रसिद्ध है?", options: ["भट्ट पुस्तकालय", "हिंदी प्रदीप पुस्तकालय", "प्रायाग पुस्तकालय", "इनमें से कोई नहीं"], a: 1, exp: "उनके साहित्यिक योगदान की याद में अनेक संस्थान हैं।" },
+        { q: "हिंदी प्रदीप पत्रिका कहाँ से प्रकाशित होती थी?", options: ["बनारस", "प्रयाग", "कानपुर", "पटना"], a: 1, exp: "यह प्रयाग (इलाहाबाद) से निकलती थी।" },
+        { q: "लेखक के अनुसार, बातचीत का असली मज़ा कब आता है?", options: ["भीड़ में", "शांत माहौल में", "मित्रों के बीच", "अकेले में"], a: 2, exp: "मित्रों के बीच बेहिचक बातें करने में असली मज़ा आता है।" },
+        { q: "भट्ट जी का मुख्य पेशा क्या था?", options: ["पत्रकारिता", "वकालत", "व्यापार", "खेती"], a: 0, exp: "वे मुख्य रूप से एक पत्रकार और साहित्यकार थे।" },
+        { q: "यह अध्याय परीक्षा के लिए कैसा है?", options: ["बहुत महत्वपूर्ण", "सामान्य", "नहीं आने वाला", "महत्वहीन"], a: 0, exp: "यह बिहार बोर्ड की परीक्षा के लिए सबसे महत्वपूर्ण पाठों में से एक है।" }
+    ];
+
+    let index = 0, score = 0, timeLeft = 30, timer;
+
+    function loadQuestion() {
+        clearInterval(timer);
+        timeLeft = 30;
+        document.getElementById('timer-bar').style.width = "100%";
+        document.getElementById('explanation').style.display = 'none';
+        document.getElementById('next-btn').style.display = 'none';
+        
+        const q = questions[index];
+        document.getElementById('question-box').innerText = `${index + 1}. ${q.q}`;
+        const list = document.getElementById('options-list');
+        list.innerHTML = "";
+        
+        q.options.forEach((o, i) => {
+            const b = document.createElement('button');
+            b.className = 'option-btn';
+            b.innerText = o;
+            b.onclick = () => check(i);
+            list.appendChild(b);
+        });
+
+        timer = setInterval(() => {
+            timeLeft--;
+            document.getElementById('timer-bar').style.width = (timeLeft/30)*100 + "%";
+            if(timeLeft <= 0) { clearInterval(timer); check(-1); }
+        }, 1000);
+    }
+
+    function check(i) {
+        clearInterval(timer);
+        const q = questions[index];
+        const btns = document.querySelectorAll('.option-btn');
+        btns.forEach((b, idx) => {
+            b.disabled = true;
+            if(idx === q.a) b.classList.add('correct');
+            else if(idx === i) b.classList.add('incorrect');
+        });
+        document.getElementById('explanation').style.display = 'block';
+        document.getElementById('explanation').innerHTML = `<strong>💡 व्याख्या:</strong> ${q.exp}`;
+        document.getElementById('next-btn').style.display = 'block';
+    }
+
+    function nextQuestion() {
+        index++;
+        if(index < questions.length) loadQuestion();
+        else alert("क्विज़ समाप्त! आपका स्कोर: " + score);
+    }
+
+    loadQuestion();
+</script>
+</body>
+</html>
