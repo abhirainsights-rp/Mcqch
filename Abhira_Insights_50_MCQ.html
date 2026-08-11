@@ -1,0 +1,197 @@
+
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abhira Insights - Maths Quiz</title>
+    <style>
+        * { box-sizing: border-box; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
+        body { 
+            background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
+            color: #1f2937; margin: 0; padding: 15px; 
+            min-height: 100vh; display: block;
+        }
+        .container { 
+            max-width: 600px; margin: 20px auto; background: #ffffff; 
+            border-radius: 16px; padding: 25px 20px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08); 
+        }
+        .title { 
+            text-align: center; color: #1d4ed8; margin-top: 0; 
+            font-size: 26px; font-weight: 800; 
+            border-bottom: 2px dashed #bfdbfe; padding-bottom: 15px; margin-bottom: 20px;
+        }
+        .hidden { display: none !important; }
+        
+        .start-btn { 
+            display: block; width: 100%; padding: 16px; background: #2563eb; 
+            color: #fff; text-align: center; font-size: 18px; border: none; 
+            border-radius: 10px; cursor: pointer; margin-top: 25px; font-weight: bold;
+            box-shadow: 0 4px 6px rgba(37,99,235,0.2); transition: background 0.2s;
+        }
+        .start-btn:hover { background: #1d4ed8; }
+        
+        .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; font-size: 16px; font-weight: 600; }
+        .timer { color: #dc2626; background: #fee2e2; padding: 6px 14px; border-radius: 20px; border: 1px solid #fca5a5; }
+        .q-number { color: #4b5563; background: #f3f4f6; padding: 6px 12px; border-radius: 8px; }
+        
+        .question-text { font-size: 19px; font-weight: 700; margin-bottom: 25px; line-height: 1.5; color: #111827; }
+        
+        .opt-btn { 
+            display: block; width: 100%; padding: 15px 18px; margin-bottom: 12px; 
+            background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 10px; 
+            cursor: pointer; text-align: left; font-size: 16px; font-weight: 600;
+            color: #334155; transition: all 0.2s ease;
+        }
+        .opt-btn:hover:not(:disabled) { background: #eff6ff; border-color: #93c5fd; }
+        .opt-btn:disabled { cursor: default; }
+        
+        .correct { background-color: #10b981 !important; color: white !important; border-color: #059669 !important; box-shadow: 0 4px 10px rgba(16,185,129,0.2); }
+        .wrong { background-color: #ef4444 !important; color: white !important; border-color: #dc2626 !important; box-shadow: 0 4px 10px rgba(239,68,68,0.2); }
+        
+        #result-screen { text-align: center; }
+        .score { font-size: 42px; font-weight: 800; color: #2563eb; margin: 15px 0 25px 0; }
+        
+        .exp-box { background: #f0fdf4; border: 1px solid #bbf7d0; border-left: 5px solid #22c55e; padding: 15px; margin-bottom: 15px; text-align: left; border-radius: 8px; }
+        .exp-box.wrong-ans { background: #fef2f2; border-color: #fecaca; border-left-color: #ef4444; }
+        .exp-title { font-weight: bold; margin-bottom: 8px; font-size: 16px; line-height: 1.4; color:#1f2937; }
+        .exp-text { font-size: 14px; color: #4b5563; margin-top: 8px; border-top: 1px solid rgba(0,0,0,0.05); padding-top: 8px; }
+        
+        .subtitle { text-align: center; font-size: 16px; color: #4b5563; margin-bottom: 30px; line-height: 1.6; }
+    </style>
+</head>
+<body>
+    <div class="container" id="quiz-app">
+        <h1 class="title">Abhira Insights</h1>
+        
+        <!-- Start Screen -->
+        <div id="start-screen">
+            <div class="subtitle">
+                <strong>कक्षा 12 गणित - संबंध एवं फलन</strong><br>
+                (Relations and Functions)<br><br>
+                📝 50 बोर्ड मॉडल वस्तुनिष्ठ प्रश्न<br>
+                ⏱️ 30 सेकंड प्रति प्रश्न<br>
+                💡 अंत में सभी प्रश्नों की विस्तृत व्याख्या
+            </div>
+            <button class="start-btn" onclick="startQuiz()">क्विज़ शुरू करें 🚀</button>
+        </div>
+
+        <!-- Quiz Screen -->
+        <div id="quiz-screen" class="hidden">
+            <div class="top-bar">
+                <div class="q-number" id="q-num">प्रश्न 1 / 50</div>
+                <div class="timer">⏱️ <span id="timer">30</span>s</div>
+            </div>
+            <div class="question-text" id="q-text"></div>
+            <div id="options-box"></div>
+        </div>
+
+        <!-- Result Screen -->
+        <div id="result-screen" class="hidden">
+            <h2>आपका परिणाम 🎉</h2>
+            <div class="score" id="score-text"></div>
+            <button class="start-btn" onclick="location.reload()" style="margin-bottom: 30px;">🔄 फिर से प्रयास करें</button>
+            <h3 style="text-align:left; border-bottom: 2px solid #e5e7eb; padding-bottom: 10px; margin-bottom:20px;">विस्तृत व्याख्या (Explanations):</h3>
+            <div id="explanations-container"></div>
+        </div>
+    </div>
+
+    <script>
+        const quizData = [{"q": "यदि A = {1, 2, 3} हो, तो संबंध R = {(1, 1), (2, 2), (3, 3)} कैसा संबंध है?", "o": ["स्वतुल्य", "सममित", "संक्रामक", "तुल्यता"], "c": 3, "e": "यह स्वतुल्य, सममित और संक्रामक तीनों है, अतः तुल्यता संबंध है।"}, {"q": "f: R → R, f(x) = 3x - 4 कैसा फलन है?", "o": ["एकैकी आच्छादक", "बहुएक आच्छादक", "एकैकी अंतःक्षेपी", "इनमें से कोई नहीं"], "c": 0, "e": "रैखिक फलन हमेशा एकैकी (1-1) और आच्छादक (Onto) होता है।"}, {"q": "यदि A में n अवयव हैं, तो A पर कुल कितने भिन्न संबंध बनाए जा सकते हैं?", "o": ["2^n", "n^2", "2^(n^2)", "n^n"], "c": 2, "e": "कुल संबंधों की संख्या 2^(n×n) = 2^(n²) होती है।"}, {"q": "यदि f(x) = x² और g(x) = sin x, तो (gof)(x) का मान क्या होगा?", "o": ["sin² x", "sin x²", "(sin x)²", "x² sin x"], "c": 1, "e": "g(f(x)) = g(x²) = sin(x²)."}, {"q": "वास्तविक संख्याओं के समुच्चय में '<' (से छोटा) कैसा संबंध है?", "o": ["स्वतुल्य", "सममित", "संक्रामक", "तुल्यता"], "c": 2, "e": "यदि a < b और b < c, तो a < c होगा, अतः यह केवल संक्रामक है।"}, {"q": "समुच्चय A = {a, b} पर कुल कितनी द्विआधारी संक्रियाएं (Binary Operations) परिभाषित हो सकती हैं?", "o": ["4", "8", "16", "20"], "c": 2, "e": "सूत्र n^(n²) के अनुसार: 2^(2²) = 2^4 = 16."}, {"q": "यदि f: A → B एक आच्छादक (Onto) फलन है, तो:", "o": ["f(A) ⊂ B", "f(A) = B", "B ⊂ f(A)", "f(A) ≠ B"], "c": 1, "e": "आच्छादक फलन में परिसर (Range) और सह-प्रांत (Codomain) बराबर होते हैं, अर्थात् f(A) = B."}, {"q": "समुच्चय A = {1, 2, 3} पर संबंध R = {(1, 2), (2, 1)} है:", "o": ["स्वतुल्य", "सममित", "संक्रामक", "तुल्यता"], "c": 1, "e": "(1,2) ∈ R और (2,1) ∈ R होने के कारण यह सममित (Symmetric) है।"}, {"q": "f: R → R, f(x) = x^4 द्वारा परिभाषित फलन कैसा है?", "o": ["एकैकी आच्छादक", "बहुएक आच्छादक", "एकैकी किंतु आच्छादक नहीं", "न तो एकैकी न ही आच्छादक"], "c": 3, "e": "f(1)=1 और f(-1)=1 (नॉट 1-1) और ऋणात्मक मान नहीं मिलते (नॉट Onto)।"}, {"q": "यदि f(x) = (x+1)/(x-1), तो f(f(x)) का मान होगा:", "o": ["x", "1/x", "-x", "1"], "c": 0, "e": "f(f(x)) को हल करने पर x प्राप्त होता है।"}, {"q": "यदि A = {1, 2, 3} और B = {4, 5, 6} तो f: A → B, f = {(1,4), (2,5), (3,6)} कैसा फलन है?", "o": ["एकैकी आच्छादक", "बहुएक आच्छादक", "एकैकी अंतःक्षेपी", "इनमें से कोई नहीं"], "c": 0, "e": "A के सभी अवयवों का B में अलग-अलग और पूरा प्रतिबिंब है, इसलिए एकैकी आच्छादक (Bijective)।"}, {"q": "R में 'लंब होने का संबंध' (is perpendicular to) कैसा है?", "o": ["स्वतुल्य", "सममित", "संक्रामक", "तुल्यता"], "c": 1, "e": "यदि रेखा L1, L2 पर लंब है, तो L2 भी L1 पर लंब होगी। अतः यह सममित है।"}, {"q": "f: R → R, f(x) = [x] (महत्तम पूर्णांक फलन) कैसा फलन है?", "o": ["एकैकी आच्छादक", "न तो एकैकी न ही आच्छादक", "बहुएक आच्छादक", "एकैकी अंतःक्षेपी"], "c": 1, "e": "f(1.2) = 1 और f(1.5) = 1 (नॉट 1-1)। और अपूर्णांक मान नहीं मिलते (नॉट Onto)।"}, {"q": "f(x) = 2x + 3 का प्रतिलोम फलन f⁻¹(x) क्या होगा?", "o": ["(x-3)/2", "(x+3)/2", "2x-3", "3x-2"], "c": 0, "e": "y = 2x + 3 => 2x = y - 3 => x = (y-3)/2, इसलिए f⁻¹(x) = (x-3)/2."}, {"q": "f: Z → Z, f(x) = 2x कैसा फलन है?", "o": ["एकैकी आच्छादक", "एकैकी अंतःक्षेपी (1-1 Into)", "बहुएक आच्छादक", "बहुएक अंतःक्षेपी"], "c": 1, "e": "f एकैकी है लेकिन विषम पूर्णांक किसी भी पूर्णांक का दोगुना नहीं होते, अतः यह Into है।"}, {"q": "मान लीजिए A = {1, 2, 3}, तो (1, 2) वाले तुल्यता संबंधों की संख्या है:", "o": ["1", "2", "3", "4"], "c": 1, "e": "तुल्यता संबंध R1 = {(1,1), (2,2), (3,3), (1,2), (2,1)} और R2 = A × A. कुल 2."}, {"q": "समुच्चय {1, 2, 3} में अवयव (1, 2) और (1, 3) वाले स्वतुल्य तथा सममित संबंधों की संख्या है:", "o": ["1", "2", "3", "4"], "c": 0, "e": "केवल 1 ऐसा संबंध होगा।"}, {"q": "यदि f(x) = x³ तो f⁻¹(8) का मान है:", "o": ["2", "1/2", "3", "-2"], "c": 0, "e": "चूँकि f(2) = 2³ = 8, अतः f⁻¹(8) = 2."}, {"q": "संक्रिया * जो a*b = a + b + 1 द्वारा परिभाषित है, का तत्समक अवयव (Identity Element) क्या है?", "o": ["0", "-1", "1", "-2"], "c": 1, "e": "a * e = a => a + e + 1 = a => e = -1."}, {"q": "N पर परिभाषित a * b = a³ + b³ कैसी संक्रिया है?", "o": ["केवल क्रमविनिमेय", "केवल साहचर्य", "क्रमविनिमेय और साहचर्य दोनों", "इनमें से कोई नहीं"], "c": 0, "e": "a³+b³ = b³+a³ (क्रमविनिमेय) लेकिन साहचर्य नहीं।"}, {"q": "यदि f(x) = 8x³ और g(x) = x^(1/3) तो (fog)(x) क्या होगा?", "o": ["8x", "x", "8x³", "x/8"], "c": 0, "e": "f(g(x)) = 8(x^(1/3))³ = 8x."}, {"q": "पूर्णांकों के समुच्चय में aRb यदि (a-b), 5 से विभाज्य है, कैसा संबंध है?", "o": ["स्वतुल्य", "सममित", "संक्रामक", "तुल्यता"], "c": 3, "e": "यह एक तुल्यता संबंध (Equivalence Relation) है।"}, {"q": "N से N में f(x) = 2x + 3 द्वारा परिभाषित फलन है:", "o": ["एकैकी आच्छादक", "एकैकी अंतःक्षेपी", "बहुएक आच्छादक", "बहुएक अंतःक्षेपी"], "c": 1, "e": "एकैकी है, लेकिन परिसर में सभी प्राकृत संख्याएँ नहीं हैं (जैसे 1, 2, 4), इसलिए अंतःक्षेपी (Into)।"}, {"q": "R में 'समानांतर होने का संबंध' (is parallel to) कैसा है?", "o": ["स्वतुल्य", "सममित", "संक्रामक", "तुल्यता"], "c": 3, "e": "प्रत्येक रेखा स्वयं के समानांतर होती है, यदि L1||L2 तो L2||L1, तथा L1||L2, L2||L3 तो L1||L3। अतः तुल्यता।"}, {"q": "यदि f(x) = x² + 1, तो f⁻¹(17) का मान होगा:", "o": ["{4, -4}", "{4}", "{-4}", "{16}"], "c": 0, "e": "x² + 1 = 17 => x² = 16 => x = 4, -4."}, {"q": "यदि n(A) = 3 और n(B) = 4 तो A से B में कुल फलनों की संख्या होगी:", "o": ["12", "64", "81", "7"], "c": 1, "e": "कुल फलनों की संख्या (n(B))^(n(A)) = 4³ = 64."}, {"q": "यदि A = {a, b, c} तो A पर कुल स्वतुल्य संबंधों की संख्या है:", "o": ["8", "32", "64", "512"], "c": 2, "e": "2^(n²-n) = 2^(9-3) = 2^6 = 64."}, {"q": "f(x) = 3x, g(x) = x + 2 तो (gof)(2) का मान क्या होगा?", "o": ["8", "6", "10", "12"], "c": 0, "e": "(gof)(2) = g(f(2)) = g(6) = 6 + 2 = 8."}, {"q": "यदि a * b = 2a + b तो (2 * 3) * 4 का मान होगा:", "o": ["18", "16", "20", "22"], "c": 0, "e": "2*3 = 2(2)+3 = 7. फिर 7*4 = 2(7)+4 = 18."}, {"q": "फलन f(x) = sin x, [0, π] में कैसा फलन है?", "o": ["एकैकी", "बहुएक", "अचर", "इनमें से कोई नहीं"], "c": 1, "e": "sin(π/6) = sin(5π/6) = 1/2, अतः बहुएक (Many-one) है।"}, {"q": "यदि f(x) = 1/x, x ≠ 0 तो f(f(x)) है:", "o": ["x", "1/x", "-x", "x²"], "c": 0, "e": "f(f(x)) = 1 / (1/x) = x."}, {"q": "समीकरण a * b = a + b - ab के लिए तत्समक अवयव (e) है:", "o": ["0", "1", "-1", "2"], "c": 0, "e": "a * e = a => a + e - ae = a => e(1-a) = 0 => e = 0."}, {"q": "यदि A = {1,2} और B = {a,b,c} तो A से B में एकैकी फलनों की संख्या है:", "o": ["6", "9", "8", "12"], "c": 0, "e": "P(3,2) = 3! / (3-2)! = 6."}, {"q": "फलन f(x) = |x|, f: R → R कैसा फलन है?", "o": ["एकैकी आच्छादक", "बहुएक अंतःक्षेपी", "एकैकी अंतःक्षेपी", "बहुएक आच्छादक"], "c": 1, "e": "f(1) = f(-1) = 1 (बहुएक), और ऋणात्मक मान नहीं मिलते (अंतःक्षेपी/Into)।"}, {"q": "किसी समुच्चय A पर संबंध R स्वतुल्य कहलाता है यदि:", "o": ["(a,b) ∈ R", "(a,a) ∈ R ∀ a ∈ A", "(b,a) ∈ R", "(a,c) ∈ R"], "c": 1, "e": "स्वतुल्य (Reflexive) की परिभाषा: प्रत्येक a ∈ A के लिए (a,a) ∈ R."}, {"q": "तुल्यता संबंध होने के लिए संबंध को क्या होना चाहिए?", "o": ["स्वतुल्य", "सममित", "संक्रामक", "तीनों (उपर्युक्त सभी)"], "c": 3, "e": "तुल्यता संबंध स्वतुल्य, सममित और संक्रामक तीनों होता है।"}, {"q": "यदि n(A) = 3, तो A पर कुल एकैकी आच्छादक (Bijective) फलनों की संख्या है:", "o": ["3", "6", "9", "27"], "c": 1, "e": "n! = 3! = 6."}, {"q": "a * b = a² + b² द्वारा N पर परिभाषित संक्रिया है:", "o": ["क्रमविनिमेय", "साहचर्य", "दोनों", "इनमें से कोई नहीं"], "c": 0, "e": "a²+b² = b²+a² (क्रमविनिमेय), लेकिन साहचर्य नहीं।"}, {"q": "यदि R = {(x,y): x,y ∈ Z, x-y एक पूर्णांक है} तो R है:", "o": ["तुल्यता संबंध", "केवल स्वतुल्य", "केवल सममित", "इनमें से कोई नहीं"], "c": 0, "e": "दो पूर्णांकों का अंतर हमेशा एक पूर्णांक होता है, अतः यह तुल्यता संबंध है।"}, {"q": "N पर संबंध R={(x,y) : x+2y=8} का परिसर (Range) है:", "o": ["{1,2,3}", "{2,4,6}", "{1,2}", "{2,3,4}"], "c": 0, "e": "x,y ∈ N. y=1=>x=6, y=2=>x=4, y=3=>x=2. अतः परिसर (y के मान) = {1,2,3}."}, {"q": "N पर संबंध R={(x,y): x<y} है:", "o": ["केवल स्वतुल्य", "केवल सममित", "केवल संक्रामक", "तुल्यता"], "c": 2, "e": "x<y और y<z => x<z (संक्रामक)।"}, {"q": "f(x) = (3x+2)/(5x-3) तो f(x) का डोमेन (प्रांत) है:", "o": ["R", "R - {3/5}", "R - {2/3}", "R - {0}"], "c": 1, "e": "हर शून्य नहीं होना चाहिए: 5x-3 ≠ 0 => x ≠ 3/5."}, {"q": "यदि f(x) = log x और g(x) = e^x, तो (fog)(x) का मान:", "o": ["1", "x", "e^x", "log x"], "c": 1, "e": "f(g(x)) = log(e^x) = x."}, {"q": "R में 'x, y की पत्नी है' संबंध कैसा है?", "o": ["स्वतुल्य", "सममित", "संक्रामक", "कोई नहीं"], "c": 3, "e": "x स्वयं की पत्नी नहीं हो सकती (स्वतुल्य नहीं), x पत्नी है तो y पति होगा (सममित नहीं)। संक्रामक भी नहीं।"}, {"q": "एक फलन का प्रतिलोम (Inverse) तभी संभव है जब वह:", "o": ["एकैकी हो", "आच्छादक हो", "एकैकी आच्छादक (Bijective) हो", "बहुएक हो"], "c": 2, "e": "फलन का प्रतिलोम केवल तभी निकलता है जब वह Bijective (एकैकी आच्छादक) हो।"}, {"q": "यदि f(x) = x³ - 1 तो f⁻¹(-9) है:", "o": ["-2", "2", "-8", "8"], "c": 0, "e": "x³ - 1 = -9 => x³ = -8 => x = -2."}, {"q": "यदि A={1,2} और B={1,2,3,4} तो A से B में कुल फलनों की संख्या:", "o": ["8", "16", "32", "64"], "c": 1, "e": "4² = 16."}, {"q": "समीकरण a * b = a + b - 3 के लिए तत्समक अवयव क्या है?", "o": ["0", "1", "3", "-3"], "c": 2, "e": "a * e = a => a + e - 3 = a => e = 3."}, {"q": "संबंध R = {(1,1), (2,2), (3,3)} A={1,2,3} पर कहलाता है:", "o": ["तत्समक संबंध (Identity)", "सममित", "संक्रामक", "उपर्युक्त सभी"], "c": 3, "e": "यह तत्समक संबंध है और यह स्वतुल्य, सममित, संक्रामक तीनों होता है।"}, {"q": "A={a,b,c} पर कितने संबंध स्वतुल्य और सममित दोनों हैं?", "o": ["2^3", "2^6", "2^8", "2^9"], "c": 0, "e": "कुल 2^(n(n-1)/2) = 2^(3(2)/2) = 2³ = 8."}];
+        
+        let currentIdx = 0;
+        let score = 0;
+        let timeLeft = 30;
+        let timerId;
+        let userAnswers = [];
+
+        function startQuiz() {
+            document.getElementById('start-screen').classList.add('hidden');
+            document.getElementById('quiz-screen').classList.remove('hidden');
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            timeLeft = 30;
+            document.getElementById('timer').innerText = timeLeft;
+            clearInterval(timerId);
+            
+            timerId = setInterval(() => {
+                timeLeft--;
+                document.getElementById('timer').innerText = timeLeft;
+                if(timeLeft <= 0) { 
+                    clearInterval(timerId); 
+                    checkAnswer(-1); // Timeout
+                }
+            }, 1000);
+
+            const q = quizData[currentIdx];
+            document.getElementById('q-num').innerText = `प्रश्न ${currentIdx + 1} / ${quizData.length}`;
+            document.getElementById('q-text').innerText = q.q;
+            
+            let optsHtml = "";
+            q.o.forEach((opt, i) => {
+                optsHtml += `<button class="opt-btn" onclick="checkAnswer(${i})">${opt}</button>`;
+            });
+            document.getElementById('options-box').innerHTML = optsHtml;
+        }
+
+        function checkAnswer(selectedIdx) {
+            clearInterval(timerId);
+            userAnswers.push(selectedIdx);
+            
+            const q = quizData[currentIdx];
+            const btns = document.querySelectorAll('.opt-btn');
+            
+            btns.forEach(btn => btn.disabled = true);
+            
+            if(selectedIdx !== -1) {
+                if(selectedIdx === q.c) {
+                    btns[selectedIdx].classList.add('correct');
+                    score++;
+                } else {
+                    btns[selectedIdx].classList.add('wrong');
+                    btns[q.c].classList.add('correct');
+                }
+            } else {
+                btns[q.c].classList.add('correct'); // Highlight correct on timeout
+            }
+            
+            setTimeout(() => {
+                currentIdx++;
+                if(currentIdx < quizData.length) {
+                    loadQuestion();
+                } else {
+                    showResults();
+                }
+            }, 1500); // Wait 1.5 seconds before moving to next question
+        }
+
+        function showResults() {
+            document.getElementById('quiz-screen').classList.add('hidden');
+            document.getElementById('result-screen').classList.remove('hidden');
+            document.getElementById('score-text').innerText = `${score} / ${quizData.length}`;
+            
+            let expHtml = "";
+            quizData.forEach((q, i) => {
+                const userChoice = userAnswers[i];
+                const isCorrect = userChoice === q.c;
+                const statusIcon = isCorrect ? '✅' : '❌';
+                const boxClass = isCorrect ? 'exp-box' : 'exp-box wrong-ans';
+                const userChoiceText = userChoice !== -1 ? q.o[userChoice] : "समय समाप्त (Time Out)";
+                
+                expHtml += `
+                    <div class="${boxClass}">
+                        <div class="exp-title">${statusIcon} प्रश्न ${i+1}: ${q.q}</div>
+                        <div style="font-size:14px; margin-top:5px; color:#065f46;"><strong>सही उत्तर:</strong> ${q.o[q.c]}</div>
+                        ${!isCorrect ? `<div style="font-size:14px; margin-top:2px; color:#991b1b;"><strong>आपका उत्तर:</strong> ${userChoiceText}</div>` : ''}
+                        <div class="exp-text"><strong>व्याख्या:</strong> ${q.e}</div>
+                    </div>
+                `;
+            });
+            document.getElementById('explanations-container').innerHTML = expHtml;
+        }
+    </script>
+</body>
+</html>
