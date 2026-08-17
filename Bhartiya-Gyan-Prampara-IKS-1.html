@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>भारतीय ज्ञान प्रणाली | Indian Knowledge System — Namashkaram Tech Skills</title>
+<style>
+  :root{
+    --cream:#FFF8EC;
+    --cream-2:#FFF1DA;
+    --ink:#2B2118;
+    --saffron:#FF7A1A;
+    --saffron-dark:#E8600A;
+    --indigo:#12395B;
+    --indigo-2:#1B4F7A;
+    --gold:#E0A62B;
+    --green:#1B8A5A;
+    --maroon:#A6243D;
+    --teal:#0E7C86;
+    --forest:#2F6D3A;
+    --magenta:#C6417E;
+    --darkgold:#B4790E;
+    --white:#FFFFFF;
+    --shadow: 0 8px 24px rgba(43,33,24,0.15);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(circle at 10% 5%, #FFE9C7 0%, transparent 40%),
+      radial-gradient(circle at 95% 15%, #FFD9C2 0%, transparent 35%),
+      var(--cream);
+    font-family: -apple-system, "Segoe UI", "Nirmala UI", "Noto Sans Devanagari", Roboto, Arial, sans-serif;
+    color: var(--ink);
+    line-height: 1.5;
+    padding-bottom: 60px;
+    overflow-x:hidden;
+  }
+  .en{ font-style:normal; }
+  .hi{ color:#4a3a28; }
+  strong{ color: inherit; }
+
+  /* ===== Header ===== */
+  header{
+    position:relative;
+    text-align:center;
+    padding: 34px 18px 46px;
+    background: linear-gradient(180deg, var(--indigo) 0%, var(--indigo-2) 100%);
+    color:#fff;
+    overflow:hidden;
+    border-bottom: 6px solid var(--saffron);
+  }
+  .brand-logo{
+    display:flex; justify-content:center; margin-bottom:18px;
+  }
+  .brand-logo img{
+    max-width: min(320px, 82vw);
+    height:auto;
+    background:#fff;
+    padding:10px 18px;
+    border-radius:14px;
+    box-shadow: 0 8px 22px rgba(0,0,0,0.25);
+  }
+
+  h1.title{
+    font-size: clamp(24px,5vw,38px);
+    margin: 6px 0 2px;
+    font-weight:800;
+  }
+  h1.title .hi{ color:#FFE9C7; display:block; font-size: clamp(20px,4.2vw,32px); }
+  h1.title .en{ color:#fff; display:block; }
+  .subtitle{
+    max-width:640px; margin:14px auto 0; font-size:15px; color:#DCEBF5;
+  }
+  .subtitle .hi{ color:#DCEBF5; }
+
+  /* progress bar */
+  .progress-wrap{
+    max-width:520px; margin:22px auto 0; padding:0 16px;
+  }
+  .progress-track{
+    background:rgba(255,255,255,0.18);
+    border-radius:30px; height:14px; overflow:hidden;
+    border:1px solid rgba(255,255,255,0.35);
+  }
+  .progress-fill{
+    height:100%; width:0%;
+    background: linear-gradient(90deg,var(--saffron),var(--gold));
+    transition: width .6s ease;
+    border-radius:30px;
+  }
+  .progress-label{
+    color:#FFE9C7; font-size:13px; margin-top:6px; text-align:center; font-weight:600;
+  }
+  .stars-count{ font-size:14px; }
+
+  /* ===== Section wrapper ===== */
+  .section-title{
+    text-align:center; max-width:700px; margin:46px auto 26px; padding:0 18px;
+  }
+  .section-title .eyebrow{
+    display:inline-block; font-size:12px; letter-spacing:2px; font-weight:700;
+    color: var(--saffron-dark); text-transform:uppercase; margin-bottom:6px;
+  }
+  .section-title h2{ margin:2px 0; font-size: clamp(20px,3.6vw,28px); }
+  .section-title .hi{ display:block; color:#6b5540; font-size:.85em; margin-top:2px; }
+
+  /* ===== Journey path ===== */
+  .journey{
+    max-width: 640px; margin: 0 auto; padding: 10px 18px 0; position:relative;
+  }
+  .journey::before{
+    content:"";
+    position:absolute; left:50%; top:10px; bottom:10px; width:4px;
+    background: repeating-linear-gradient(180deg, var(--saffron) 0 10px, transparent 10px 20px);
+    transform: translateX(-50%);
+    z-index:0;
+  }
+  .stop{
+    position:relative; z-index:1;
+    display:flex; align-items:center; gap:16px;
+    margin: 6px 0 34px;
+  }
+  .stop:nth-child(even){ flex-direction: row-reverse; text-align:right; }
+  .node-wrap{ flex:0 0 auto; display:flex; flex-direction:column; align-items:center; }
+  .node{
+    width:76px;height:76px;border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    font-size:32px; color:#fff; box-shadow: var(--shadow);
+    border: 4px solid #fff;
+    cursor:pointer;
+    transition: transform .25s ease, filter .25s ease;
+    position:relative;
+    flex-shrink:0;
+  }
+  .node .daynum{
+    position:absolute; top:-8px; right:-8px;
+    background:#fff; color:var(--ink); font-size:11px; font-weight:800;
+    border-radius:50%; width:24px;height:24px; display:flex; align-items:center; justify-content:center;
+    border:2px solid var(--saffron);
+  }
+  .node.locked{ filter: grayscale(0.85) brightness(0.85); cursor:not-allowed; }
+  .node.locked::after{
+    content:"🔒"; position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+    font-size:22px; background:rgba(0,0,0,0.35); border-radius:50%; color:#fff;
+  }
+  .node.done{ box-shadow: 0 0 0 5px rgba(27,138,90,0.35), var(--shadow); }
+  .node.done::before{
+    content:"⭐"; position:absolute; bottom:-10px; left:50%; transform:translateX(-50%);
+    font-size:18px;
+  }
+  .node:not(.locked):hover{ transform: scale(1.07); }
+  .node-caption{ font-size:12px; margin-top:6px; font-weight:700; color:#6b5540; max-width:90px; text-align:center; }
+
+  .stop-card{
+    flex:1 1 auto; background:#fff; border-radius:16px; padding:14px 16px;
+    box-shadow: var(--shadow); border: 1px solid #F0E2CB;
+  }
+  .stop-card h3{ margin:0 0 2px; font-size:16px; }
+  .stop-card h3 .hi{ display:block; font-size:.88em; color:#6b5540; font-weight:700; }
+  .stop-card p.teaser{ margin:6px 0 0; font-size:13px; color:#7a6a55; }
+
+  /* accordion panel */
+  .panel{
+    max-width:640px; margin: -14px auto 30px; background:#fff; border-radius:0 0 18px 18px;
+    box-shadow: var(--shadow); border:1px solid #F0E2CB; border-top:none;
+    padding: 0 20px; max-height:0; overflow:hidden; transition: max-height .5s ease, padding .3s ease;
+  }
+  .panel.open{ max-height: 3000px; padding: 16px 20px 22px; }
+  .point{ display:flex; gap:12px; padding:12px 0; border-bottom:1px dashed #EDE0C8; }
+  .point:last-of-type{ border-bottom:none; }
+  .point-icon{ font-size:22px; flex-shrink:0; margin-top:2px; }
+  .point-text p{ margin:0 0 4px; font-size:14.5px; }
+  .point-text .en strong{ color: var(--indigo); }
+  .point-text .hi{ color:#5c4a34; }
+  .point-text .hi strong{ color: var(--saffron-dark); }
+
+  .mark-done-btn{
+    display:block; width:100%; margin-top:14px; padding:12px;
+    background: linear-gradient(90deg,var(--green),#249464); color:#fff; border:none;
+    border-radius:12px; font-size:15px; font-weight:700; cursor:pointer;
+    box-shadow: 0 6px 14px rgba(27,138,90,0.35);
+  }
+  .mark-done-btn:active{ transform: scale(0.98); }
+  .mark-done-btn.completed{ background:#DCEBD8; color:#2F6D3A; box-shadow:none; cursor:default; }
+
+  /* ===== Quiz ===== */
+  #quiz-section{ display:none; }
+  #quiz-section.unlocked{ display:block; }
+  .quiz-wrap{ max-width:640px; margin:0 auto; padding:0 18px; }
+  .quiz-card{
+    background:#fff; border-radius:16px; padding:16px 18px; margin-bottom:16px;
+    box-shadow: var(--shadow); border:1px solid #F0E2CB;
+  }
+  .quiz-card .qnum{
+    display:inline-flex; align-items:center; justify-content:center;
+    width:26px;height:26px; background:var(--saffron); color:#fff; border-radius:50%;
+    font-size:13px; font-weight:800; margin-right:8px;
+  }
+  .quiz-card .qtext{ font-weight:700; font-size:15px; }
+  .quiz-card .qtext .hi{ display:block; font-weight:700; color:#6b5540; font-size:.9em; margin-top:2px; }
+  .options{ margin-top:12px; display:flex; flex-direction:column; gap:8px; }
+  .opt-btn{
+    text-align:left; padding:10px 12px; border-radius:10px; border:2px solid #EDE0C8;
+    background:#FFFBF3; cursor:pointer; font-size:14px; color:var(--ink);
+  }
+  .opt-btn .hi{ display:block; font-size:.88em; color:#7a6a55; }
+  .opt-btn:hover{ border-color: var(--saffron); }
+  .opt-btn.correct{ background:#E3F5EA; border-color:var(--green); }
+  .opt-btn.wrong{ background:#FBE7E9; border-color:var(--maroon); }
+  .opt-btn[disabled]{ cursor:default; }
+  .explanation{
+    display:none; margin-top:10px; background:var(--cream-2); border-left:4px solid var(--gold);
+    padding:8px 12px; border-radius:8px; font-size:13.5px;
+  }
+  .explanation.show{ display:block; }
+
+  .score-banner{
+    max-width:640px; margin:0 auto 20px; padding:0 18px; text-align:center; display:none;
+  }
+  .score-banner.show{ display:block; }
+  .score-box{
+    background: linear-gradient(135deg,var(--saffron),var(--gold));
+    color:#fff; border-radius:18px; padding:20px; box-shadow:var(--shadow);
+  }
+  .score-box .big{ font-size:32px; font-weight:800; }
+
+  /* ===== Homework ===== */
+  #homework-section{ display:none; }
+  #homework-section.unlocked{ display:block; }
+  .hw-wrap{ max-width:640px; margin:0 auto; padding:0 18px; display:flex; flex-direction:column; gap:12px; }
+  .hw-card{
+    background:#fff; border-radius:14px; padding:14px 16px; box-shadow:var(--shadow);
+    border:1px solid #F0E2CB; display:flex; gap:12px; align-items:flex-start;
+    transition: background .3s ease;
+  }
+  .hw-card.done{ background:#F0FAF3; }
+  .hw-icon{ font-size:24px; flex-shrink:0; }
+  .hw-checkbox{
+    width:26px;height:26px; border-radius:8px; border:2px solid var(--saffron);
+    display:flex; align-items:center; justify-content:center; flex-shrink:0; cursor:pointer;
+    font-size:16px; color:transparent; margin-top:2px;
+  }
+  .hw-checkbox.checked{ background:var(--green); border-color:var(--green); color:#fff; }
+  .hw-text p{ margin:0 0 3px; font-size:14px; font-weight:700; }
+  .hw-text .hi{ font-weight:400; color:#6b5540; font-size:.92em; }
+
+  /* ===== Finale ===== */
+  #finale{ display:none; text-align:center; max-width:640px; margin:30px auto; padding:0 18px; }
+  #finale.show{ display:block; }
+  .badge{
+    background: radial-gradient(circle at 30% 20%, #FFE9C7, var(--gold) 70%);
+    width:150px;height:150px;border-radius:50%; margin:0 auto 16px;
+    display:flex; align-items:center; justify-content:center; font-size:60px;
+    box-shadow: 0 0 0 8px #fff, var(--shadow);
+    border: 3px solid var(--saffron);
+  }
+  #finale h2{ margin:6px 0 0; }
+  #finale .hi{ display:block; color:#6b5540; }
+
+  canvas#confetti{
+    position:fixed; inset:0; pointer-events:none; z-index:999;
+  }
+
+  footer{ text-align:center; margin-top:50px; color:#9a8267; font-size:12px; }
+
+  @media (max-width: 520px){
+    .stop, .stop:nth-child(even){ flex-direction:column; text-align:center; }
+    .journey::before{ left:38px; }
+    .node-wrap{ align-self:flex-start; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .brand-logo img{ animation:none; }
+    .panel{ transition:none; }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="confetti"></canvas>
+
+<header>
+  <div class="brand-logo"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAACyCAIAAAA7yz90AABV2ElEQVR4nO39L3gbO9c1Dq/3uz6wxSQ2goITZjMbzstc5rAY+mEpS1gDU5awht2GCYtZzd6BNvOwDBTUMIlpsecHxkmTNEmb/jvtubuuc+U0zlijmVmztbX//p///d//xV98BTqg3jTbjOVqm60iBAIKSGqjmSkEQhwPh9aiABljWZZj5wyQAfdNZ/TAum2i97A6QbX+5iZ2yupIUiBGMyYNUQBIiZyMK5fyuBwOtP7RN+Afw//5y9GXkYBV46/Xm2SK7Y0XY0kShIjWwhRADp2bjoaOGYnDQVnIz5qMT8mHQGPaHNdt0/obcS6AABIpWkhqwIouocbW7Zej4mfN5dfhL0efRdN1lx/XtQ80jmI8MwRIqRDsWa0Bk3k0q6yI/odmSMCTi9UyiXjBNnlooQIyhLRGS0hDsfPhaFC4n/bi/HT85ehjdMBlvWkT6u1NVgYAAWQaJQJMRqVDmoxHv9sz74CPzcZrLDd1QJbCkICIAIosRU/3xrOi/M1m/VX4y9FP8OTFqqlbn0T7mLQpUkyF1Sr4yZ6bVcMCcIX+p6f5BfjUeeBqu153nlqiICmRTAtxCZWYw8lE40/i6l+OAsCm6663frn2GRoKAJiTtdoZceDRtHLyJz3UHp68WtceuEm+I1FIJI3RCGlqy3k5LPWfoaz+t3M0Ade+O1l8pHEkJMMo5Oirod0fDaufIDYJEIjo3wUIEAEAChDgh58OwMb7j769atcorQdFiY60CYejat8NfsYZfyz+ezlKYNX6i3Vzk8goYmwKwQkHRt7OqtFPWNMXdXOxWtmyJBkFJDSFBDSJrEUpIHRxOhqeVKMfLrfblE5Xl02BQEKEpBNtE9+N94da6994ofgv5agH/udiufaRxmgIciqVDAuZvxkOip+yAp7Xm8vWe4DIAgURQCRBQTIIjcQkogkRcGbNh8noZ0yj7vzKt3UOLRIArQQ+jbU7HFfV77r0/9dxlMD5ql40XYBANAgdu6osZmM3KV9naCcQEpWIli/sQQiM31+02lCkX9AtCWahQQYMCFJ0ACiGKY4Eq8OJfnHMBHjSinwDs1apu9jWLWMEZeeA4L4pT0dfOOk/gv8ujq6a9nzdbhPZsxPiwNnIHlaDV41DYN2l94s6QACOC302r/Tzx3vg7XKzCkFEJs6eVIPybiABCBF0wIe2u1jfgHDk3MrhQfXcgJvUHV1edgYiGGg3H45fKwUJXGzqVfQejAYJdKKl7U7K6mDwU0T4N+P//09P4Ndh0bQni1XSVkwBsoSMC5zNJ69VxAicrOrLtku6IJQAMUVdN2fPE3212rQ+ahEkHg7LT8fJp58F8MbKRedR2MDk47MTaFI3v1xEq5OABm1uN9s4UXYMORg9S+tHEOBoVM2AD/Vyk+MNEHKnnT5q6xuNYzf4fexT/xUc3fjudFkHaGqrlWZMY4OzWTV4pdcykYu6uV7fJNMrlB1Ek6DIZeOtwtHoaZqGEDJFtGG4MUzA0zKvAJiTKEuI2XtW8TjdroMV0UZDUo5QRchcIawCr+s0c4Op+1qlpQBOq6knj5eLVusASFlcpO1qWZ8MplNXfuU4PxX/v396Aj8dddfNLhZrShMBFFZwPHbXh5NXEdSTF5t2fLy4aGWj9gI1UhggH1gpjSQyQS/Wvkl88ut0ZSdIANRL0klBnHUpMwHb/PRQJ/WqZkgiSHBtPFSuikr7lCOCxgrx2NdvNstl57/+6pzI9cHhaVm5jikkkq3GyeZy6duvH+Tn4V+uj658d3z1MUARWsRJaC4PJ5XTrxpkk9LR5dongZgOIloc/aw00z1bFsVV253UPjBbYKB5OZ9I7z4FVm1Tr1s4Vyf4mElWpb2sBi9ojm83/vKmTcTAmrFkYarGg3HhBBDAA2+uLloNbazz8bp644oiEXXbLNrtVkgrCQTgIBPYk9HkVVpq03WHHxfJ6QiSLE2xl9XpeFr8o5apfy1HO/LwYrmmJAgzS8X5aDAfl/o1dzsBs/OrVooAAJBEi3Q4qfYfGqj+5+KqTjnCQEQEFr3xUxIZgQSA0CBjPKqGpy/uzy427fm6gRSRhCYUjWiJ1EqYE40EEMiW/DCZVfcC8BJQt81iXQenWyYxWjIdpYI5nUy//pIJLjt/ul5GLVCiIgvPxeyw/OeC/f6dHG1SOlzUnjr1GxLfXBxODgav065I7l9ctuICQFIzzctiNt773IBK4O3V6qNPSTS0JSNEgVlEgVEIAxbgUMt8PBi8aOFqfTdfXndiskgCYaSXyRRABExaYFKuoD4cHDz5ui3aZuG3DZJYzZAccTaeTorXmdUWbXOyvoSzUKICdeDl/Kj8h6Tpv5CjbZdmH1YtnChBjob+dDI8eKV1CUDd+reXdTA2QUZOnQ5c5Z5dOXua1j5lEWgBiBQVMCj3KuecERPj6Ovsrz6lTYwBaLtuvd0SyCLKmpiiiEKMlbUXk6l+YQTgf+qrNQOM6MhjOzgafO1+/w5XbXPSXGdnASDQERfT+eCfiEP8t+3rW+9n75e+GENpAKXC6ayqXmmc72Gg+j07SCPqBYICEOA/B5Orpv24qqu98ZvRQOPh9uirnatOa9cvrM5hNOJtnOhqvfZtO9/fH33JE+aAQmlBBECy1OYrT30fB+VgYO1xW29zpIYnDleXp9X+r3dH/avkaOv9/P1VVwwCLMDKyYf90r1KA72HRM4X9QqAEYnpcjKevEjT3werrjvZfgxCAHuQy/Hsmzc9CTjZrFahjUJAHORs/Ktp+u+xPdW+my02vhhFZQVhNtSL2eCbCQpAixxOxjaRIUFwurxOP262Pw8EztcfkwCE6tK74Zvv2ZVr4MNocmgHjgIRD57U15vU/bj5fhn/Eo7W3v/PxUevyqQsEI/fuP9Mf0BeUeX00cAWIolMYq/r5kdM9ufism2CRgCVyLz8MZEiR6NqXo4NSUEj6XB9Xf9Cmv4b1vrGd5OLa5qSsALsl/jP9Ic5SBIwPL8KukDqKuLju4NvHmftu+XyI6xFYTOjAjL7OCcqMUDWolLrC1fsV5WVZ5xRX8L/XbzfOp0Ap8x/RtPqx7k037eby3TjcwJgEz683lzwbfjjOZqA/ffLdRYxhjFP9+zFQal/3Piz86sVJAkKkQq4nE++/rtt1wXgar1dtx7awGgfKFoTABNTRO9MUiJQWmslkpkAWlOk2BXI80m1Z1Qpr4jvvOjak+0KRtN3E11cVN+ujH6Ok3ZzlW48kgB6GxeT2eTn+0v/eI6eb/zZx5bGIAbL8PF49qrY+URcrzcJopXMRo9T0i427fnaBwFAncLycD76CgWXwLJt6hDqto0EtE1Enx0lEKQkQKmLYWkB9IFPEdg0TWQWbfqNvLY6MQnIEKqyHFs70rr6Ckd8Ao7r5cfkldZIqRR9OZnfvyMEls0mamGKlXWD18jCBO4vzm/2dAI1xN6ky/35z845+bM5+n5Zf6g7ap3IgcSL+ZvRa7beHXl0sWwjktEQoxEOx25/sEufqH13XG8bQkgdw2k1nFdfCFpLwKppF+v2Buhd932BBi1IwVd7bloNTc4gCmutFrmNzkuA7zrGnI1JmdebdRsCtQ0AFRiDFrHAIKXj6XTwJaZ24Gx1uQVpIMChLk/LCrvEmOaqWfcKq1GiA+e2PBy9YnHwnZ9dXvixS4BE7ov7T/UKP9Y34A/m6PmyPlm12g0ZQ+VwOpu8ytGZgPnFqknIshNdRCgEBphXFciL1TpAINQxnr4Zz0cvLWqeXDb+etuS8JFiHUIYWm0Foz23P3pliEA/JnC1aW58aIUhBPQ5T2Sp9byqKvdS+vTK+7ebq+A0gSJjvjfpYlc3axSSgQ4Uq5EokUNjTwfT0Wv0gY5puly0BWi0DpyLPf2ZNP1TOdomVmfLpApkDJDOZ+WofJ1idNH4k5VHb98mwShaEhR7b7sISI1omN5NBvMX/agXq3qZsPYdRAQi4J6VSWEne7b8EZkntfdt4sq328iEDEBSmpWDqXMvuCfO22YRtp4JIrsYKgVEFkarzNgFKSwJARyxmsxfldLUMh2vVzUCjeg2HOq908k37ia/iD/Sz5SIt4tVggYgqRuW8lqCXvnudN1SGyY/0HI2Gyvgw8ftpgtRhBAgC2jAaeleIGiX0mLbflj7pIzWhWIaWXkzGk5+aEJp5VwFzAfl0neLzdYjZaUug7/27THGc1c+Sa+jcgDBpd8GAEqlGCykSBjDzMZjETlvtzV9BHzmZWgP3SvcxaXoiXFr72GEztYxtkzlz/GU/pFy9P2yPl13FNFKJhqLw1fH0u+dLFtlRbJmez4ZHwx2j2fZtOvIdetb763Rh5NqPnh2SV1tmreXlyiHgUDEwMjbajB9/vgfgo649u35ahm00EhBGJ8W8/mTDtKO6bSptzF678fODY09vJexlIBq8b7XB2yXTgaTg/IVNE395gwhGUjgOGCxPy9+QnjUn8fRje8Or9ZthigR7+vTWflKmfV+1Vy3CBCFcFTZw8/EZJtSu22dc4Pnd2DLTXNyuWLpPFDaYurs29L9sjjLtusWwS/8lhANpUK8nM1Gz/Cj9m3q0rgsPyfQstmchm0wYEwTcZfV69ZrT75ZXrQFtNWm6U7Lyd3b/gPx53F0fLLcENpoi3Q4cIeT192UVdPOL2uakkCZfX0y+4bU8qtNc3q9jcZSYOhPDyYHX52e0cN3XRei3EZ7EH00XxalmD/9GxlQIHJ/mEAhZ4ESJZ3gaL3epL7IJMoYz968qV6v/r5v6rO2RmEdZF/Zd6/Z4wO4aDYXcdsqFtD2prt487RE/x78YfroxXLjocWY5Lf7Doevid4FkMCLddMZozXH1pxNvoWgi6Z9/3GdjYO2JcL5ZDJ6DUFJLpr18qZb+6CtBTLQBxNHkb5Wqdrl4BMKiL1ezCgQyTQQIQgVCWgRo0WDKXmF4/rjafVm8kqKTK2rW+UBD37YrqtyOHqNvfNwMGqutkEjGaq94vJmPSp+8B7/T/LXJ2CxDV0CMkeFOZyOXzvCYuNXCSgKpjCSPHg9Qc83zfvrdVSGwP5QL+eTr4wKvcPJcnW+bjwAqwkkIJGBkYLEkMiOsf9JIBAkGDKyMKcEeLAFg4CClAjv0XY6RIHygrf15asymQCUhTudzDUkgRjvndbXTydSPY/D0aSkCBDAdecvVqtXDvAF/Ely9OSq9hCxRkKYT78Q0P4kLtetuAFjsqKqPnr3NbhY1WdrT2VEy2xYnr6+wCOBdYyiHVKcimIKojX6V4VUojOhpF/aFQilJZNKVGZUovPu4z4pPxttImGszj5ufJdK7Qt9WC85mBy8xtAx0oVJECtdjC1T3flXOeIHzh2ryby+krIIwjqFffIHquZ/DEdr39U3JIQxjG3aH39b2LJISBCEmN/X61Xrq8Gwcl8VILXYNKerBtYBMhQ8TdCu6W62ADNEKSNFqR+6s3v3fCDF+/nh26osiKeDPm7dCtAPD7gTcneZff0xi6Y5Xl2ztEnro3rpzNfqhZuuu/TbINAZJAvRZlcu7RWotK10sQqd6KLpuo++nb/GRPAy/hiOvr+oAxxMLhjm1fDb4kLfTcqTZZPEBWPX5DZwGbeOnA/dwTOp8T0ScHUT4ErG5BA+vJl9fv62vhDfOJPBDqLRmRTahIl+bHcUgaRIJRm3VPt8tNvPSfSbIt59JveOAdgX8pkPBoo8urzkeKCcu/Q3g+IL716TusV6XdMHEQhMoiPm5fAbNj1aZOaG3q+9Aopisa5n5eBHCdI/Qx9d1o1PBaEZUuXUy3x6AVXp6nfTw6G2EFAnWA9ZQ04+1psuPfctkrP3i23HRIz3isu3+59b6Nm1xrcOGbFDjggtotfRb6/OyE8jE1CQlCi89eg/I0cBaEBDbuuF9Ml3IkDb+vOLxcXFomlaQMgOIBIORqOL2dwG5pSvfXu6qV+4Fcu2ma0uryUELQCFGGh7MpjMv7WQzrQcOAozCdDIZbP5tnE+x5/B0bPaB62AVGp8MbDjZQhwOHLX82pxMBxJRgLEwpYhPrtVWLV+ncFCdA4V+LR709cFAgAM53izQPWB1GDcK8x9xUyA3BNNgMdrAe/9fGbqQNul/dlb33ZN6/dnbzdNK1IAAg0Q09FgwMTQsTBX0TcpPTfYGvQFkgJT2reDxXByXR1MXumue4TDwXhAQLHRXPjta/dez+EP4OjVxieliSiSneK3JdA9Qqlx4PQeIDBMzIQ2zy5NZ5d1shYKY2uODp4yH6Yu3TQAOwDlFMUAZSXlGILCyOe0IwnsYkdvfxAAmQAhefcVggDvvp+Aarw/GA4+fHj3nw+n09nBbH7i74qjCAC8nc8lBDAH4KJ+dostIiQhsFpPxPyQaOXKlXsUAWDEa7lsf0zawh/A0Rvf+dBpY9B1T1PkW6GNkT5tPXrzzD50WW9orQCI6XD29Nnbba2NkCjG1Sd10WoAAMH88HARaABKgIcLvYi+Xc93H99qnLj71bmCUAkAkDK0MfahPC6L4s1wnELSom6A9hkdZg8iKQtvcwF+ECbjSkUKQbBJ4YeM+btztGn9au1FNEMoC21fveN8Fq1PjY9kFGarjH5qkSVw2dx4UsCJLZ7dqXVbRE8RmuGnD7UiE0A81EcBMAsgmbz9ZKdx3m2eEtE9VTpKgNPTY+/95M3b8f7xx7o5fXcou5F3x2tgOhhoH5Byx7y62T455YIsxfbbth9Y1clBSaIVQ3Ibw+pHVIz63TkaoLwIjGhwf2he65p/Aeu29bETgQCzauSecnZf1psWCoVmCDNnnzx38hunKUr03liKT/ocCTEayIifyjQKAGLnQxLBJzn6if2t72bzt9P9+WKxBOShqEU1Giz+cwqtPXl6flh9qm3x6bDSuaErewdrq3ZC9xGqcjB2Dn3Rv7Zun9dcX4VBUczLCj6ISAe2P0Km/NYcTYmLy48Uzcih1ZPyhzqCXREVIEjBO3lCaAFISnsgMQ2crZ7ZT9Bv4Vtkdg9NmYR0kQC8f+z4ISL6hLuHEKDeNNX/nQ6G5Xw+u1hcvn178tm+nwNXKANn7f7D5Ja74ZzIQKl000Lr6+12+9kEeuhIkjDKM/kX9mqvxEQXA7EAopFFvfSfXeZr8VtzFFqaREIJqcHyR+yW7lC3iSIEnTX6qQO6Ll3WDbQG89jZZ9Z5aiQRgdLFw3o1pO4NRnwsopIoEPy8zGMizj8sDg/fnh4dzg8ml6uFJ1rf4cG2q5e+CsgPdNlPJwaAYVlaY0NKMCapp6VZX0ItMYtzTfwxuiOA0jnDLCRBFkX33ez/rW3418tarEOG1TL8Pn76Lq3WXqxOAgiCT8ttS6sFHJS2eiqKeRtjGyK1FNaW6mmGdm2Tm7XTSNppeThFURkAeH+tR/9J3m2GPh9QG71Zr7vDg0LQbNsYae1u9UjsrVUJ0GBWT/ufesM/JoPBom0DQIGPEU/Zy6bVZLVZphxS5nXcZtKKGEjs/Lgov5g19QIG1q1DS0hUuFyvRq8M+XuE35qjq633yYgWMB0efPt1XtTN5Sa02cJ0IpkkxMA6QRYGx2e2tcbAGog44M0zXoMCkVrDKOKx918bXTiL5K19VG4pA8JdSN3DrwjOT49ns8PZ/kxb2/gkIvPZ/1T71f7Bwe0sBYCIYnxgLpD7269+6OCpdeHKer0+ekpRsYD2wWpkQavo09ZkaCUpdCsk225OJ9Pim9LzZ6NqteoCMsA2kZ/pK6/C77vWt4lweyIajJoZ36rW+MTLJrRikkVCTkxEQgqSYgnuO3s8ebqmXBMitAZpn2/tlZpaQFKK6rFZSgoLRGQ+Cv9TUKAIhA/kKAEkstD6+uPlZFIF7z98OPpwdiSCi7MPkzf7W999Oi+BZ73qu2FzjAKQ9Cmlp+6eACfV/ghmSJFIZkagzSk6vYL/CP/hefPqyxAyNDcSyQw423xfUZPfV44uF8t6m+H2NPB2ti/fasO7WjdJDFPWiPsDO1KGmWAmMaleqpm79Z5AIZo3jeBJy2hC9DDS+DiAvRuIfpM6L4gaCYxEun+OTBEx90xOPQSAFiGggaPD+dHhvBc/1eV/Vqvl/tuT8/PL4dnRjvEi+bNi5A9sqoDdK9tb7TU+85oNimIxOVh7X/lWjBhtt0wLX4vVMHxugfkiRGS/qq6zh8LWt3UbRgeH3zYUfmeOwhXwFEhqtwWKb25TKCKBUYQS2nfz8ZM2ps9BoPVerGOkVs98haF/iK6q7l6hrr4oGHRKSZBi1AKm8PBRC5gB9XBfz91kAZIin2ylICeT6eV/7Ozt6XpdTaoBgEzw7u/3yM7bABSBlOXeanvTk/SFNUj6nL5b7bNKaVlfByPM37VCV+Xwsm47sNBazHe5WH/ftT5oSwFTGBhY/e12NkFfDFmMta9QF0hQEeqFB9Wt12KEMRXlLtq6a1ZFqtlupBhkNxE7BKk1+oLju4F3/4tK5OFn7COed4Jy98nOCVRaDbC5tSIZLVTx7gIfjHz7WRcDAIHBaxxJAmhCRFM9Ns2+ChJj8K0YSSC/qQDqHX5Tjm5av1qt+9i0N5Nh+R2FP0vn+pihSOHX3/Q+Jz0DghTTk4fkrkVMCejCjh6hrRETgeSGbjChWABgBHd8Yu96BUWbe/76fla6Z8g9ZshtuBNc6abzg7PzRdd1AJiSyO2Dv2W93BO9AvpNDSQga5GvV+ZJQiT1PUW/w2zkrK3GVR+ZUDfrtvt2lfQ35WhOKfhOjBHIt4WK3sFarZUBqbR9PrbpMQQotAajKPW0FKK3QoDFsCr6eF52pQYgMqhuY0Z7kjHdyj/p/U8iZLzz19+j6YMTEZ8+E8heuZdizHmnj/LuYgT3JHH/iQAimSCNgKl7RcpBr2b0ESffTlFokbJwAMRo37bB33zzUL8pR6mtdiUjCabwXeZlETBHQGLKz1g5n4Y1IkCKUT9lKfT1SqIH0WXdf9I1tfTdjW7VL0JgbfIhhk9SRHpDAHgn3J6b1OPPCSjVE/FzH9Xn36ApxBSRdC9W3XmEDGhRIAWIzywgX4sUEQlClyW+w9r6m+6ZSCRStFitB3uvTjx6BOnzKwX5y8d+wrjcq9drAnxiz0SLABLW6eFOGZUcGDtti3S3w1YGnYgYPBB57Lvj9UbMtAsekduQEvZmqV6+Zojq6agFyEXhEjMBowsIu0TZRS1Rbpfp/qcX5HKYiAIyHgy+3irSv8YagszvdLYr9hFbTKB/piXa1+B35CiJi8W1aJdSHDozfGXPmqeQey2w8aEafO0LXWogRYoKQJM4uKdzpLZh2xRWe4rTu+lJ79zUVg920U99Pp0IzW04ym5J7mmq1bJu5v9zapzLGUpJ3jlI7xZuyRAFZFABKEoznk6OF4rMbqi0G8xOQewMpTkrBWSKEoLZmTRyYguG5Mzey1d63zKQIVTC3GcKvOqlfgynrc0+ZkQwfQfff0eOAgwh3cZY8jtLhqvb3tvQelHX0VsF2ZUiU8gxDq2dPvUaGEBiKkrbhm61Xg/umfpDc1laAcSOZrefpb6UGWDk1kwmxkIUFO8C/zSATIgGVFTilbAcwpVKdB/HmUklyKQSyRSIysxKkKkoWkBVVpmg2ATo8g13hgBqAMz9lWoBjFAJSOmCfsYXCmBRrxoFKawhNUBmD7DQoqBA/R3mFACDsnT0IbSidRs8im+UNb8nR8FdnO93rBC3EEASNZDICHvR9tbHKLvITlm0yYscfRaw4oyMS1enRBGPT9aT1LUmBgg9xdlb1bML3G7F6NbnwZ1U0hoQxAR82tcbJRLBGG2OBHTYagYCul/sBezpsvuk770DLcKdFpBu/y1gkl1WnvT20p2SoLW2w5gpwP6gHD8TsXW+vFrEG+65fC8wKqUkWjMmI3oy/q6IcgEQd5O+CT6Vj11uX4nfkaOJ0EZHAKLurDbfDA044dZH0TYxCExCJ0ZSvyyKBtTZ5WZ8Yh/V4Cy0Hju7bnyCbENsujQoNIC4XTkjzDDjN7itFMcQyCQo7N69MGcxidTID2yXmQIYI0JMRmVYX987/gmL/BdA3moHt2YCoE18u1h6iIqx1E/bRRrvrxnoXMwUomPSIgJYrTNpgAHM+PsKjFnIzt1vtPfdNwf7/44c7W09/VP9tjfvEc7m0/G6jUaAUkj2LkeRJvF6m7oEZd31qhlNH2fzDVxhfOiUBJ/aEAeF7pqVCmsqk6AK9+l4kSTIok3xYAPbb4eU3zbWdaILAXo3LAFPOiDtLveTJ5N4zLpHvL09EDsj0UMbfSJOTi+2STBwztjxM6UutkgeJCiJQ7HjQQVg266bpn0zHlfaTr47+Xi3QbzNEfjmnJTfkqPos854W//oeyEiz/ViXH9c0Lic0KYOeMzRsXPO+jZAaf3xenVQznVYCwmjdTmG/kRHEUIrkHiQvFZEQhvxW2+Y70ygAtBVby89z9ZQSvKuLsmn6wcEioAgE0mgbz+JslN7hZlidly+/1dAIqwMSgp1joNnFvoGTIVAwVGfDKs+p57WsfoxcqGH2t0cgXwe5vW1+D05CjIJ3ZMRlj8Wkz2zDAwiXhebxEctGQSYGuNEdArz/RnbGqGBsI1w1aNqUwIl/GxxVlKAcW/P3T33s5P5yWW9apVPRowD0BcVkx37ekEv8TYSVISZWYkhCXERebeRUj0/TSRE+r3/7q+9q4BNXT1TVLBjuq5rDAvGNDTuruiDfHPkzosgqUS+SnV5Cr8pR+U2uof4Xn30Zcyq6urDNazzidfrZjR5LErnu8jREvSpvtQIMM4O9uVhcTkyivRRoQ9QlEO0HSLv6n07jcVhdbHqVk30N62onojCXvPud0akQFIfCcWEDMlJlJAsRFLstNVICRSCGgImoxFJDU2C7CZ7xWx68FxBPy9ibJEinNLyfS6SF7Cz+/ZhLt+RffqbcrTfpabbQjE/DwYowMxEkTbELqXnKhH75YXLHWCaIIPHmisldOi9Mo+khXVc50Kprq6Lya0lFTiaFEeTAijvRzndluG/93P3OXcvwJee9e0xfFkgrps1AE06mKPpz6pjL0De9dW9N7nX43f0hebbrYDcCZ+fhqLQszdjFYMjt02z3j6Ta+tXrvf+uNHg8PyzPws7D5WfeAxiUyJyjOnpkeVedujt4nHv5/1j7n3+HG6P+QIV1nXtjHEiebP9rpCkL0Pxbg/8b9JH1a3keDJ6/Idjf1C2N+26befjcjJ+QoFL7ZLraw0CWtwbfN4kkYkx7F6oR3JUtDgHBitAaqG/12fG1IlkhI6dTzGCHoDoEsbqcpiYtf6yI+1wNj+/vrJGzyb7+jsn9PJs+9Qt3v7379JHey3mVkv7mShEPswP0jNB1Mk3YXVaWttFgavu25vuQSKjNgJ+LugE5aSrLwpLv166ybtvnCU7+huh9+uVERRGhCxyQgoQjRiQbLddheTdeKyLCsbh+XLMVeGqw3ffypmvRQfQKOTeEfbNQf2/JUflk187/uTb+An6yU+TZ31SWkOIHk9kMHvyqLswtifXM7HDaMoUNtZEpAb61UX//OrChEYjQok1QjGb1pdlqUsHEaTkt9vkfelsYSxu1rjZwlivB66avzDsz76zuS+UnoFI3YfR/KvkKKRPIf9VFH0KyaN+XygkaHFjGcyee6wiVFpBEMjisyVNtFZuqKUDPbfX8oyl9kkwtfC1DbWAsK5L0GWly4GeGLlXFsoOkgOAkNY1AwpEMNgudsuuGB/gl3RH/hzpVnhqiMEXtnEv4HfkqAApeLg9AJl9PvkvR/JYvQcioKn3pHyWoABAX1iNGKwugPS5wloMqmZ7PTBIm5WYoR58VVcD+k1YHjlnqaTLRpeTwu0c6I/1iZ1LVuuqxJi+vjTcINwUhqgDXSWjn9vS80mEFAIjlCBy4B73C/56/I4cBaCtDYwihsjep8G3tNv8DviGmzPJCUq32ZbTQ7zYwc2vaxuTQGkDpPCEIijajfe77WXhNP0aboAv7Wx8U3N1XpbDFIHhpCjHn+bABAQ267DeqD5UqiyLagoYiIaIm8zJN1wvwBuEVm5IERn8yJKDX4O2bYkECBKH31Fj5nfkqIhMqsrXIRHBd+tNPXC/Tgx0myW2F4UBVIGyKp9f4ndI3iIKMkiJ4q8v3PzD51/RgymsxvoK0bNeoKykfDqvHwDZdevFqLTeBzXYL+7oxcTmEjdrQRKI7b0cQqSAy7WnqOG4GO0DhUgh1Tt0NbcrCUHaGs59v1XhVSCQIrXVuFee8hvwO9pHAQwHFqDWwpy/3bD2erBZ5vWisAWhUY7xRYKC7eoKIfQ9kUE6A/hninwXFdxIjBF2aX3VbRb3yz7eHzOtr0fOEjBVVdwWokld014eS6hF+bbznXGYzpIRIhBou2SEEppUL5Jv7s4o4zmMQw6b6wuy+8b78m3Q0rt2jYj+Drf27yhHAaALEkMSQ2WpvzdX5GuQuo3Ul5KD0dJElNUc7suLY2ouS3iAdCPZG6f1SmLwq0upjCufslIN5rTD9uNioAhf09fUTg9n9+N/2Sy1rxMkKutuLQmpqX19XjrbtEnKN3Y+0YUFPFr4LqKcuPks+Xb7cTHcA7rLROp+ArrsoDRYqpjauhj8LK/SIxAIhBBQCNF/c5kZ/LZy1ILJt328TPyuheJrkNhexY9nElso0Dg9nstXELRrVnG9AnIHkeEcxSTqAZVxRrFe4JkCMlIMyv2TVAxSJJA0WC/uO66IsBUGbY0d7N9uFxnXi4EV772UVTk90sWAfV0MwmQDGikGxWha7h/cbLcaXof1XVJ/MTlIEA3kbf0LwnR6tN5f17W2mpnjveGe+3Y14zflaFmW0/0qdUFELS9XTfu63m1fD/o6XR1Ke21BmoLFuJieuuc1xU/wDdaXxpg2qmjf9HsgV83hRgBKE7E+Q3p62qILXR1ichKKatWEveqTtk3fSgq7gKfbFkd+tXBWdTGI1WU1AnnrATeEzbc9yAC6cm+4XzF4tmu/XNyez8mwAmhVbuvLb71VrwOVgjUpJiEH+ru6/f6mHNVahgOnBWCOkPATXn52rV9dpM2V7gvTKEmZcOOvsm13G2xOC0kQbcfTcvJpAdWjGXSBTIQW9Tn9sy1gtBu46qg6WhT32siy84gdgAB3OxMaJMYAUuXE60V7PodvBIDoKOAu/1Low+bikutWAyI0ob1bYbUdMyYB5fvKg309vGTlNIzWBJ4p0vuV+E05CoBtyxi0KDEmvb7z2stol+dcL0xqCq2TLVFWPlIrpPb6i6thajeoPyAHAGJL/dimI1K9pSmhNBjD8pTN1QujPbJsiwaZYffc+FaWd0EjExA3FFfR7pny7kWi6uP6e4+xsVKOZVyxHDIFbQD4T6cxguitxq9Z7herVQRBOtHuRcvdF/H7cnQ6qarhHlNUWi8urvlD40uscyRjluQqPTnB4NAOJ5Kp27Vffh7W9AltvQz1hz55DqaU0VPeUSlkepbKN11WTkPa6+5ilrqv7F5A0YZS3BlQU04AkRh1oatDPXlXTI9kF11PYdDqNnJe63JyoEdzDEchpgf9n2RXbYXpV7iXExCEfeUqJ2b+WeHLV+H35WjpNKIXpJgYIOGH3lk9mBbTEzc/0+Vk98zKfUKLhoVn93RjobRZSHttRUG7ZCtMjl943npwgOE02QGAAl28PkH3UuO5HdgnyqR025FDGw0SyEp9ViCNUSCMu8pRt38jQ2es60LEXU2o25Qb0eYXyNG1b9mXFMhM372X+H05CsApURARTbFXy694wK9C3x7u7jddYLhPWMQY6gUf6m3sNml1rP3GiiKAstKTI8izgUU9isFET06SmyQpnBXUi+7qGC8K1BQhRhB89Lc9a7SF1lqbuF2n9hLo8MnMKQlKrENf+yklYUe/Zb3VKDJNn3YP9P3HA8SQ+AVydFGvQk4ClEpPht/VlxC/OUdn00oLSAai3v50ZV8G02AqKLEIXC8+RV/5q3A516GBSKBgePA1ptO7UfVoLvsnHQ1yp2PD9QLPxDsDKMYjQgTRsr01HomnIWBBCe3qZHa+XzXL5W500YwEZHN+ejXfX72d+otTDcI4W03vAo0YGxEDpX36plvzGnQkrCUpULzpJqOvMJK8iN+aowMnDAHaiBiI/nkWqDu46SGLITJ1umGzSl3bXp3L5tpZlyidLt389FH/kK+B6LI4OOnMSEyBGLC+TJvlM4e6pPcABd90zW7pcJNDuoG2Bb13tiirie3d3wJhsoBR1M6Uw2I8MOXQiNUd1CdfK1NqaihJMIPpS9F6PwQf13WTvLZOYh6Ywvy7e9+IyPxwklKmYNv67c/nKABdzWEGyMR6gY/HNm8Bm/RYJidF9YXgkhdRFNNTjuYwhm2t/bVfXTx5nAwnnSpEtLQ1dxZW0dVbaiegk1RZakTQI3mRSISMVFYDXShtQGATk9yzuXbNteQAAFJ8UT/5fiQjWQtjREr74+r7M6F/a44CGFvlQDCLdautT+kX2E20VHNARIKmFyavnZ68k6cj8F8HcZVUc7ghYufS2q+esCHoYoCighKdQ6oXt63FC6neihsLKWHL9dXq9G17vUAKhTMm+rS6IjOKgRc3mp/pO+cqvcRWK91lo18Mef4haLpu0W5oRJQ40e4HVEf47Tk6KotqIGSXgHXLbfuzEm0fQFSfVAXoIM5Nfuij1QNUJ504xtaldaqfoGlRzdtsCaORWJ/dhp4UqN51w8PODslY7VkHIgMQDTBmU1Zpb7+cfoDcOR4T6yuEQLHFm8MvBgR+P9Y5siiSgDmNjf2eJk93+D//+7//+/2j/FQsVpuTVUjQVjCAvz776cKAzRXbWgAWTo+/Z31/Hl2Dm0v4FtainD61CWO3PCliC4OOWk9O5Y5hTGBIbY16pQuhMTI+IJw8jrfvuPogfgPjWE7k6wKrvxPjq3PvdAe6jFNXHXyHm/4Ov7scBTCbjPaEIENCE/izd06pWdLfRGivS10dPUdQ77tl3SybbtmmZeNXm3a12rxCEykGnRrTOISAZgn/eSckKabHnQIii9yl6/efAvlEQ5coqhAilPHUKKrHBKXvrk4lNBCgGPwagq68p9YpU2eIT9MfQVD8vrF59yDAQeX8KkZRWdzZcnP57metWalesFlqrUnlJofPmRK9T29PLrdJaEvuStQGSaFqcylMKcwO9kdfyh0oRtOuDgUjok/1JSqjH6u8RXGw6FZnEtpCZTbXMvq0hogxpnrTMRv3uAQu2fnFcSkBVHQTqb69N9KrcOk3HklDFHk0nvwoM+wfsNYDIPDm7WIre2TW7C4OBtPqJ4SU+5rLE9HKdzDTQ10+K3vqTXO+uC4Hb9qUY1YpZcJkRoYE0FotIhLb8djN9sdW8FztEwDt8r2LWwHqDsPDC/1EwjG7+lynm+CTnZ6Ke5iytyvf84APXX1edDVjDGbsDs5eeRe+EVdtc9LW0Ypk7Hlezw5/VG2zP4OjAOqm3T+tWY6RONHh8njyvQ1HHoJkWJ06tl2gnszleYI+QgJCQr1qQozK2put3zReW5cyYBCCr4Z2OtCzavxcYmS3Ohe/pil1NZMnix3Tt5fHpUInw2L6pQz91PjrUwvSDvTk+NckLBKYLRdrTSrITbgYvpkOfoAZpMcfsNb3GDpbDe0yRIhd+9D4MPrqyvZfiQTrATt98yozkwa0RnmwE29dZW9ay6xPFnWIRtty7VN702zW7bu3M1foz0coJkddU4q2kGcyDsS5vTH8Fn7LrpHipeznbn1tFVIWKatfllFbe98y9cXSx8ZW5atrCLyAP0aOArhabU7r2NIUwB7X/+8/R//0jF4CyQT5sFhtPLdttM4ihmpoT48m+huG6xp+PBMFaIfxeFeoTxnmLIrICaogFHJks5LoaUs9Ofk1HG1Tml9edE5DBN6/2xvPRz8yB/VP4iiA//t2sYUD4CQdVm7+TH3N3wptl5Z1e7mOIYoo7ul0MC7m09c5VFPn27O3o1LIAGdJESrJGQpAz1HNLIQSZCjSVXr0i7ZKx029DG2GKHBq3engh+2WevxhHN20/vBi41GQSUd/eTypRj8xH7frUr6t3edb+hBaHwilRVsjWqs9pwsDpSUTBolE8dRqDqD2PL9qfMgxdkzh9LA6fOULxs1CbmrQd8Zk7VRCARJ9CVIgZygCZEZSupic/JpM5VXbzJsVXYEMR5yN31TP15n6Nvwx+miPUelmVTq53sLuAXq5DuPRtxfAeBkXy/p0UUPfWXY00bdLojJ51wkxA6Ax0CKh3Rjk2Xx/4DRiZ50b3GtzWjmp3o3Or+qza4itTi9bgIefleR9ASmrggkwGc6OD0VbMIoo6XuMpNBtF0Vbi7FZ7K8hKIGF3ybdp6pw4sY/nKD44+QoAJ/S24u6DiIwiGFWuQ/zH7/in5xf1duYlIVIjEEBGVBql7KSM5SRTHDnjYRAlNEgYuzAKEJrXVmWNvmTo8l9C8TVsjm6bGkKRH+67w4PvnbRZ/JpdV4AXQjalaIVGPuGDX21L7+py8J2kOLNWxQ/bFv9At4ul9eISStBHiZcTmbfk1v3HP48jgK42rSHH9ZQVrQB4/JkPHpmhf1mvD25WDfeWjc7mAyGNpF90wFCsKuSTOxKaIMEs3xY1N4H5VwkfWIf1umMtsIc/fF8XI3L3mTY+HSyCut1a1J7NB0czr96h8GuuTwrFZCDIIERBoxJjE1RxLo2wA6r4pdUd1p2/mRdewACl3g9nZc/pZr+n8lRAMeLetmkDCHExvbj6b77jv7hPxZtx1XdxJw3bXfjI8T2RHYWp/NqMtD9MSeXbet99Nu30+G7+deziqlZk50gC5Ay+s7QMZKQsvoV7ASwSelode2FStvchVnhzr4vaekF/Kkc7T1PHiZDELE/tB+Ofrs9vu+6JuTrVbO5YVYOGQZxYNLpydQV0nYcH15SlDPx4+nc3SoEBJounZ4u5pPx9DUK6y+DT2l2fdkoiBZJaeYGp6Pq5yWg/KkcBbBp2tnxAuU4worIyUQOf4aD9EfAk+/P1/WWGTACa+VgbObTwbLxx4s2Ik2cLI6mAtQbv/jYbHyEUkX2x7PqN6Tpcb1ZphAFYHAhXc7m5U/YKt3hD+YogFXTHi+alhpidPSnb4qv34J8EQlYN75ZNyDybRFiBeQ+mV2wVw5H468tO0lgWbcfrtZttDDG+JuDEU5P58eLelEnpjh1yrpiVXfURVZgaPYHcjSflF8KwSQgQN209WoNAFDIWSmT863pQWE8Gk5eU5v3BSza9rxpg4CgjfFsXE2faVP2o/BncxRA7dP/XKwDjBDib07nw/n09cW8u06J/rj1V8smQ5TVOSaIJCKmxAwDnSEKKt9v/mlMX0pFKcmhNZBqMq7GhTAZsHiq1XFHTo+XbSwESjFMx5jPqtnJKsAhog8NUcLShpPD8cDqRy5+kiEkKp2Ay8W6vfHZGQJGSQiMISpj+6jnTJg+hRU5MlkrzgoywcQUq2o4mQycfnVg7EWzOVmvYV0iS9Gn4+H0mY7OPxB/PEcBnFw1i9pTLAHNuDgcTgZfe+MIzN8v67pVRQHjIhVEyMiYdrU9CBEDCLDrkHTXjQ4i7HsyKei+WUOMUETwCunoaCopVYPSPZS0JE8um7qT1gcJ7X7lbjzaYGEKxOTEn7ytpiP9aJKruiFRN+Hjx8bsDWIWQEHpBDJHKIVP1Zzv03pXr51MIJFzYQz69uPRV8NiVrnJV4c9nG/q03rF0pFSantUDue/ZJ/6b+BoIuYnV6sgsA5gKfH6ePKVS/D/nK8+bklld7TLuV86RSnR0odJALglqIAJIHPue2GKEvTdpEgBmClKOkC00PuCaVzqoaVz+uCh8/OqTSeX69BRtGXKIgaRttsuzib3Y2XarlssPrLYW61uAJNFQ1n2kvxTYycy7pIvtfnUYPxTV7Ie/fz7fkKZooAcSovl2fRriHa+2Zyta7qCgIba1/rDT9vIP8K/gaMAEjk/Xa58FutS6ipX/Oeoci9uNbuUZscXPgqMjdDMYq0qEJUwE6ZngAIzcNsvCgCU9GVBFJBhvA99T9rUM0ApgVAkMeme0jECtM4i+YHE+bwal7t57Z8slp2BOEAQg2N7ebIjaOu7y8ZfXd9oY1JkpihrY8xQChAR6UKAqMKIikFIV9rbSiTEp7J6t72RRIHQIlBCkUgAyoeoSBE6KyfT8ah8iajvN5sP6xrWQYAYh+D1/OinV5K4xb+EowAIvD1fXm8jjCMxGZnZUE+fX8jqzaaub2y5RyLGCDF7rphUX5C/d8kgAjQd13UTQlCuzGRzE9ZNgBgYLWK6SFHSp5qQ0KAgIfo342Jg1aQqbaH3TzbbThLoND4clpXTje9Wtb+ufYAjpBfWfWcdLZJi0ArJt9PJ0DkxQPTeWVtNvhj1/2n+AnTAx1Xj29a6MoQwHrrJ82EP7+v6rNnAOVJ05hh5MZ9/3dl+DP49HEVP0/dX19tMN2SiRjiu9Lsft9N/Gb5L3gdos1jdrOrWuDIDiQpZtNLMFLXrXU/EgUqLd9O1TycXa4iuhurscHR+vthGs/HQZtA3UE45AdBKlGZu29m0rMZWQhjeuqx+KgicrlaLpqFzCdAZQ+L68ED/7BM/xL+Koz2O318tbgS2JCEI+y795+gf6PxCYLms120XUdRrr7TLShE6AVobhhurmDOhbNp1r8299NVG7xJAfDt04gqUzsxmI/2z+/t+Nv+3q9W1b0UslTYZE8XTg6n+hXPo8S/kKID9k6uVF7ElU9CxnY3N2dEvqgP/OXyXVuvWx7xatdGUhOJtBXGg3+CAoAACImdBUqSzmFZlaeWnBh8+BwLHm83ldttr2WCuxCzm01/5ktzh38lRAm/fL6+30VgHMAe/P7Yf/glpeh+t7xbL7apNhA6wEI1dK+9OizB6q6AlOq3ezkalNfr5TL2fio33H5p2FRIhEGjGN8b85+Afu3v/To72ODlfLj1CJJQW0GkeT8rpD3K3fDPaLi0uV3UofDLoLUgMKfhqYAdOjufflEny43Cx2ZxeXqMcUnRKqbAy1/p08ot0+ifxb+YogI1PZ8vteptoLJDpmw+H1e+QYdJ2XN+kxVXtt9s3+5PRyFZD6/4hwXk7pXRe19sID0CEKVTOHo2H1c/3JL2MfzlHASRg/+3VNgqN1ciGnUV8d1hVg38+ACUlkulJr+kvxsp3x4vraG3qbaqMY43L2U+JWX4t/v0cBdAlnpzVW5rATFEpBSc8nAzmVflDc/T/SLQpXazaOsYAAiDgjEy1mY8H7ve4O/8VHO1Rt93xRd0EiCtJamTH9uLd/ui3CY7+xSBwfLWqI3wiCs2UtIbr/Nl89o+v7/fxX8RRAG3XnV9ut9G0HSDQiAahtDg7nP0mMuOXYdn6y3VTd0RREGBKhfBtNTgqf1YO4zfjv4ujPZaNPz6rYWxggkADTqQa2pOD0e/2eH4Glk17vfV162EtwURoLUMj89Id/AY6+uf4b+QoAAIXV/Vl7YNYiOlSLApju+3hpHxTjYt/o0wl0LT+5HLlrfOJWmswWS2Swn7pjiY/MdnjO/FfytEeHXGyqK9rb8o930UtkOCtldnYzSbDF4rd/VkgsNq0i3WzjZnGJuyiCS04tXJy8A9bZL+I/2qOon9+jV9c1m1ChKW2ICX6ak8L0v7on7f5fw88uayb2sdtQsoQuwvTFqaqdLPSTv6E/eJ/O0fvsNq0F9fNljoRfXSzACK0DMfzqtBSlT+9mPyPQtsln3m+qm9ShrZdSgLRAhJOYIHD6fiPYGePvxx9gNWmXa593aasXYKQ0FqSb7WKk9K+Ke10Mvht9TYAtferxtchNT7qco8pExQkYXQik3KvcsUf9LL1+MvRJ1C3/mLZrD1QuK6Loo2ATFELx04Q2mo82J+M9Wddk389SCRw7cP1akNbNDH5RIhokRSolQhgY3M4m46dLf9MDfsvR59FByyuNlsfmoAIAH2h96D7XFBGpHR0OHUCSWk4GPwyY0Ait42HFkJdLOs2ZrE2kAm7FV0ACWHorINMJ8OxK35n2f9F/OXol3G12mSjlx+bdRukHHRQYIZAK5WCL7SgC8NBaY2SHK0xB9NRX4/5RzEjAZFYrRvvPaxtQ643rXU2RIrVFDBRRDShQMlxMhwONath+e8wTfzl6NcipRSBxfW67iSJiTH2uZeihABzussRNUgOEEFoWzCPq3E1GlolETAiAhrcFtvb5RdRQfq8/USKiI/pevWxbb1op4zKAEUnIKQkohOTaL1LZAUFsCIF4VI4Ppxp8smK5n8u/nL0W5CAy+XGx9h2ae29FC4BUCIiiQQEmVppglqETMgRu9xnKIUcE4xmvk1/V2CGMSbG2BdCEWMIABpiyHzbjhGFlsSEficXgjMyLp1OaVKNh88V5/3z8Zej34UErOsNbJGgPtbrTdPqokjKRMguHZ+7YCIBmSFG38pO7D6XXRL8LoepTxzJ7DPl0Sf7A2BSAGIsjMwmlbVGvC9L98+GnP4a/OXoD0NPx0REkeW6qeutGKWd62LMhDImZvguQkBSIMi3idDqE21doY1SyFlIMcKckKKzdjaptMD2lP2njQm/GH85+ivQVxbZ+tR636faMWXp13hRZO4Zqo3ZK2zpCvlx+61/Af5y9C9+d/wBPW3/4r8cfzn6F787/nL0L353/OXoX/zu+MvRv/jd8Zejf/G741f0Yky+9W1DRufKYvBEVRa/WSEnBRHr9HNtpZNv17UAxjr91CAAmLq2/mi1iYwEympfnqn4zq5t1nWhTWK25bhwT3aNT+16JQCZbTnU7qWA/Kbz1+uNKR1EYhdMTLPJwf0o4kQuVsveoVRaNxk96BbSen+5WSltkPJBVbliF+K5qFc+BYiqykF1b5IEzldXGUCIQ+umk6dLKrddWn6sM6DAaliOBk9fwmrTrLce0AD7EsF96fL5bPLFiKm29YtVbbTJXdg/2B88Ezp9tVrd+ARAiRzOJs8Vpmx9t1h+FICiZpOqH+2X9AtNrU1b5CTwlCTlo+pW5LYuLVJM5ABPc5TN5XlpyBiRrGdyT7VyS967uNERum9I5y3Kpx4eO//xogQRszE2eoWnOOrrhWVADICKqdXWQp54AASOl4sWvGFAiP0FqRRXqwtHeTeZOREAIYWLti4GA4DuJjziaNO2dQ7UFLAMXc/RBFw0NQc2sCOLCp8mOV8uanql1UjJ+BkaJfLth4WnQCBkNHoweDpAuwnxfB3FOQHBABDICqq+WGmG44M3L5QgWDTtsqVogqjPL1cfjvRTh32sm5aaYsgQ0uWHo/kTEwbm54sETUIXatjFnqO/Yq0XQSEokCV6v1qw2zw6wBgBgzZ4zsmX2ro0kBy0oUSvYnuvovKDEwkDVBRGjZjqS6Tu88Pa+tIiaBW1okay5qmz0iO0Er1WSatockp++8TEgPlqUSPdaNLZjqmvuSyFCWDUKt2GgxgxKHTnxFtRzj4aRxtJCnQ6FSL3momJtUEBZZGMujv4fVPX6OgsIHvOTZ6pSx9FgtLZ2mwcXbms27Z74m4AyKJoDZ3tkJOAIjQ22mJN1lnNLy7r1j/5xcZ3y7qFK6Mp6IZJu9WmffJIGC22pHFZly1Vyyce3/WmTbqM2sWipCl0sbtLv4SjIKIHOgGdlrT++JBhAiQggQFIT44Q2gY5gAE5iET4Lbsn7gUZwYgcIAnoCsPUfnx0TNesLIPupxQDGBnj50OltnEGgoDokYNGjG2Dz+7sZbvZhBZakFhlc11OL83gvJxYz9j6sSoGt821MpnJkBIzc19k//7pMqPQg14x3d4cARApECQg7r6ySd01PbWWkAZJjkbPNk5YXC2jqA7SQXwCrDu7rp87WEC29cCp2bicDJ3TYPAEYItAWa4ei5UetY8oygDVZRWIALn8+MwpsnQZAdJB3QTM3p77hy/Mst6cX65CQoJNMAEqpd1z+TW9wTOUIAOMIkaz86sLNzm6/St3ckNw23jgAZg6K7vYHyaILgojKbRSPNYKBEIkURY596flzcbrPVfeLazM25Vmu3OHC5DDro3RQ0S/3QXPGYUYIVTRAwl4sOoFZBgbQWfd6eigBIASwGR21DLdz81QIoBoEYAGCg+hlbADRJBxV65ZAAWoXagpAbQpHa0uvVBExtCXB4fPqYskG88EiEBrkIiBTYwJ0E8cnYVBBPvOvatKAMSg6dJR7ZsbL9oEXTz5xct6HZVDzlqpFDNEoKzv0hMBrCSMYoYoDRQpYbn2R/c6mqzaEKGpNZVGBpFwe5d+zb6+P1kfehYFUfl1szi+/WsfhNYnOTx+eAD8ukbwAGkHqSghBjmF+iNul9F76OOJbs/IXNArX98d2a4unPIiGcwQCyqAkh9zNPnaIDGrLumumFIsEAqT29X1oyMtFEQ6iEc+XV11t4JWi4x0oe9FhmSyF4gJ8Ix18quuXSV/1bUbpDUSYKTrNdLbiwGyIKtdpxvfdfPFRQsarcfGXkyfJSiAxappgwg0QzsfGpu8KKEpn1uLKSSpb38VYFTomdNCEOLJ7WfL/artktlLmVqlk5GurBKabcDFU9KaIjlHrSCRCSrq4mJ1s2p2kzm+uKo9oS1AyQmkEHerza/gKAGKIQBjIYYZhZGBSmhX/QEigkw8uQdPXcm1RkgAy1kxP+uoASmt8fVjxuz0WaVJ6ToSCiLit6m53k3Eb5FJglAdAaMBgXr8rGPXMHgqyW5cjGfYG8NYBm8RHr0YJXRu20JJApcSJu3yzfL9Rbv5XO9TIoroQ+e3gmO/Ofbrt74+jc28vV4ispB+QXkQeqf6mCmumU7C1jttXCGQk9FLTZUIrCnBCpGm1WBWlgMtRiRmXm7956uGAZA0UfDeS9WlVG+7/qFY8vNs0tV662PUVkxYH47dtCoATyvrxOYJ/ZVUIGiMaEYxKmqzWDUAfEqXTYj9ibqEzovpL/1XylHRJHat4mwZCGYgB7RLptvXWgniE2suwpqhhqKYUrsxUMI6AMje4DET2MfAw/iEWFawJQAtxE2dmkW3PCktSIFxGB9ALLNAmfRQv0i+4XZdWM0YlXYQjWLkPcUYCY1fr+4fXJXleTWzN51EitENQq2xSNvJ4v1sce7v6a+7hiIQESHgW+9vfGh9u177dcPQibrtnXf7LQEYs2QAaGNYMiQrISYhLF+QoWh8V/stNJBzSZYi+8Nx9AlK2sSL1WM5R0DEAm7bcem7ZeOvGj89W9U+EtQpVlY/+kqX6EmADP5wNhMRx2QlQtDEXIf06HhR6K9fazmZuNRuaWQd8Pai/p+LOrmSwJ6Sw6oQRCIByPiFchS4DYcUJeOZGu+n/iXx27A6Z9fsOrapJzbrXbsWoxERaKALANrtkQmIQt/55sFJRPplUbQ1boJykgiAGh2vz3Vo+l5gLPel3I/MuxaGD+WoRiitIPjCmmJYAqDZg3PIFIHhzaNZHgxGp8PJjNZuvYuwkJCZhkVt+Ha9bG8PVtL3dhT6VFKO3eh0/ObIVafD6clwOpICIYnoBN7JUYJW+v280AgFyLRGe3Zn6+ULN/tys02iSJbWzMZjAONBaV0BIGRu+fg2Z1EECmuWWz87v55fLOeLulGaFkB4O9k7+qx/0PW2WfugjdaJ/fZ7MhqM91yKSaxdrNbp4TmYISIQAVO1Z8dOmAHtFg3XUSgG5MHIjZ1F7CCRgOrF6S/iKCGMt0TQxeBA9kaAhhabb1CfJd8iJ3we2Ns1iAHRwJbWlSBBimiRDJDRo1s/OA8pIBiVEQBSTlhW/ZascL3ZWIIp9WBK0ohCjgAebbI3qxWYgJRCCwhT0lqMdr3GTO/TZyaFyWDwYXqwePP2naucpyEiCau3CG8X592u+yEIZMKJuMB3o+qoHJ2OqneD6t2geiMWMVJAhXv7emHqu+pRyAHVzJYSKLZYMWyeMqsB6IDrbSsQIWyiEUkpZcCVNuUkRtd182hP3SETgTlYg9IaaAvnqAX0J2/23n3WnLxLadncJGMZsTcY2sKmxETmCFEFCYhd+wfLvUAQAQojy0J/OJqXYJcinIOxCHFW6nnlYkxidk1+8u168otsT31ngrtP9GjuYQElCpJ90b8w+TFfum1dKECEMUpuu+VxunzL9QJQgNGqiNs106d7obHr54k7c5KrGgJKAwqQJrCcngAQZDAKiExRnzZqXVuXFv3qp5G7i7fp+sQvjqPf9guxFoTt0+aVUVHM3eD/zd8d2bH1SUEUJCvZNRUXgQBaAeKUefRdDRGIls/kuqhddohPZ8XorKwchJlecFRftyl9Po3rTWPKsu8N2UKq08vy+OL/nl7VrRejSShtl+ubBw9IlAiY/MGorN8djA0QEghEuCcMLYjAjU8CDeKmjdPzj8OL5fBk2SQlokRMIC4WD+9Sv8ABffepUjCz4jSQAxCK1M73LACKdBmEEvl0G37NWh8R0+OF3E2aDsiEUreKByH39/UphxY5gUFUSt1WhFBZlAAFqBnpxMB/Mt31XY56O3T/FhZuMJidJDiqkqaUwWyXwdZLXEQg9tJ0N9H1UqIHBGIgtihdoeCMGAUxui+vkNot+UBIkA8ubT4Y2ZAlM6dke8NPbx8FEjKMpM9MbIk0SknKOsvdH/t9fb/VqJyrnNPAWKzpEhVbjdnFWds9nAlwuW3bLojWJDIkGmNcmZFBMiYIIuS6fqgjpQwKCENq4PLdwcSKRELsRw//aNkGLi5X0K5vRwoRWuMh0RQhRsbImCE6Grtp70lrUVCKYIo7UfXucDIyQGp19heHk9GoBEBCjOmbnv7SfT0IKHm0krtR5Q7e0ZS3tidAyf2b0ayuDWJPXMJGXQYpYrHnxXXGJYqICHxYX+Pe5ilhl8Ru7nbHxagVF7RLblxWOw9q3yn5kT6ammWpgoApw6sy2aqDS2I9hNpxNyBH1qb6k5B4v7x6szhddm3b7bbMK+9j6QKgtPbey06O9idGwD0bzy1ERHI2hKQHuyEqISBazK038t1kMncjB00jYWRPbx5Y1y9XmzZBCsfgHdJQY6jFCcbWlMLSECQV4MrVPQIZGMBQTH9uDVRWdCJUedXm2dnyPkubLtUhJ4pVpjQcqjTUMiqk1BwaOpW0AUGfcX1vd0/GuwzXO3347aQcII2RJre1eUUEfVcoUN0KrF9hw6f03YLtI+uSdhVTx7aGyswUkbv9AlOn6QUCClwp1bH79F0BkOoLdGvkaI1Jba3LAwCEaF30xI5Md18YTQ/vZwwD/Q6zABIgKe6O1IgIHtZSrK0ORZe97N+ZOVOTFqdahMFrsf2AJ4uLFUMamkO/6rbt4XjKwGu/RWkJZqKyuy7LfaBGSkn3neMe3SIQShFQ9/b1ABijLV1IvL8KvRtV29UiCpOSTYznzeZoMLq91YKcmdLAqsVsMtA63e1XgSal8fEZ3J6P8bKuJ+Wu95+wHz/f3aLDg2oVVquYYE1DXtTNu9uGQRcf60BoK7HdXp7ujwqd7h4oUHv/5v1Sl+MUfOOTT87pAjuDWhZAFO+cFKPSrT+8e3AfSEEmYt9cr//wl+ijtkpiO5hEeeRNlMHUo2DuTe6ffI2MPrWtKJWgOzOEFLeJ5rvLk/H+JiQqg4zQfPKkhwAYG3amrgenevib8gmEBgx3PqzUbhtolzLEjUSXt9+62+wNZDxhX/kxel/XAIxzEIWMlCnDchHbjxJRWgEs8caVZ9N5/30F5Na7CONTDAEPIUAKEZnxoYopidl3OlK6B5+fDN+4JtnAGHi2un6/ugLQtn51tRJCvJ+5YqA1AH3vGgZaz0dDCVHI1oflfSNU9Igd0ie156hyLm0RWua0WF5frWoABEIKYKL349KWxe4U+tYLVTl3OCrpvYas1+vNdqf4MiWGDsFLjJ/ZFe5drwDB69Axhqrc+et/iS9UFzKex5s1AK0fiRApD4798sxq51OA2U1LkPVg2DHq8Ug/FbskUpSToxQaJFpbMnnRDtpwbwxt4Qh5vC+5DxLihkmzQJTdSSNsmWAjs9FPVz+kq3xotSZpjRUAR9VkjsnF8soje+CGKTGNtXUJpcjR/ZkL9ssxkgYwsI/nZo2ttItJRJy91VI0sF8Ot5JBlkrfP35QFNez+fuPH8XYQAnMHQhjnCusNiJmVo2fvITDNxOmZRZJwcttnIpIng11Dml0b2LVoPzPHFf1OouCsut1c1CN27Z1pCtthMyqUj91iomzoSMKDTe+25uPB2VflKqEvFAfwCqZjR0F82l1V/H9N8ld5u1aLA8/7PHsJT0/2ld+pT+vfs3Xn52VJ+u2ATB07i6U5LX4/NxfczFff8F/In4Tjv7FXzyLv7kif/G74y9H/+J3x1+O/sMg0D7cs/9BaH1KT0XU/1j8mhjnH4nlqgkhQBkiA4q9LzhTFICIjP0347tanKuNb7ZeRFEhI+/MwjEWRubTJxL3Vpu23bYwNsQsUMYAOc4epp4tl5s2AsyD0k6qB4lQy1XbpiDgrBp+sZvy1XIVYdY+1ltfVcM9kwvh/GH2nO/S1XobiVKr+a3fvGn99XrjjKMPk9nYFQUAEperOhEQVIO9R7lvF1erALGCw6euencu3y3rLZXRkmeT8XNpcf1dWvvko9Srds8V08oZdAfTx279H4U/j6OXi7peb6EMoSFGW4dMMDO1IikFPx66O46u1935xcYWLhBiNHPSRhiDhZ9NH3R28z69v9pub+A9Qb8LyCaswXV9NdsvD6c7I/ZiUW9jAXC+ryYPn/jlqqk96OuqtC9z9GSxulr6zESIkXKzyjU7JbFL9bt7QUZd5NmiFTF7JvYc3bR+/nYBMQzrydgeFp9yD88XdaRRAneyN7hnPUspXSzWIRtnMZ9Uz3GvbcPpRSNGOyf7k2epfH6xWqzZu9S0dT7k09N6zwHIB8+/AN+DP4+jVVVaJ4BQ7I2H70QpONsNhuM+mkTuWUat1aKdtm5UaqV6Vx+RRSv76Em9fb/ywTHC2WJYKjBmwBjb3oSbtm23GrcchS2M7MXk3UNZxd7No6227uUFsK43V8s2SOk0JkNbjQf+xrcttz46/SAdL0JEDxO11gnApvWz4yvocQ5hfzL+cHpw7+zU2sVkRMtn0eIismekALqXbFQiYkoKTGGfO6Rpu+s1YifW2VKH2ayMrW/WPsY0ecYi+/348zh6ePhpNTxetO3CEzw9LA+mTyQ9ixYyi9WzffdCZ6XF1SZkR2SwnU/Kw/mnZWtV4/LKH86G98ZUMQKi8dAfIX0QohK8aKYGoEyfXy0Dl86OBgAwcoCr6031UHkQESgBJaUM4PRyE6VA4uyN+/DugdASCKEgtv/35zci0+hdFPXTsxIlhEAMn6/Cu21955Mxg7LA5elEAAwGOBjU9Ub/tL4qfx5HH4CJSM4+u6qmRIhKka3n0AJAzlQKj4rH1zex7aiFp8fD+cEDvWpSDSYP2zEyRcARpu3QdKkvIq4hHQAIdoFLLwnSEJKBybB17c8X9ezNMGc6V1TV5yodATL5iHSyaFvvgDyf27ODxwUBCBJCCIFdTf77f2UCHG/rmT8JZgLSh498NsAOVqBVTpHJ6/3Z8vDtwBZq8PTMfxj+cI4iA5lMz3s+RUSHFM/OwqUyRBZhis16eXhH0y4hQSBCtrZ42gv6YMQMRU2RxbW/WGyRaY3NIRojFKPtHoGX/T6D0mmuQYFxi1qdXl0bwXw6HO1JNXpAPlKArLUKiVer5CllWUwGT1zsTnaKAOkJMSgg05dqlAsBEZ35bCbKZDIK0OcLf5MIcfPTNoV2WpXzffdo5j8Qf7ztiQBEnhNbzCRFxFIhZB9zF6IHcr6XC3rju9BRxCC/LP7uzkiBCA0punDWlSLaOtsnDvbJx3xRIXWuuP7P7HAqQEtm6GGQ4YdV3D9aXiwfxNoJiEhQjDZALDTatrtYPFGRgSAUSELpx5chICKQyScqCdwfQwAyqWdvJwDMJ+XJSWmdJ7fKWm0HdZPenq76BLqfgT9cjlKJMpnyotxKxrr5bHg0LdIuEJL6XuZ7NSiGDj54Y6xPX1aqBBpIYHc0L94eDHLiLjVby/7bq5uQ8YJCdwvniqPDYj4bR+D9xXLrxQcttqq3eTa9H0AgCg6CmOqTednchLoxTSvnS380fSDyBbIrGNH/dh+EQCxo73eHeOK6gOxFbOaTlVs+4WDgpmcOgqb1ZxdtYNFFfXKxtkYmP0Ga/uFyVISRCsgvhXsJY7JWAGgtWst9gu4QkhAZ+uIyfJ7be36x2jT3RRe1ADkYUQXgtBRaCi0a0Bq7JjVfI5ABrcVp+c+7g7PDsRUDyLpJ9epevhQhkJSSc/rwYDIZG4RtBk8XzfuHyRgkdR+kmfmEHCVIyU/Vf7h3KkApQpT5CoVHIMCodNcfDoYDkwlE8T59zVW/Fn+4HEUUyUBSeFofLYyAyIkfP7aDctT31GRmoeR+E83Dw2p7UvtEFnb2dmkQDg8n5cAtzjdt61sf1y0XZ+5u50pGo6DliWQfJfhiHFLTtKdnS2uLw+N9ozUA36ckMo5LqSb3RJGQ7LTWfbL5dDIi5GThAfmw2AhxdLjb3YsIGcFkjTxe0gkRQ5gE2X+7Es2+YAwDrZUPZ9Od7FVCiGh3s42z4xuN1F9JYqxG9t18Z045fr9sfTg9PdQaSlCvmtVyrcQ5a6rBT1FJ/3COkhp99pJ+8u+dT0Ia5M0m7c+WOwEjWad2/f/O7g4blMXlxWT/6MKnEGmE5u1JI9ICCCE6C+dwZ7YhCSTk+KhOyo6YDEB8WR/1ITQtms6uD7cpdVoXpIoxAr4aj+9fSe8WQ8p3e8KDySBCzheN2MFi4bVs5vMRei2ZSSEgQiv3+CVJAWJjQqBlDFosIOi4x0/WKN7mnCVi2yorqk8Ny2RxKyCvFqvl9RZmb35Uh+SVKEEBOMR2/nZcPh1Q+r34s9d6AzJ5QXLPmJ0LLQoB7ARkZF+HIfruczN1WeiP5/MPh0MLjxAEQGL0zWzfnR5XZ0fTu5BbV1owAJ3VD4gogGJG9CJ4Qp24h3G59+64Kork21prpNTGsH5TyeJ0cvjQyttXAjRI9p71cT4pR6VmCiJquax5W2DDaGgGoXdaHg0ycCK8MRIE3grBYNipHAR3OeWwzjodJTUarZUgMQgpKRnGu6J91Zvx2elsUpW+3SgBkEPYVCP+53xycPCzzE9/dvxoSgwxiRKrnzabkwghAVBKcp9SlHdVWp7rr9l1KUSK6N7mWJaPja8pMZLItJ/13E6JMT5hf33uRDFGihIljBx8diL0uRldAvoLfHyi/t/O6Udn1/qxsz0lksy510UIPH0fusQYd815Ffo7JsjJGH3fRE/Ch47oq8vEwWdldn4s/myO/sV/A/7stf4v/hvwl6N/8bvjL0f/4nfHX47+xe+Ovxz9i98d/x+x1uyQBkzkXwAAAABJRU5ErkJggg==" alt="Namashkaram Tech Skills Private Limited"></div>
+  <h1 class="title">
+    <span class="hi">भारतीय ज्ञान प्रणाली</span>
+    <span class="en">Indian Knowledge System</span>
+  </h1>
+  <p class="subtitle">
+    <span class="en">A fun journey through India's ancient wisdom — for young explorers of Class 6 to 8.</span><br>
+    <span class="hi">कक्षा 6 से 8 के युवा खोजकर्ताओं के लिए भारत के प्राचीन ज्ञान की एक रोमांचक यात्रा।</span>
+  </p>
+  <div class="progress-wrap">
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="progress-label"><span id="progressText">0 / 8 पड़ाव पूरे — 0/8 stops complete</span> &nbsp;|&nbsp; <span class="stars-count">⭐ <span id="starCount">0</span></span></div>
+  </div>
+</header>
+
+<div class="section-title">
+  <span class="eyebrow">ज्ञान यात्रा · Knowledge Journey</span>
+  <h2>हर पड़ाव खोलो, अगला खुलेगा<span class="hi">Open each stop to unlock the next</span></h2>
+</div>
+
+<div class="journey" id="journey">
+
+  <!-- STOP 1 -->
+  <div class="stop" data-day="1">
+    <div class="node-wrap">
+      <div class="node" style="background:var(--saffron);" data-node="1"><span class="daynum">1</span>🏛️</div>
+      <div class="node-caption">परिचय<br>Intro</div>
+    </div>
+    <div class="stop-card" onclick="toggleDay(1)">
+      <h3><span class="en">Introduction to IKS</span><span class="hi">भारतीय ज्ञान प्रणाली का परिचय</span></h3>
+      <p class="teaser">Guru-Shishya, NEP 2020, Nalanda & Takshashila →</p>
+    </div>
+  </div>
+  <div class="panel" id="panel-1">
+    <div class="point">
+      <div class="point-icon">📖</div>
+      <div class="point-text">
+        <p class="en"><strong>What is IKS?</strong> It encompasses the deep-rooted traditional knowledge, philosophy, science, and arts of the Indian subcontinent.</p>
+        <p class="hi"><strong>IKS क्या है?</strong> यह भारतीय उपमहाद्वीप के प्राचीन और पारंपरिक ज्ञान, दर्शन, विज्ञान और कला का विस्तृत संग्रह है।</p>
+      </div>
+    </div>
+    <div class="point">
+      <div class="point-icon">🏫</div>
+      <div class="point-text">
+        <p class="en"><strong>Importance of IKS & NEP 2020:</strong> National Education Policy (NEP) 2020 integrates IKS to help students connect with India's rich cultural and educational heritage.</p>
+        <p class="hi"><strong>महत्व और राष्ट्रीय शिक्षा नीति 2020:</strong> राष्ट्रीय शिक्षा नीति (NEP) 2020 छात्रों को भारत की समृद्ध सांस्कृतिक और शैक्षिक विरासत से जोड़ने के लिए IKS को शामिल करती है।</p>
+      </div>
+    </div>
+    <div class="point">
+      <div class="point-icon">🎓</div>
+      <div class="point-text">
+        <p class="en"><strong>Guru-Shishya Parampara & Ancient Universities:</strong> Ancient education thrived through the sacred bond between Guru and Shishya, nurturing world-renowned residential centers like Nalanda and Takshashila.</p>
+        <p class="hi"><strong>गुरु-शिष्य परंपरा और प्राचीन विश्वविद्यालय:</strong> प्राचीन शिक्षा गुरु और शिष्य के पवित्र संबंध के माध्यम से फली-फूली, जिससे नालंदा और तक्षशिला जैसे विश्व प्रसिद्ध आवासीय केंद्र उभरे।</p>
+      </div>
+    </div>
+    <button class="mark-done-btn" onclick="markDone(1, this)">
+      ✅ मैंने पढ़ लिया, अगला खोलो — I've read this, unlock next
+    </button>
+  </div>
+
+  <!-- STOP 2 -->
+  <div class="stop" data-day="2">
+    <div class="node-wrap">
+      <div class="node locked" style="background:var(--indigo);" data-node="2"><span class="daynum">2</span>☸️</div>
+      <div class="node-caption">दर्शन<br>Philosophy</div>
+    </div>
+    <div class="stop-card" onclick="toggleDay(2)">
+      <h3><span class="en">Philosophy & Human Values</span><span class="hi">भारतीय दर्शन और मानवीय मूल्य</span></h3>
+      <p class="teaser">Dharma, Karma, Ahimsa & Vasudhaiva Kutumbakam →</p>
+    </div>
+  </div>
+  <div class="panel" id="panel-2">
+    <div class="point">
+      <div class="point-icon">🕊️</div>
+      <div class="point-text">
+        <p class="en"><strong>Ethics & Character Building:</strong> Core values like Dharma (righteousness/duty), Karma (action and consequence), Satya (truth), and Ahimsa (non-violence) shape noble human character.</p>
+        <p class="hi"><strong>नैतिकता और चरित्र निर्माण:</strong> धर्म (कर्तव्य), कर्म (कर्म और परिणाम), सत्य और अहिंसा जैसे मूल मूल्य मानव चरित्र का निर्माण करते हैं।</p>
+      </div>
+    </div>
+    <div class="point">
+      <div class="point-icon">🌍</div>
+      <div class="point-text">
+        <p class="en"><strong>Vasudhaiva Kutumbakam:</strong> The ancient philosophy that "The World is One Family," promoting universal peace, harmony, and global brotherhood.</p>
+        <p class="hi"><strong>वसुधैव कुटुम्बकम्:</strong> "संपूर्ण विश्व एक परिवार है" की प्राचीन भावना, जो वैश्विक शांति और भाईचारे को बढ़ावा देती है।</p>
+      </div>
+    </div>
+    <button class="mark-done-btn" onclick="markDone(2, this)">
+      ✅ मैंने पढ़ लिया, अगला खोलो — I've read this, unlock next
+    </button>
+  </div>
+
+  <!-- STOP 3 -->
+  <div class="stop" data-day="3">
+    <div class="node-wrap">
+      <div class="node locked" style="background:var(--green);" data-node="3"><span class="daynum">3</span>🔢</div>
+      <div class="node-caption">गणित<br>Maths</div>
+    </div>
+    <div class="stop-card" onclick="toggleDay(3)">
+      <h3><span class="en">Indian Mathematics</span><span class="hi">भारतीय गणित</span></h3>
+      <p class="teaser">Aryabhata, Zero, Decimal System & Vedic Maths →</p>
+    </div>
+  </div>
+  <div class="panel" id="panel-3">
+    <div class="point">
+      <div class="point-icon">🧮</div>
+      <div class="point-text">
+        <p class="en"><strong>Aryabhata & Brahmagupta:</strong> Legendary mathematicians who formulated groundbreaking astronomical calculations and number systems.</p>
+        <p class="hi"><strong>आर्यभट्ट और ब्रह्मगुप्त:</strong> महान गणितज्ञ जिन्होंने खगोलीय गणनाओं और संख्या प्रणालियों में क्रांतिकारी योगदान दिया।</p>
+      </div>
+    </div>
+    <div class="point">
+      <div class="point-icon">0️⃣</div>
+      <div class="point-text">
+        <p class="en"><strong>Zero & Decimal System:</strong> India gifted the concept of Zero (0) and the place-value Decimal System to the world, revolutionizing global mathematics.</p>
+        <p class="hi"><strong>शून्य और दशमलव प्रणाली:</strong> भारत ने दुनिया को शून्य (0) और स्थानीय मान वाली दशमलव प्रणाली का उपहार दिया, जिसने वैश्विक गणित को बदल दिया।</p>
+      </div>
+    </div>
+    <div class="point">
+      <div class="point-icon">⚡</div>
+      <div class="point-text">
+        <p class="en"><strong>Vedic Mathematics:</strong> Fast mental calculation techniques that simplify complex arithmetic problems.</p>
+        <p class="hi"><strong>वैदिक गणित:</strong> तेज मानसिक गणना की तकनीकें जो कठिन अंकगणितीय समस्याओं को सरल बनाती हैं।</p>
+      </div>
+    </div>
+    <button class="mark-done-btn" onclick="markDone(3, this)">
+      ✅ मैंने पढ़ लिया, अगला खोलो — I've read this, unlock next
+    </button>
+  </div>
+
+  <!-- STOP 4 -->
+  <div class="stop" data-day="4">
+    <div class="node-wrap">
+      <div class="node locked" style="background:var(--maroon);" data-node="4"><span class="daynum">4</span>🔭</div>
+      <div class="node-caption">विज्ञान<br>Science</div>
+    </div>
+    <div class="stop-card" onclick="toggleDay(4)">
+      <h3><span class="en">Ancient Science & Technology</span><span class="hi">प्राचीन भारतीय विज्ञान और प्रौद्योगिकी</span></h3>
+      <p class="teaser">Astronomy, Ayurveda, Iron Pillar & Temples →</p>
+    </div>
+  </div>
+  <div class="panel" id="panel-4">
+    <div class="point">
+      <div class="point-icon">🌌</div>
+      <div class="point-text">
+        <p class="en"><strong>Astronomy & Ayurveda:</strong> Advanced tracking of planetary movements, constellations, and the holistic life science of Ayurveda.</p>
+        <p class="hi"><strong>खगोल विज्ञान और आयुर्वेद:</strong> ग्रहों की गति और नक्षत्रों का उन्नत अध्ययन, साथ ही आयुर्वेद जैसी समग्र जीवन विज्ञान पद्धति।</p>
+      </div>
+    </div>
+    <div class="point">
+      <div class="point-icon">🗼</div>
+      <div class="point-text">
+        <p class="en"><strong>Iron Pillar & Temple Engineering:</strong> Architectural marvels like the un-corroded Iron Pillar of Delhi and intricately designed stone temples reflect superior ancient engineering.</p>
+        <p class="hi"><strong>लौह स्तंभ और मंदिर इंजीनियरिंग:</strong> दिल्ली का बिना जंग लगा लौह स्तंभ और जटिल रूप से डिजाइन किए गए पत्थर के मंदिर प्राचीन उन्नत इंजीनियरिंग को दर्शाते हैं।</p>
+      </div>
+    </div>
+    <button class="mark-done-btn" onclick="markDone(4, this)">
+      ✅ मैंने पढ़ लिया, अगला खोलो — I've read this, unlock next
+    </button>
+  </div>
+
+  <!-- STOP 5 -->
+  <div class="stop" data-day="5">
+    <div class="node-wrap">
+      <div class="node locked" style="background:var(--teal);" data-node="5"><span class="daynum">5</span>🧘</div>
+      <div class="node-caption">योग<br>Yoga</div>
+    </div>
+    <div class="stop-card" onclick="toggleDay(5)">
+      <h3><span class="en">Yoga, Health & Ayurveda</span><span class="hi">योग, स्वास्थ्य और आयुर्वेद</span></h3>
+      <p class="teaser">Pranayama, Meditation & Surya Namaskar →</p>
+    </div>
+  </div>
+  <div class="panel" id="panel-5">
+    <div class="point">
+      <div class="point-icon">🧘‍♀️</div>
+      <div class="point-text">
+        <p class="en"><strong>Yoga, Pranayama & Meditation:</strong> Ancient practices for physical fitness, mental peace, emotional balance, and spiritual growth.</p>
+        <p class="hi"><strong>योग, प्राणायाम और ध्यान:</strong> शारीरिक फिटनेस, मानसिक शांति, भावनात्मक संतुलन और आध्यात्मिक विकास के लिए प्राचीन अभ्यास।</p>
+      </div>
+    </div>
+    <div class="point">
+      <div class="point-icon">🌞</div>
+      <div class="point-text">
+        <p class="en"><strong>Surya Namaskar & Balanced Diet:</strong> A comprehensive physical workout routine combined with seasonal, wholesome traditional food habits for a healthy lifestyle.</p>
+        <p class="hi"><strong>सूर्य नमस्कार और संतुलित आहार:</strong> स्वस्थ जीवन शैली के लिए सूर्य नमस्कार और मौसमी, पौष्टिक पारंपरिक आहार की आदतें।</p>
+      </div>
+    </div>
+    <button class="mark-done-btn" onclick="markDone(5, this)">
+      ✅ मैंने पढ़ लिया, अगला खोलो — I've read this, unlock next
+    </button>
+  </div>
+
+  <!-- STOP 6 -->
+  <div class="stop" data-day="6">
+    <div class="node-wrap">
+      <div class="node locked" style="background:var(--forest);" data-node="6"><span class="daynum">6</span>🌱</div>
+      <div class="node-caption">पर्यावरण<br>Environment</div>
+    </div>
+    <div class="stop-card" onclick="toggleDay(6)">
+      <h3><span class="en">Environment & Sustainable Living</span><span class="hi">पर्यावरण और सतत जीवन</span></h3>
+      <p class="teaser">Pancha Mahabhuta, Conservation & Biodiversity →</p>
+    </div>
+  </div>
+  <div class="panel" id="panel-6">
+    <div class="point">
+      <div class="point-icon">🌏</div>
+      <div class="point-text">
+        <p class="en"><strong>Pancha Mahabhuta & Conservation:</strong> Understanding nature through the five elements (Earth, Water, Fire, Air, Space) and traditional methods of water conservation and organic farming.</p>
+        <p class="hi"><strong>पंचमहाभूत और संरक्षण:</strong> पाँच तत्वों (पृथ्वी, जल, अग्नि, वायु, आकाश) के माध्यम से प्रकृति को समझना और जल संरक्षण व जैविक खेती के पारंपरिक तरीके।</p>
+      </div>
+    </div>
+    <div class="point">
+      <div class="point-icon">♻️</div>
+      <div class="point-text">
+        <p class="en"><strong>Biodiversity & Waste Management:</strong> Living in harmony with flora and fauna while practicing zero-waste traditional habits.</p>
+        <p class="hi"><strong>जैव विविधता और कचरा प्रबंधन:</strong> पेड़-पौधों और जीवों के साथ सामंजस्य बिठाकर रहना तथा शून्य-अपशिष्ट पारंपरिक आदतों को अपनाना।</p>
+      </div>
+    </div>
+    <button class="mark-done-btn" onclick="markDone(6, this)">
+      ✅ मैंने पढ़ लिया, अगला खोलो — I've read this, unlock next
+    </button>
+  </div>
+
+  <!-- STOP 7 -->
+  <div class="stop" data-day="7">
+    <div class="node-wrap">
+      <div class="node locked" style="background:var(--magenta);" data-node="7"><span class="daynum">7</span>🎭</div>
+      <div class="node-caption">कला<br>Art</div>
+    </div>
+    <div class="stop-card" onclick="toggleDay(7)">
+      <h3><span class="en">Art, Culture & Heritage</span><span class="hi">भारतीय कला, संस्कृति और विरासत</span></h3>
+      <p class="teaser">Ragas, Folk Dance, Festivals & UNESCO Sites →</p>
+    </div>
+  </div>
+  <div class="panel" id="panel-7">
+    <div class="point">
+      <div class="point-icon">🎶</div>
+      <div class="point-text">
+        <p class="en"><strong>Classical Music & Folk Dance:</strong> Rich traditions of Ragas, Talas, and diverse regional folk dance expressions.</p>
+        <p class="hi"><strong>शास्त्रीय संगीत और लोक नृत्य:</strong> रागों, तालों और विभिन्न क्षेत्रीय लोक नृत्यों की समृद्ध सांस्कृतिक परंपराएँ।</p>
+      </div>
+    </div>
+    <div class="point">
+      <div class="point-icon">🏮</div>
+      <div class="point-text">
+        <p class="en"><strong>Festivals, Handicrafts & UNESCO Sites:</strong> Vibrancy of seasonal festivals, handloom weaving, and preservation of world heritage monuments.</p>
+        <p class="hi"><strong>त्योहार, हस्तशिल्प और यूनेस्को स्थल:</strong> मौसमी त्योहारों की रौनक, हथकरघा बुनाई और विश्व धरोहर स्मारकों का संरक्षण।</p>
+      </div>
+    </div>
+    <button class="mark-done-btn" onclick="markDone(7, this)">
+      ✅ मैंने पढ़ लिया, अगला खोलो — I've read this, unlock next
+    </button>
+  </div>
+
+  <!-- STOP 8 -->
+  <div class="stop" data-day="8">
+    <div class="node-wrap">
+      <div class="node locked" style="background:var(--darkgold);" data-node="8"><span class="daynum">8</span>💡</div>
+      <div class="node-caption">नवाचार<br>Innovation</div>
+    </div>
+    <div class="stop-card" onclick="toggleDay(8)">
+      <h3><span class="en">Traditional Knowledge & Innovation</span><span class="hi">पारंपरिक ज्ञान और नवाचार</span></h3>
+      <p class="teaser">Indigenous Tech, AI, Startup India →</p>
+    </div>
+  </div>
+  <div class="panel" id="panel-8">
+    <div class="point">
+      <div class="point-icon">🤖</div>
+      <div class="point-text">
+        <p class="en"><strong>Indigenous Technologies & AI in IKS:</strong> Bridging traditional wisdom with modern tools like Artificial Intelligence, Startup India, and Skill India initiatives.</p>
+        <p class="hi"><strong>स्वदेशी तकनीकें और IKS में AI:</strong> पारंपरिक ज्ञान को आर्टिफिशियल इंटेलिजेंस, स्टार्टअप इंडिया और स्किल इंडिया जैसी आधुनिक पहलों के साथ जोड़ना।</p>
+      </div>
+    </div>
+    <button class="mark-done-btn" onclick="markDone(8, this)">
+      ✅ मैंने पढ़ लिया, क्विज़ खोलो — I've read this, unlock the quiz
+    </button>
+  </div>
+
+</div>
+
+<!-- ===== QUIZ SECTION ===== -->
+<div id="quiz-section">
+  <div class="section-title">
+    <span class="eyebrow">🎯 अभ्यास क्विज़ · Practice Quiz</span>
+    <h2>10 सवाल, चलो जांचें!<span class="hi">10 questions — let's find out!</span></h2>
+  </div>
+  <div class="quiz-wrap" id="quizWrap">
+
+    <div class="quiz-card" data-qid="1">
+      <div class="qtext"><span class="qnum">1</span><span class="en">Who invented the concept and digit of Zero (0)?</span><span class="hi">शून्य (0) की अवधारणा और अंक का आविष्कार किसने किया?</span></div>
+      <div class="options">
+        <button class="opt-btn" data-correct="true"><span class="en">A) Aryabhata</span><span class="hi">आर्यभट्ट</span></button>
+        <button class="opt-btn"><span class="en">B) Patanjali</span><span class="hi">पतंजलि</span></button>
+        <button class="opt-btn"><span class="en">C) Chanakya</span><span class="hi">चाणक्य</span></button>
+        <button class="opt-btn"><span class="en">D) Sushruta</span><span class="hi">सुश्रुत</span></button>
+      </div>
+      <div class="explanation"><span class="en">Aryabhata introduced the mathematical concept of zero.</span><br><span class="hi">आर्यभट्ट ने शून्य की गणितीय अवधारणा प्रस्तुत की।</span></div>
+    </div>
+
+    <div class="quiz-card" data-qid="2">
+      <div class="qtext"><span class="qnum">2</span><span class="en">What does the phrase 'Vasudhaiva Kutumbakam' mean?</span><span class="hi">'वसुधैव कुटुम्बकम्' वाक्यांश का क्या अर्थ है?</span></div>
+      <div class="options">
+        <button class="opt-btn"><span class="en">A) Knowledge is power</span><span class="hi">ज्ञान ही शक्ति है</span></button>
+        <button class="opt-btn" data-correct="true"><span class="en">B) The World is One Family</span><span class="hi">संपूर्ण विश्व एक परिवार है</span></button>
+        <button class="opt-btn"><span class="en">C) Truth always triumphs</span><span class="hi">सत्य की हमेशा जीत होती है</span></button>
+        <button class="opt-btn"><span class="en">D) Health is wealth</span><span class="hi">स्वास्थ्य ही धन है</span></button>
+      </div>
+      <div class="explanation"><span class="en">It reflects the universal outlook of Indian philosophy.</span><br><span class="hi">यह भारतीय दर्शन के सार्वभौमिक दृष्टिकोण को दर्शाता है।</span></div>
+    </div>
+
+    <div class="quiz-card" data-qid="3">
+      <div class="qtext"><span class="qnum">3</span><span class="en">Which ancient residential university was located in Bihar?</span><span class="hi">कौन-सा प्राचीन आवासीय विश्वविद्यालय बिहार में स्थित था?</span></div>
+      <div class="options">
+        <button class="opt-btn"><span class="en">A) Takshashila</span><span class="hi">तक्षशिला</span></button>
+        <button class="opt-btn" data-correct="true"><span class="en">B) Nalanda</span><span class="hi">नालंदा</span></button>
+        <button class="opt-btn"><span class="en">C) Vikramshila</span><span class="hi">विक्रमशिला</span></button>
+        <button class="opt-btn"><span class="en">D) Ujjain</span><span class="hi">उज्जैन</span></button>
+      </div>
+      <div class="explanation"><span class="en">Nalanda in Bihar was a world-famous ancient residential university. (Note: Vikramshila is also in Bihar, but Nalanda is the primary example taught here.)</span><br><span class="hi">बिहार का नालंदा एक विश्व प्रसिद्ध प्राचीन आवासीय विश्वविद्यालय था। (नोट: विक्रमशिला भी बिहार में है, पर यहाँ नालंदा मुख्य उदाहरण है।)</span></div>
+    </div>
+
+    <div class="quiz-card" data-qid="4">
+      <div class="qtext"><span class="qnum">4</span><span class="en">Ayurveda is traditionally linked as an Upaveda to which Veda?</span><span class="hi">आयुर्वेद परंपरागत रूप से किस वेद के उपवेद के रूप में जुड़ा है?</span></div>
+      <div class="options">
+        <button class="opt-btn"><span class="en">A) Rigveda</span><span class="hi">ऋग्वेद</span></button>
+        <button class="opt-btn" data-correct="true"><span class="en">B) Atharvaveda</span><span class="hi">अथर्ववेद</span></button>
+        <button class="opt-btn"><span class="en">C) Samaveda</span><span class="hi">सामवेद</span></button>
+        <button class="opt-btn"><span class="en">D) Yajurveda</span><span class="hi">यजुर्वेद</span></button>
+      </div>
+      <div class="explanation"><span class="en">Ayurveda is considered an Upaveda of the Atharvaveda.</span><br><span class="hi">आयुर्वेद को अथर्ववेद का उपवेद माना जाता है।</span></div>
+    </div>
+
+    <div class="quiz-card" data-qid="5">
+      <div class="qtext"><span class="qnum">5</span><span class="en">What is the primary focus of practicing Yoga and Pranayama?</span><span class="hi">योग और प्राणायाम के अभ्यास का मुख्य उद्देश्य क्या है?</span></div>
+      <div class="options">
+        <button class="opt-btn" data-correct="true"><span class="en">A) Physical and mental well-being</span><span class="hi">शारीरिक और मानसिक स्वास्थ्य</span></button>
+        <button class="opt-btn"><span class="en">B) Winning sports competitions</span><span class="hi">खेल प्रतियोगिता जीतना</span></button>
+        <button class="opt-btn"><span class="en">C) Building heavy machines</span><span class="hi">भारी मशीनें बनाना</span></button>
+        <button class="opt-btn"><span class="en">D) Fast calculations</span><span class="hi">तेज़ गणना करना</span></button>
+      </div>
+      <div class="explanation"><span class="en">Yoga and Pranayama aim at overall physical and mental well-being.</span><br><span class="hi">योग और प्राणायाम का लक्ष्य समग्र शारीरिक और मानसिक स्वास्थ्य है।</span></div>
+    </div>
+
+    <div class="quiz-card" data-qid="6">
+      <div class="qtext"><span class="qnum">6</span><span class="en">The Iron Pillar of Delhi is globally famous for:</span><span class="hi">दिल्ली का लौह स्तंभ विश्व भर में किसलिए प्रसिद्ध है?</span></div>
+      <div class="options">
+        <button class="opt-btn"><span class="en">A) Being the tallest tower</span><span class="hi">सबसे ऊंची मीनार होना</span></button>
+        <button class="opt-btn" data-correct="true"><span class="en">B) Not rusting for over 1600 years</span><span class="hi">1600 वर्षों से अधिक समय तक जंग न लगना</span></button>
+        <button class="opt-btn"><span class="en">C) Being made of pure gold</span><span class="hi">शुद्ध सोने से बना होना</span></button>
+        <button class="opt-btn"><span class="en">D) Being built underwater</span><span class="hi">पानी के नीचे बनाया जाना</span></button>
+      </div>
+      <div class="explanation"><span class="en">Its rust-resistant metallurgy amazes scientists even today.</span><br><span class="hi">इसकी जंग-रोधी धातु-कला आज भी वैज्ञानिकों को चकित करती है।</span></div>
+    </div>
+
+    <div class="quiz-card" data-qid="7">
+      <div class="qtext"><span class="qnum">7</span><span class="en">The philosophy of 'Ahimsa' primarily stands for:</span><span class="hi">'अहिंसा' का दर्शन मुख्य रूप से किसका प्रतीक है?</span></div>
+      <div class="options">
+        <button class="opt-btn"><span class="en">A) Violence</span><span class="hi">हिंसा</span></button>
+        <button class="opt-btn" data-correct="true"><span class="en">B) Non-violence and compassion</span><span class="hi">अहिंसा और करुणा</span></button>
+        <button class="opt-btn"><span class="en">C) Wealth accumulation</span><span class="hi">धन संचय</span></button>
+        <button class="opt-btn"><span class="en">D) Fast running</span><span class="hi">तेज़ दौड़ना</span></button>
+      </div>
+      <div class="explanation"><span class="en">Ahimsa means non-violence and compassion towards all living beings.</span><br><span class="hi">अहिंसा का अर्थ है सभी जीवों के प्रति अहिंसा और करुणा।</span></div>
+    </div>
+
+    <div class="quiz-card" data-qid="8">
+      <div class="qtext"><span class="qnum">8</span><span class="en">Who authored the ancient treatise on economics and statecraft called 'Arthashastra'?</span><span class="hi">'अर्थशास्त्र' नामक प्राचीन ग्रंथ के लेखक कौन थे?</span></div>
+      <div class="options">
+        <button class="opt-btn"><span class="en">A) Kalidasa</span><span class="hi">कालिदास</span></button>
+        <button class="opt-btn" data-correct="true"><span class="en">B) Chanakya (Kautilya)</span><span class="hi">चाणक्य (कौटिल्य)</span></button>
+        <button class="opt-btn"><span class="en">C) Aryabhata</span><span class="hi">आर्यभट्ट</span></button>
+        <button class="opt-btn"><span class="en">D) Tulsidas</span><span class="hi">तुलसीदास</span></button>
+      </div>
+      <div class="explanation"><span class="en">Chanakya, also known as Kautilya, wrote the Arthashastra.</span><br><span class="hi">चाणक्य, जिन्हें कौटिल्य भी कहा जाता है, ने अर्थशास्त्र लिखा।</span></div>
+    </div>
+
+    <div class="quiz-card" data-qid="9">
+      <div class="qtext"><span class="qnum">9</span><span class="en">What do the 'Pancha Mahabhuta' represent in Indian tradition?</span><span class="hi">भारतीय परंपरा में 'पंचमहाभूत' किसका प्रतिनिधित्व करते हैं?</span></div>
+      <div class="options">
+        <button class="opt-btn"><span class="en">A) Five musical notes</span><span class="hi">पाँच संगीत स्वर</span></button>
+        <button class="opt-btn" data-correct="true"><span class="en">B) Five basic elements of nature</span><span class="hi">प्रकृति के पाँच मूल तत्व</span></button>
+        <button class="opt-btn"><span class="en">C) Five ancient books</span><span class="hi">पाँच प्राचीन पुस्तकें</span></button>
+        <button class="opt-btn"><span class="en">D) Five traditional dances</span><span class="hi">पाँच पारंपरिक नृत्य</span></button>
+      </div>
+      <div class="explanation"><span class="en">Earth, Water, Fire, Air and Space form the five elements.</span><br><span class="hi">पृथ्वी, जल, अग्नि, वायु और आकाश — यही पाँच तत्व हैं।</span></div>
+    </div>
+
+    <div class="quiz-card" data-qid="10">
+      <div class="qtext"><span class="qnum">10</span><span class="en">How does NEP 2020 view the Indian Knowledge System (IKS)?</span><span class="hi">NEP 2020, भारतीय ज्ञान प्रणाली (IKS) को किस रूप में देखती है?</span></div>
+      <div class="options">
+        <button class="opt-btn"><span class="en">A) As an outdated concept</span><span class="hi">एक पुरानी अवधारणा के रूप में</span></button>
+        <button class="opt-btn" data-correct="true"><span class="en">B) As an essential part of modern holistic education</span><span class="hi">आधुनिक समग्र शिक्षा के एक आवश्यक भाग के रूप में</span></button>
+        <button class="opt-btn"><span class="en">C) Only for history scholars</span><span class="hi">केवल इतिहास के विद्वानों के लिए</span></button>
+        <button class="opt-btn"><span class="en">D) Optional foreign language</span><span class="hi">वैकल्पिक विदेशी भाषा के रूप में</span></button>
+      </div>
+      <div class="explanation"><span class="en">NEP 2020 treats IKS as central to holistic, modern education.</span><br><span class="hi">NEP 2020, IKS को समग्र आधुनिक शिक्षा का केंद्रीय भाग मानती है।</span></div>
+    </div>
+
+  </div>
+
+  <div class="score-banner" id="scoreBanner">
+    <div class="score-box">
+      <div class="big"><span id="scoreVal">0</span>/10</div>
+      <div><span class="en">Great going!</span> <span class="hi">बहुत बढ़िया!</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== HOMEWORK SECTION ===== -->
+<div id="homework-section">
+  <div class="section-title">
+    <span class="eyebrow">🎒 गृहकार्य · Homework</span>
+    <h2>5 मज़ेदार कार्य<span class="hi">5 fun tasks — try these at home</span></h2>
+  </div>
+  <div class="hw-wrap">
+
+    <div class="hw-card" id="hw1">
+      <div class="hw-checkbox" onclick="toggleHW('hw1')"></div>
+      <div class="hw-icon">✍️</div>
+      <div class="hw-text">
+        <p class="en">Write a short note on how Aryabhata contributed to mathematics and astronomy.</p>
+        <p class="hi">गणित और खगोल विज्ञान में आर्यभट्ट के योगदान पर एक संक्षिप्त नोट लिखिए।</p>
+      </div>
+    </div>
+
+    <div class="hw-card" id="hw2">
+      <div class="hw-checkbox" onclick="toggleHW('hw2')"></div>
+      <div class="hw-icon">👵</div>
+      <div class="hw-text">
+        <p class="en">Ask your grandparents or elders about one traditional home remedy used in your family.</p>
+        <p class="hi">अपने दादा-दादी या बुजुर्गों से पूछकर अपने परिवार में उपयोग होने वाले किसी एक पारंपरिक घरेलू नुस्खे के बारे में लिखिए।</p>
+      </div>
+    </div>
+
+    <div class="hw-card" id="hw3">
+      <div class="hw-checkbox" onclick="toggleHW('hw3')"></div>
+      <div class="hw-icon">🤝</div>
+      <div class="hw-text">
+        <p class="en">Write two examples of how you can practice 'Vasudhaiva Kutumbakam' (helping others) in your school.</p>
+        <p class="hi">अपने स्कूल में 'वसुधैव कुटुम्बकम्' (दूसरों की मदद करना) की भावना को आप कैसे अपना सकते हैं, इसके दो उदाहरण लिखिए।</p>
+      </div>
+    </div>
+
+    <div class="hw-card" id="hw4">
+      <div class="hw-checkbox" onclick="toggleHW('hw4')"></div>
+      <div class="hw-icon">🎨</div>
+      <div class="hw-text">
+        <p class="en">Draw a sketch of the Delhi Iron Pillar or an ancient Indian temple and label its unique feature.</p>
+        <p class="hi">अपनी नोटबुक में दिल्ली के लौह स्तंभ या किसी प्राचीन भारतीय मंदिर का चित्र बनाकर उसकी विशेषता दर्शाइए।</p>
+      </div>
+    </div>
+
+    <div class="hw-card" id="hw5">
+      <div class="hw-checkbox" onclick="toggleHW('hw5')"></div>
+      <div class="hw-icon">🌳</div>
+      <div class="hw-text">
+        <p class="en">Plant a sapling or list three ways you can save water at home daily.</p>
+        <p class="hi">एक पौधा लगाइए या घर पर रोजाना पानी बचाने के तीन तरीके लिखिए।</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div id="finale">
+  <div class="badge">🏅</div>
+  <h2><span class="en">You are a Gyaan Yatri!</span><span class="hi">आप एक ज्ञान यात्री हैं!</span></h2>
+  <p><span class="en">You completed the whole journey through India's ancient knowledge. Well done!</span><br><span class="hi">आपने भारत के प्राचीन ज्ञान की पूरी यात्रा पूरी कर ली। बहुत बढ़िया!</span></p>
+</div>
+
+<footer>Namashkaram Tech Skills Private Limited · भारतीय ज्ञान प्रणाली · Offline Learning Page</footer>
+
+<script>
+  var totalDays = 8;
+  var completedDays = 0;
+  var stars = 0;
+  var quizUnlocked = false;
+  var quizScore = 0;
+  var quizAnswered = 0;
+  var hwDone = { hw1:false, hw2:false, hw3:false, hw4:false, hw5:false };
+
+  // ---- Audio (simple offline beep, no external files) ----
+  var audioCtx = null;
+  function playChime(success){
+    try{
+      if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      var o = audioCtx.createOscillator();
+      var g = audioCtx.createGain();
+      o.connect(g); g.connect(audioCtx.destination);
+      o.type = "sine";
+      var t = audioCtx.currentTime;
+      if(success){
+        o.frequency.setValueAtTime(523.25, t);
+        o.frequency.setValueAtTime(659.25, t+0.12);
+        o.frequency.setValueAtTime(783.99, t+0.24);
+      } else {
+        o.frequency.setValueAtTime(220, t);
+        o.frequency.setValueAtTime(180, t+0.12);
+      }
+      g.gain.setValueAtTime(0.15, t);
+      g.gain.exponentialRampToValueAtTime(0.001, t+0.4);
+      o.start(t); o.stop(t+0.42);
+    }catch(e){ /* audio not available, ignore */ }
+  }
+
+  // ---- Confetti ----
+  var canvas = document.getElementById('confetti');
+  var ctx = canvas.getContext('2d');
+  var confettiPieces = [];
+  function resizeCanvas(){ canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+  window.addEventListener('resize', resizeCanvas); resizeCanvas();
+  var colors = ['#FF7A1A','#E0A62B','#1B8A5A','#12395B','#A6243D','#C6417E'];
+  function burstConfetti(x,y,count){
+    for(var i=0;i<count;i++){
+      confettiPieces.push({
+        x: x, y: y,
+        vx: (Math.random()-0.5)*8,
+        vy: Math.random()*-8-3,
+        g: 0.25,
+        size: Math.random()*6+4,
+        color: colors[Math.floor(Math.random()*colors.length)],
+        rot: Math.random()*360,
+        vr: (Math.random()-0.5)*10,
+        life: 100
+      });
+    }
+    if(!confettiRunning){ confettiRunning = true; requestAnimationFrame(animateConfetti); }
+  }
+  var confettiRunning = false;
+  function animateConfetti(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    var alive = false;
+    for(var i=confettiPieces.length-1;i>=0;i--){
+      var p = confettiPieces[i];
+      p.vy += p.g; p.x += p.vx; p.y += p.vy; p.rot += p.vr; p.life--;
+      if(p.life<=0 || p.y>canvas.height+40){ confettiPieces.splice(i,1); continue; }
+      alive = true;
+      ctx.save();
+      ctx.translate(p.x,p.y); ctx.rotate(p.rot*Math.PI/180);
+      ctx.fillStyle = p.color;
+      ctx.fillRect(-p.size/2,-p.size/2,p.size,p.size*0.6);
+      ctx.restore();
+    }
+    if(alive){ requestAnimationFrame(animateConfetti); } else { confettiRunning = false; }
+  }
+
+  // ---- Journey logic ----
+  function toggleDay(n){
+    var node = document.querySelector('.node[data-node="'+n+'"]');
+    if(node.classList.contains('locked')) return;
+    var panel = document.getElementById('panel-'+n);
+    var isOpen = panel.classList.contains('open');
+    document.querySelectorAll('.panel').forEach(function(p){ p.classList.remove('open'); });
+    if(!isOpen){ panel.classList.add('open'); panel.scrollIntoView({behavior:'smooth', block:'center'}); }
+  }
+
+  function markDone(n, btn){
+    if(btn.classList.contains('completed')) return;
+    btn.classList.add('completed');
+    btn.innerHTML = '✅ पूरा हुआ — Completed';
+    var node = document.querySelector('.node[data-node="'+n+'"]');
+    node.classList.add('done');
+    completedDays++; stars++;
+    updateProgress();
+    playChime(true);
+    var rect = node.getBoundingClientRect();
+    burstConfetti(rect.left+rect.width/2, rect.top+rect.height/2, 40);
+
+    var next = document.querySelector('.node[data-node="'+(n+1)+'"]');
+    if(next){ next.classList.remove('locked'); }
+    else {
+      // all 8 done -> unlock quiz
+      var qs = document.getElementById('quiz-section');
+      qs.classList.add('unlocked');
+      quizUnlocked = true;
+      setTimeout(function(){ qs.scrollIntoView({behavior:'smooth', block:'start'}); }, 400);
+    }
+  }
+
+  function updateProgress(){
+    var pct = Math.round((completedDays/totalDays)*100);
+    document.getElementById('progressFill').style.width = pct+'%';
+    document.getElementById('progressText').textContent = completedDays+' / '+totalDays+' पड़ाव पूरे — '+completedDays+'/'+totalDays+' stops complete';
+    document.getElementById('starCount').textContent = stars;
+  }
+
+  // ---- Quiz logic ----
+  document.querySelectorAll('.quiz-card').forEach(function(card){
+    var btns = card.querySelectorAll('.opt-btn');
+    btns.forEach(function(btn){
+      btn.addEventListener('click', function(){
+        if(card.dataset.answered) return;
+        card.dataset.answered = "1";
+        quizAnswered++;
+        var correct = btn.hasAttribute('data-correct');
+        btns.forEach(function(b){
+          b.disabled = true;
+          if(b.hasAttribute('data-correct')) b.classList.add('correct');
+        });
+        if(!correct) btn.classList.add('wrong');
+        card.querySelector('.explanation').classList.add('show');
+        if(correct){ quizScore++; stars++; playChime(true); }
+        else { playChime(false); }
+        updateProgress();
+
+        if(quizAnswered === 10){
+          document.getElementById('scoreVal').textContent = quizScore;
+          document.getElementById('scoreBanner').classList.add('show');
+          var hwSec = document.getElementById('homework-section');
+          hwSec.classList.add('unlocked');
+          if(quizScore>=6){ burstConfetti(window.innerWidth/2, 150, 80); }
+          setTimeout(function(){ hwSec.scrollIntoView({behavior:'smooth', block:'start'}); }, 500);
+        }
+      });
+    });
+  });
+
+  // ---- Homework logic ----
+  function toggleHW(id){
+    hwDone[id] = !hwDone[id];
+    var card = document.getElementById(id);
+    var box = card.querySelector('.hw-checkbox');
+    if(hwDone[id]){
+      card.classList.add('done');
+      box.classList.add('checked');
+      box.textContent = '✓';
+      playChime(true);
+      var rect = box.getBoundingClientRect();
+      burstConfetti(rect.left+rect.width/2, rect.top+rect.height/2, 18);
+    } else {
+      card.classList.remove('done');
+      box.classList.remove('checked');
+      box.textContent = '';
+    }
+    var allDone = Object.keys(hwDone).every(function(k){ return hwDone[k]; });
+    if(allDone){
+      document.getElementById('finale').classList.add('show');
+      burstConfetti(window.innerWidth/2, 100, 120);
+      setTimeout(function(){ document.getElementById('finale').scrollIntoView({behavior:'smooth', block:'center'}); }, 400);
+    }
+  }
+
+  updateProgress();
+</script>
+
+</body>
+</html>
