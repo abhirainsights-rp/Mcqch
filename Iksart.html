@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DAY 7: Indian Art, Culture & Heritage / भारतीय कला, संस्कृति और विरासत</title>
+    <style>
+        :root {
+            --primary-color: #1a365d;
+            --secondary-color: #742a2a;
+            --accent-color: #c05621;
+            --bg-color: #f7fafc;
+            --card-bg: #ffffff;
+            --text-main: #2d3748;
+            --text-muted: #4a5568;
+            --correct-bg: #c6f6d5;
+            --correct-border: #38a169;
+            --correct-text: #22543d;
+            --incorrect-bg: #fed7d7;
+            --incorrect-border: #e53e3e;
+            --incorrect-text: #742a2a;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.8;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-color), #2b6cb0);
+            color: #ffffff;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            font-style: italic;
+        }
+
+        .content-section {
+            padding: 35px;
+        }
+
+        .section-title {
+            font-size: 1.6rem;
+            color: var(--primary-color);
+            border-bottom: 3px solid #e2e8f0;
+            padding-bottom: 8px;
+            margin-top: 30px;
+            margin-bottom: 20px;
+        }
+
+        .topic-card {
+            background-color: #f8fafc;
+            border-left: 5px solid var(--accent-color);
+            padding: 22px;
+            margin-bottom: 30px;
+            border-radius: 0 8px 8px 0;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+        }
+
+        .topic-card h3 {
+            color: var(--secondary-color);
+            font-size: 1.3rem;
+            margin-bottom: 12px;
+        }
+
+        .bilingual-box {
+            margin-bottom: 15px;
+        }
+
+        .en-text {
+            color: #1a365d;
+            font-weight: 500;
+            margin-bottom: 6px;
+        }
+
+        .hi-text {
+            color: #4a5568;
+            margin-bottom: 12px;
+        }
+
+        .real-life-box {
+            background-color: #f0fff4;
+            border: 1px solid #c6f6d5;
+            border-left: 4px solid #38a169;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 15px;
+        }
+
+        .real-life-header {
+            font-weight: bold;
+            color: #276749;
+            margin-bottom: 6px;
+        }
+
+        /* MCQ Quiz Styling */
+        .quiz-container {
+            background: #ffffff;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 30px;
+            margin-top: 40px;
+        }
+
+        .mcq-item {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .mcq-question {
+            font-weight: 600;
+            font-size: 1.05rem;
+            margin-bottom: 15px;
+        }
+
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .option-btn {
+            background: #ffffff;
+            border: 2px solid #cbd5e0;
+            padding: 12px 18px;
+            border-radius: 6px;
+            font-size: 0.98rem;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+            color: var(--text-main);
+        }
+
+        .option-btn:hover:not(:disabled) {
+            background: #ebf8ff;
+            border-color: #3182ce;
+        }
+
+        .option-btn.correct {
+            background-color: var(--correct-bg) !important;
+            border-color: var(--correct-border) !important;
+            color: var(--correct-text) !important;
+            font-weight: bold;
+        }
+
+        .option-btn.incorrect {
+            background-color: var(--incorrect-bg) !important;
+            border-color: var(--incorrect-border) !important;
+            color: var(--incorrect-text) !important;
+        }
+
+        .explanation-box {
+            margin-top: 12px;
+            padding: 10px 14px;
+            border-radius: 6px;
+            font-size: 0.92rem;
+            display: none;
+        }
+
+        /* Homework Styling */
+        .homework-container {
+            background: #fffaf0;
+            border: 2px solid #feebc8;
+            border-left: 6px solid #dd6b20;
+            border-radius: 8px;
+            padding: 30px;
+            margin-top: 40px;
+        }
+
+        .homework-title {
+            color: #9c4221;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+
+        .homework-item {
+            margin-bottom: 20px;
+        }
+
+        .homework-item h4 {
+            color: #c05621;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        ul {
+            padding-left: 20px;
+            margin-top: 5px;
+        }
+
+        li {
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>DAY 7: Indian Art, Culture & Heritage</h1>
+        <p>दिवस 7: भारतीय कला, संस्कृति और विरासत</p>
+    </header>
+
+    <div class="content-section">
+        <!-- Chapter Overview -->
+        <div class="topic-card">
+            <h3>Chapter Overview / अध्याय परिचय</h3>
+            <div class="bilingual-box">
+                <p class="en-text">India is a land of diverse cultures, traditions, and art forms that unite us in the thread of unity. Our rich heritage is reflected through music, dance, festivals, handicrafts, architecture, and core values.</p>
+                <p class="hi-text">भारत विभिन्न संस्कृतियों, परंपराओं और कला रूपों की भूमि है जो हमें एकता के सूत्र में बांधती है। हमारी समृद्ध विरासत संगीत, नृत्य, त्योहारों, हस्तशिल्प, वास्तुकला और मूल मूल्यों में झलकती है।</p>
+            </div>
+        </div>
+
+        <h2 class="section-title">Chapter Topics & Explanations / अध्याय के विषय एवं व्याख्या</h2>
+
+        <!-- Topic 1 -->
+        <div class="topic-card">
+            <h3>1. Classical Music / शास्त्रीय संगीत</h3>
+            <div class="bilingual-box">
+                <p class="en-text">Indian classical music is rooted in ancient traditions and has two main forms:</p>
+                <ul>
+                    <li><strong>Hindustani Music (North India):</strong> Based on Ragas and Talas. Expresses emotions through improvisation (Alap). Prominent instruments: Sitar, Tabla, Shehnai, Flute.</li>
+                    <li><strong>Carnatic Music (South India):</strong> Structured classical tradition of Southern India focusing on vocal compositions.</li>
+                </ul>
+                <p class="hi-text">भारतीय शास्त्रीय संगीत प्राचीन परंपराओं पर आधारित है और इसके दो मुख्य रूप हैं:</p>
+                <ul>
+                    <li><strong>हिंदुस्तानी संगीत (उत्तर भारत):</strong> यह राग और ताल पर आधारित है। आलाप के माध्यम से भावनाओं को व्यक्त किया जाता है। मुख्य वाद्य यंत्र: सितार, तबला, शहनाई, बांसुरी आदि।</li>
+                    <li><strong>कर्नाटक संगीत (दक्षिण भारत):</strong> दक्षिण भारत की संगठित शास्त्रीय परंपरा जो भक्ति और गेय रचनाओं पर केंद्रित है।</li>
+                </ul>
+            </div>
+            <div class="real-life-box">
+                <div class="real-life-header">💡 Real-Life Example / व्यावहारिक उदाहरण:</div>
+                <p class="en-text">Playing Ustad Bismillah Khan's Shehnai music during auspicious wedding ceremonies, or listening to Pandit Ravi Shankar's Sitar melodies for relaxation and mental peace.</p>
+                <p class="hi-text">शादियों और शुभ अवसरों पर उस्ताद बिस्मिल्लाह खान की शहनाई की धुन बजाना, या मन की शांति के लिए पंडित रविशंकर का सितार वादन सुनना।</p>
+            </div>
+        </div>
+
+        <!-- Topic 2 -->
+        <div class="topic-card">
+            <h3>2. Folk Dance / लोक नृत्य</h3>
+            <div class="bilingual-box">
+                <p class="en-text">Folk dances reflect the daily life, agricultural cycles, and traditional stories of people across different states:</p>
+                <ul>
+                    <li><strong>Bhangra:</strong> Punjab (Energetic harvest dance)</li>
+                    <li><strong>Garba:</strong> Gujarat (Celebrated during Navratri)</li>
+                    <li><strong>Ghoomar:</strong> Rajasthan (Royal graceful dance by women)</li>
+                    <li><strong>Bihu:</strong> Assam (Harvest festival dance)</li>
+                    <li><strong>Kathakali:</strong> Kerala (Classical dance-drama with expressive facial makeup)</li>
+                </ul>
+                <p class="hi-text">लोक नृत्य विभिन्न राज्यों के लोगों के दैनिक जीवन, कृषि चक्र और पारंपरिक कहानियों को दर्शाते हैं:</p>
+                <ul>
+                    <li><strong>भांगड़ा:</strong> पंजाब (ऊर्जावान फसल कटाई नृत्य)</li>
+                    <li><strong>गरबा:</strong> गुजरात (नवरात्रि के अवसर पर खेला जाने वाला नृत्य)</li>
+                    <li><strong>घूमर:</strong> राजस्थान (महिलाओं द्वारा किया जाने वाला राजसी नृत्य)</li>
+                    <li><strong>बिहू:</strong> असम (फसल उत्सव का नृत्य)</li>
+                    <li><strong>कथकली:</strong> केरल (विशिष्ट चेहरे के श्रृंगार वाला नृत्य-नाटक)</li>
+                </ul>
+            </div>
+            <div class="real-life-box">
+                <div class="real-life-header">💡 Real-Life Example / व्यावहारिक उदाहरण:</div>
+                <p class="en-text">Wearing traditional Gujarati dresses and performing Garba with Dandiya sticks in community grounds during Navratri nights.</p>
+                <p class="hi-text">नवरात्रि के त्योहार पर पारंपरिक पोशाक पहनकर कॉलोनी या सोसाइटी में मित्रों के साथ डांडिया और गरबा नृत्य करना।</p>
+            </div>
+        </div>
+
+        <!-- Topic 3 -->
+        <div class="topic-card">
+            <h3>3. Festivals / त्योहार</h3>
+            <div class="bilingual-box">
+                <p class="en-text">Festivals celebrate seasons, harvests, and core human values such as love, peace, and togetherness:</p>
+                <ul>
+                    <li><strong>Diwali:</strong> Festival of lights symbolizing the victory of good over evil.</li>
+                    <li><strong>Holi:</strong> Festival of colors, joy, and the arrival of spring.</li>
+                    <li><strong>Eid:</strong> Celebrates peace, brotherhood, and gratitude.</li>
+                    <li><strong>Pongal / Makar Sankranti:</strong> Harvest festival expressing gratitude to nature.</li>
+                </ul>
+                <p class="hi-text">त्योहार ऋतुओं, फसलों की कटाई और प्रेम, शांति एवं भाईचारे जैसे मानवीय मूल्यों का उत्सव मनाते हैं:</p>
+                <ul>
+                    <li><strong>दिवाली:</strong> रोशनी का पर्व जो बुराई पर अच्छाई की जीत का प्रतीक है।</li>
+                    <li><strong>होली:</strong> रंगों, खुशी और बसंत के आगमन का त्योहार।</li>
+                    <li><strong>ईद:</strong> शांति, कृतज्ञता और भाईचारे का पर्व।</li>
+                    <li><strong>पोंगल / मकर संक्रांति:</strong> अच्छी फसल के लिए प्रकृति का आभार व्यक्त करने वाला त्योहार।</li>
+                </ul>
+            </div>
+            <div class="real-life-box">
+                <div class="real-life-header">💡 Real-Life Example / व्यावहारिक उदाहरण:</div>
+                <p class="en-text">Lighting clay lamps (diyas) and exchanging homemade sweets with neighbors during Diwali, or sharing Sheer Khurma on Eid.</p>
+                <p class="hi-text">दिवाली पर घर में मिट्टी के दीये जलाना और पड़ोसियों में मिठाइयां बांटना, या ईद पर दोस्तों को घर बुलाकर शीर-खुरमा खिलाना।</p>
+            </div>
+        </div>
+
+        <!-- Topic 4 -->
+        <div class="topic-card">
+            <h3>4. Handicrafts / हस्तशिल्प</h3>
+            <div class="bilingual-box">
+                <p class="en-text">Indian handicrafts demonstrate localized creativity and environmental harmony using natural materials:</p>
+                <ul>
+                    <li><strong>Madhubani Painting (Bihar):</strong> Uses natural colors and geometric patterns.</li>
+                    <li><strong>Warli Art (Maharashtra):</strong> Tribal art using basic shapes depicting daily village life.</li>
+                    <li><strong>Channapatna Toys (Karnataka):</strong> Eco-friendly wooden toys painted with natural vegetable dyes.</li>
+                    <li><strong>Kashmiri Pashmina Shawls (J&K):</strong> Intricately handwoven fine wool shawls.</li>
+                </ul>
+                <p class="hi-text">भारतीय हस्तशिल्प प्राकृतिक सामग्रियों का उपयोग करके स्थानीय रचनात्मकता और पर्यावरण-अनुकूलता को दर्शाते हैं:</p>
+                <ul>
+                    <li><strong>मधुबनी चित्रकला (बिहार):</strong> प्राकृतिक रंगों और ज्यामितीय आकृतियों का प्रयोग।</li>
+                    <li><strong>वरली कला (महाराष्ट्र):</strong> सरल आकारों से ग्रामीण जीवन को दर्शाने वाली जनजातीय कला।</li>
+                    <li><strong>चन्नापटना खिलौने (कर्नाटक):</strong> प्राकृतिक रंगों से बने लकड़ी के सुरक्षित खिलौने।</li>
+                    <li><strong>कश्मीरी पश्मीना शॉल (जम्मू और कश्मीर):</strong> हाथ से बुने गए बारीक ऊनी शॉल।</li>
+                </ul>
+            </div>
+            <div class="real-life-box">
+                <div class="real-life-header">💡 Real-Life Example / व्यावहारिक उदाहरण:</div>
+                <p class="en-text">Gifting non-toxic wooden Channapatna toys to children instead of plastic toys, or decorating home walls with Madhubani art frames.</p>
+                <p class="hi-text">बच्चों को प्लास्टिक के खिलौनों के बजाय लकड़ी के सुरक्षित चन्नापटना खिलौने देना या घर के कमरे में मधुबनी पेंटिंग लगाना।</p>
+            </div>
+        </div>
+
+        <!-- Topic 5 -->
+        <div class="topic-card">
+            <h3>5. UNESCO World Heritage Sites of India / भारत के यूनेस्को विश्व धरोहर स्थल</h3>
+            <div class="bilingual-box">
+                <p class="en-text">Global heritage sites recognized for their outstanding cultural, architectural, or natural significance:</p>
+                <ul>
+                    <li><strong>Cultural Sites:</strong> Taj Mahal (Agra), Qutub Minar (Delhi), Ajanta & Ellora Caves (Maharashtra), Konark Sun Temple (Odisha).</li>
+                    <li><strong>Natural Sites:</strong> Kaziranga National Park (Assam - famous for one-horned rhinos), Sundarbans National Park (West Bengal).</li>
+                </ul>
+                <p class="hi-text">असाधारण सांस्कृतिक, स्थापत्य या प्राकृतिक महत्व के लिए विश्व स्तर पर मान्यता प्राप्त स्थल:</p>
+                <ul>
+                    <li><strong>सांस्कृतिक स्थल:</strong> ताजमहल (आगरा), कुतुब मीनार (दिल्ली), अजंता और एलोरा की गुफाएं (महाराष्ट्र), कोणार्क सूर्य मंदिर (ओडिशा)।</li>
+                    <li><strong>प्राकृतिक स्थल:</strong> काजीरंगा राष्ट्रीय उद्यान (असम - एक सींग वाले गेंडे के लिए प्रसिद्ध), सुंदरबन राष्ट्रीय उद्यान (पश्चिम बंगाल)।</li>
+                </ul>
+            </div>
+            <div class="real-life-box">
+                <div class="real-life-header">💡 Real-Life Example / व्यावहारिक उदाहरण:</div>
+                <p class="en-text">Planning an educational family visit to the Taj Mahal to admire marble craftsmanship or taking a wildlife safari in Kaziranga.</p>
+                <p class="hi-text">परिवार के साथ शैक्षणिक यात्रा पर ताजमहल देखने आगरा जाना या काजीरंगा में जंगल सफारी का आनंद लेना।</p>
+            </div>
+        </div>
+
+        <!-- Topic 6 -->
+        <div class="topic-card">
+            <h3>6. Cultural Values & Heritage / सांस्कृतिक मूल्य एवं परंपराएं</h3>
+            <div class="bilingual-box">
+                <p class="en-text">India's rich traditions include 22 Scheduled Languages, literature like the Panchatantra, and universal values like <em>"Vasudhaiva Kutumbakam"</em> (The world is one family).</p>
+                <p class="hi-text">भारत की समृद्ध परंपराओं में 22 अनुसूचित भाषाएं, पंचतंत्र जैसे प्राचीन ग्रंथ और <em>"वसुधैव कुटुंबकम"</em> (संपूर्ण विश्व एक परिवार है) जैसे सार्वभौमिक मूल्य शामिल हैं।</p>
+            </div>
+            <div class="real-life-box">
+                <div class="real-life-header">💡 Real-Life Example / व्यावहारिक उदाहरण:</div>
+                <p class="en-text">Welcoming guests warmly at home following 'Atithi Devo Bhava' and narrating bedtime stories from Panchatantra to children.</p>
+                <p class="hi-text">घर आए मेहमानों का 'अतिथि देवो भव:' कहकर आदर-सत्कार करना और बच्चों को पंचतंत्र की नैतिक कहानियां सुनाना।</p>
+            </div>
+        </div>
+
+        <!-- Interactive Quiz Section -->
+        <div class="quiz-container">
+            <h2 style="color: var(--primary-color); text-align: center; margin-bottom: 10px;">Interactive Quiz: 15 MCQs</h2>
+            <p style="text-align: center; color: var(--text-muted); margin-bottom: 30px;">Click an option to submit your answer. Correct = <span style="color:green; font-weight:bold;">GREEN</span>, Incorrect = <span style="color:red; font-weight:bold;">RED</span>.</p>
+
+            <div id="quiz-wrapper"></div>
+        </div>
+
+        <!-- Homework Section -->
+        <div class="homework-container">
+            <h2 class="homework-title">📝 Homework / गृहकार्य</h2>
+            
+            <div class="homework-item">
+                <h4>Task 1 / कार्य 1:</h4>
+                <p class="en-text">Write 5 lines in your notebook about any one UNESCO World Heritage Site in India that you wish to visit and state why.</p>
+                <p class="hi-text">भारत के किसी भी एक यूनेस्को विश्व धरोहर स्थल के बारे में अपनी नोटबुक में 5 पंक्तियाँ लिखें जहाँ आप जाना चाहते हैं और कारण बताएं।</p>
+            </div>
+
+            <div class="homework-item">
+                <h4>Task 2 / कार्य 2:</h4>
+                <p class="en-text">List 5 major Indian festivals and write one sentence describing how each festival is celebrated at your home.</p>
+                <p class="hi-text">भारत के 5 प्रमुख त्योहारों की सूची बनाएं और लिखें कि आपके घर में प्रत्येक त्योहार कैसे मनाया जाता है।</p>
+            </div>
+
+            <div class="homework-item">
+                <h4>Task 3 / कार्य 3:</h4>
+                <p class="en-text">Draw or sketch any traditional Indian handicraft item (e.g., Madhubani design, Warli figure, or earthen Diya) and color it.</p>
+                <p class="hi-text">किसी भी पारंपरिक भारतीय हस्तशिल्प (जैसे मधुबनी पेंटिंग, वरली चित्र या मिट्टी का दीया) का सुंदर चित्र बनाएं और रंग भरें।</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+const quizQuestions = [
+    {
+        qEn: "1. Which string instrument was famously played by Pandit Ravi Shankar?",
+        qHi: "1. पंडित रविशंकर द्वारा कौन सा प्रसिद्ध तार वाला वाद्य यंत्र बजाया जाता था?",
+        options: ["Tabla / तबला", "Sitar / सितार", "Shehnai / शहनाई", "Flute / बांसुरी"],
+        answer: 1,
+        explanation: "Pandit Ravi Shankar was a world-renowned Sitar virtuoso."
+    },
+    {
+        qEn: "2. Garba is the popular traditional folk dance of which state?",
+        qHi: "2. गरबा किस राज्य का प्रसिद्ध पारंपरिक लोक नृत्य है?",
+        options: ["Punjab / पंजाब", "Rajasthan / राजस्थान", "Gujarat / गुजरात", "Maharashtra / महाराष्ट्र"],
+        answer: 2,
+        explanation: "Garba originates from Gujarat and is performed during Navratri."
+    },
+    {
+        qEn: "3. Madhubani painting style belongs to which state of India?",
+        qHi: "3. मधुबनी चित्रकला शैली भारत के किस राज्य से संबंधित है?",
+        options: ["Bihar / बिहार", "Odisha / ओडिशा", "Kerala / केरल", "Assam / असम"],
+        answer: 0,
+        explanation: "Madhubani painting is a famous folk art form of Bihar."
+    },
+    {
+        qEn: "4. Which national park in Assam is famous for the one-horned rhinoceros?",
+        qHi: "4. असम का कौन सा राष्ट्रीय उद्यान एक सींग वाले गेंडे के लिए प्रसिद्ध है?",
+        options: ["Sundarbans / सुंदरबन", "Kaziranga National Park / काजीरंगा", "Gir Forest / गिर", "Jim Corbett / जिम कॉर्बेट"],
+        answer: 1,
+        explanation: "Kaziranga National Park in Assam is a UNESCO site famous for one-horned rhinos."
+    },
+    {
+        qEn: "5. Bihu is the primary harvest folk dance of which state?",
+        qHi: "5. बिहू किस राज्य का प्रमुख फसल उत्सव लोक नृत्य है?",
+        options: ["West Bengal / पश्चिम बंगाल", "Assam / असम", "Manipur / मणिपुर", "Odisha / ओडिशा"],
+        answer: 1,
+        explanation: "Bihu is the traditional harvest dance of Assam."
+    },
+    {
+        qEn: "6. What does the ancient Sanskrit phrase 'Vasudhaiva Kutumbakam' mean?",
+        qHi: "6. प्राचीन संस्कृत वाक्यांश 'वसुधैव कुटुंबकम' का क्या अर्थ है?",
+        options: ["Truth Alone Triumphs / सत्यमेव जयते", "The world is one family / संपूर्ण विश्व एक परिवार है", "Guest is God / अतिथि देवो भवः", "Work is Worship / कर्म ही पूजा है"],
+        answer: 1,
+        explanation: "'Vasudhaiva Kutumbakam' translates to 'The world is one family'."
+    },
+    {
+        qEn: "7. Channapatna eco-friendly toys are made using which material?",
+        qHi: "7. चन्नापटना के पर्यावरण-अनुकूल खिलौने किस सामग्री से बनाए जाते हैं?",
+        options: ["Clay / मिट्टी", "Wood with natural dyes / लकड़ी और प्राकृतिक रंग", "Plastic / प्लास्टिक", "Metal / धातु"],
+        answer: 1,
+        explanation: "Channapatna toys from Karnataka are crafted from wood using non-toxic natural dyes."
+    },
+    {
+        qEn: "8. Warli tribal art form belongs to which Indian state?",
+        qHi: "8. वरली जनजातीय कला शैली भारत के किस राज्य से संबंधित है?",
+        options: ["Maharashtra / महाराष्ट्र", "Rajasthan / राजस्थान", "Punjab / पंजाब", "Tamil Nadu / तमिलनाडु"],
+        answer: 0,
+        explanation: "Warli tribal art originates from Maharashtra."
+    },
+    {
+        qEn: "9. The Konark Sun Temple in Odisha is built in the shape of what?",
+        qHi: "9. ओडिशा का कोणार्क सूर्य मंदिर किस आकृति में बनाया गया है?",
+        options: ["A Giant Chariot / एक विशाल रथ", "A Royal Palace / एक राजमहल", "A Fortress / एक किला", "A Mountain / एक पर्वत"],
+        answer: 0,
+        explanation: "Konark Sun Temple is architecturally designed like a massive stone chariot."
+    },
+    {
+        qEn: "10. In which year was Sangeet Natak Akademi established in India?",
+        qHi: "10. भारत में संगीत नाटक अकादमी की स्थापना किस वर्ष हुई थी?",
+        options: ["1947", "1953", "1965", "1980"],
+        answer: 1,
+        explanation: "Sangeet Natak Akademi was set up in 1953 to promote performing arts."
+    },
+    {
+        qEn: "11. How many Scheduled Languages are recognized in the 8th Schedule of Indian Constitution?",
+        qHi: "11. भारतीय संविधान की 8वीं अनुसूची में कितनी भाषाओं को मान्यता दी गई है?",
+        options: ["18", "20", "22", "25"],
+        answer: 2,
+        explanation: "There are 22 official Scheduled Languages recognized in India."
+    },
+    {
+        qEn: "12. Kathakali is a traditional classical dance-drama of which state?",
+        qHi: "12. कथकली किस राज्य का पारंपरिक शास्त्रीय नृत्य-नाटक है?",
+        options: ["Kerala / केरल", "Tamil Nadu / तमिलनाडु", "Karnataka / कर्नाटक", "Andhra Pradesh / आंध्र प्रदेश"],
+        answer: 0,
+        explanation: "Kathakali is a major classical dance-drama originating from Kerala."
+    },
+    {
+        qEn: "13. Bhangra is the famous folk dance of which state?",
+        qHi: "13. भांगड़ा किस राज्य का प्रसिद्ध लोक नृत्य है?",
+        options: ["Haryana / हरियाणा", "Punjab / पंजाब", "Himachal Pradesh / हिमाचल प्रदेश", "Gujarat / गुजरात"],
+        answer: 1,
+        explanation: "Bhangra is a vibrant harvest dance from Punjab."
+    },
+    {
+        qEn: "14. Fine handwoven Pashmina shawls are traditional to which region?",
+        qHi: "14. बारीक हाथ से बुने गए पश्मीना शॉल किस क्षेत्र के प्रसिद्ध हैं?",
+        options: ["Jammu & Kashmir / जम्मू और कश्मीर", "Rajasthan / राजस्थान", "Gujarat / गुजरात", "Kerala / केरल"],
+        answer: 0,
+        explanation: "Pashmina shawls are handcrafted luxury items from Jammu & Kashmir."
+    },
+    {
+        qEn: "15. Which harvest festival is celebrated in South India to thank nature?",
+        qHi: "15. दक्षिण भारत में प्रकृति के प्रति आभार व्यक्त करने के लिए कौन सा फसल त्योहार मनाया जाता है?",
+        options: ["Diwali / दिवाली", "Pongal / पोंगल", "Holi / होली", "Baisakhi / बैसाखी"],
+        answer: 1,
+        explanation: "Pongal is a four-day harvest festival celebrated in Tamil Nadu."
+    }
+];
+
+function initQuiz() {
+    const wrapper = document.getElementById('quiz-wrapper');
+    quizQuestions.forEach((item, qIndex) => {
+        const card = document.createElement('div');
+        card.className = 'mcq-item';
+
+        let htmlContent = `
+            <div class="mcq-question">
+                <div>${item.qEn}</div>
+                <div style="color: var(--text-muted); font-weight: normal; font-size: 0.95rem; margin-top:2px;">${item.qHi}</div>
+            </div>
+            <div class="options-list" id="opt-group-${qIndex}">
+        `;
+
+        item.options.forEach((optText, optIndex) => {
+            htmlContent += `<button class="option-btn" onclick="handleOptionSelect(${qIndex}, ${optIndex})">${optText}</button>`;
+        });
+
+        htmlContent += `
+            </div>
+            <div class="explanation-box" id="exp-${qIndex}"></div>
+        `;
+
+        card.innerHTML = htmlContent;
+        wrapper.appendChild(card);
+    });
+}
+
+function handleOptionSelect(qIndex, selectedIndex) {
+    const group = document.getElementById(`opt-group-${qIndex}`);
+    const buttons = group.getElementsByClassName('option-btn');
+    const expBox = document.getElementById(`exp-${qIndex}`);
+    const correctIndex = quizQuestions[qIndex].answer;
+
+    for (let btn of buttons) {
+        btn.disabled = true;
+        btn.style.cursor = 'default';
+    }
+
+    if (selectedIndex === correctIndex) {
+        buttons[selectedIndex].classList.add('correct');
+        expBox.style.backgroundColor = 'var(--correct-bg)';
+        expBox.style.color = 'var(--correct-text)';
+        expBox.style.border = '1px solid var(--correct-border)';
+        expBox.innerHTML = `<strong>✓ Correct! / सही उत्तर!</strong><br>${quizQuestions[qIndex].explanation}`;
+    } else {
+        buttons[selectedIndex].classList.add('incorrect');
+        buttons[correctIndex].classList.add('correct');
+        expBox.style.backgroundColor = 'var(--incorrect-bg)';
+        expBox.style.color = 'var(--incorrect-text)';
+        expBox.style.border = '1px solid var(--incorrect-border)';
+        expBox.innerHTML = `<strong>✗ Incorrect / गलत उत्तर।</strong> Correct choice: Option ${correctIndex + 1}.<br>${quizQuestions[qIndex].explanation}`;
+    }
+
+    expBox.style.display = 'block';
+}
+
+window.onload = initQuiz;
+</script>
+
+</body>
+</html>
