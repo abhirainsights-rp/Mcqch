@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DAY 8: Traditional Knowledge & Indigenous Skills</title>
+    <style>
+        :root {
+            --primary: #2e7d32;
+            --primary-dark: #1b5e20;
+            --accent: #f57c00;
+            --bg: #f4f6f8;
+            --card-bg: #ffffff;
+            --text: #2c3e50;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            padding-bottom: 50px;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            color: white;
+            padding: 2.5rem 1rem;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        header h1 {
+            font-size: 2rem;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        header p {
+            font-size: 1rem;
+            opacity: 0.9;
+            font-style: italic;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 0 15px;
+        }
+
+        .quote-box {
+            background: #e8f5e9;
+            border-left: 5px solid var(--primary);
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+            font-size: 1rem;
+            color: var(--primary-dark);
+        }
+
+        .section-title {
+            color: var(--primary-dark);
+            border-bottom: 3px solid var(--primary);
+            display: inline-block;
+            padding-bottom: 5px;
+            margin: 30px 0 20px 0;
+            font-size: 1.5rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.06);
+            transition: transform 0.3s ease;
+            border-top: 4px solid var(--primary);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card h3 {
+            color: var(--primary-dark);
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        .badge {
+            background: #e0f2f1;
+            color: #00695c;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+        }
+
+        .real-example {
+            background: #fff8e1;
+            border-left: 4px solid #ffa000;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+
+        /* MCQ Section */
+        .mcq-container {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            margin-top: 20px;
+        }
+
+        .question-card {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .question-text {
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .options {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 8px;
+        }
+
+        @media (min-width: 600px) {
+            .options { grid-template-columns: 1fr 1fr; }
+        }
+
+        .option-btn {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            padding: 10px 12px;
+            border-radius: 8px;
+            text-align: left;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+            width: 100%;
+        }
+
+        .option-btn.correct {
+            background-color: #d4edda !important;
+            border-color: #28a745 !important;
+            color: #155724 !important;
+            font-weight: bold;
+        }
+
+        .option-btn.wrong {
+            background-color: #f8d7da !important;
+            border-color: #dc3545 !important;
+            color: #721c24 !important;
+        }
+
+        /* Homework Section */
+        .hw-card {
+            background: #fff3e0;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 12px;
+            border-left: 5px solid var(--accent);
+        }
+
+        .hw-card h4 { color: #e65100; margin-bottom: 5px; }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: #333;
+            color: white;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>DAY 8: Traditional Knowledge & Indigenous Skills</h1>
+        <p>"Innovation Through Tradition — Our traditions are the roots, innovation is the branch!"</p>
+    </header>
+
+    <div class="container">
+
+        <div class="quote-box">
+            🌿 <strong>Overview:</strong> India's traditional knowledge is the result of centuries of observation and deep understanding of nature. It promotes sustainability, self-reliance (Atmanirbhar), and respect for local resources.
+        </div>
+
+        <h2 class="section-title">📌 Key Topics & Real-Life Examples</h2>
+
+        <div class="grid">
+            <div class="card">
+                <h3>1. Traditional Agriculture <span class="badge">खेती</span></h3>
+                <p><strong>EN:</strong> Uses natural cycles, indigenous seeds, crop rotation, and traditional tools like plough & sickle.</p>
+                <p><strong>HI:</strong> प्राकृतिक चक्र, देशी बीज, फसल चक्र और पारंपरिक औजारों (हल, हसिया) का उपयोग।</p>
+                <div class="real-example"><strong>Example:</strong> Organic farming/जैविक खेती (जैसे सिक्किम राज्य) जहाँ बिना केमिकल के फसल उगाई जाती है।</div>
+            </div>
+
+            <div class="card">
+                <h3>2. Indigenous Technologies <span class="badge">स्वदेशी तकनीक</span></h3>
+                <p><strong>EN:</strong> Eco-friendly techniques developed by ancestors using local materials (e.g., rainwater harvesting, mud houses).</p>
+                <p><strong>HI:</strong> स्थानीय संसाधनों से तैयार पर्यावरण-अनुकूल तकनीक (जैसे वर्षा जल संचयन, मिट्टी के घर)।</p>
+                <div class="real-example"><strong>Example:</strong> मेघालय के "Living Root Bridges" जो बिना सीमेंट-लोहे के सालों-साल चलते हैं।</div>
+            </div>
+
+            <div class="card">
+                <h3>3. Pottery <span class="badge">मिट्टी के बर्तन</span></h3>
+                <p><strong>EN:</strong> Shaping natural clay on a wheel to make eco-friendly cooking and storage utensils.</p>
+                <p><strong>HI:</strong> कुम्हार के चाक से प्राकृतिक मिट्टी के टिकाऊ और सुंदर बर्तन बनाना।</p>
+                <div class="real-example"><strong>Example:</strong> गर्मियों में मटके (Matka) का ठंडा पानी पीना, जो बिना बिजली के कूलिंग देता है।</div>
+            </div>
+
+            <div class="card">
+                <h3>4. Textile Technology <span class="badge">कपड़ा उद्योग</span></h3>
+                <p><strong>EN:</strong> Traditional handlooms using natural fibers (cotton, silk) and plant dyes (Khadi, Pashmina).</p>
+                <p><strong>HI:</strong> प्राकृतिक रेशों और पौधों के रंगों से हथकरघा पर तैयार वस्त्र (जैसे खादी, पश्मीना)।</p>
+                <div class="real-example"><strong>Example:</strong> खादी (Khadi) के कपड़े जो गर्मियों में ठंडे और सर्दियों में गर्म रहते हैं।</div>
+            </div>
+
+            <div class="card">
+                <h3>5. Herbal Medicines <span class="badge">आयुर्वेद</span></h3>
+                <p><strong>EN:</strong> Indigenous healing using natural herbs, roots, and spices (Tulsi, Neem, Turmeric) for holistic health.</p>
+                <p><strong>HI:</strong> प्राकृतिक जड़ी-बूटियों (तुलसी, नीम, हल्दी) से स्वास्थ्य देखभाल करना।</p>
+                <div class="real-example"><strong>Example:</strong> चोट या सर्दी-खांसी होने पर हल्दी वाला दूध (Turmeric Milk) या तुलसी का काढ़ा।</div>
+            </div>
+
+            <div class="card">
+                <h3>6. Water Wheels <span class="badge">रहट / जल चक्र</span></h3>
+                <p><strong>EN:</strong> Traditional devices (Rahat) used to lift water for irrigation using mechanical power.</p>
+                <p><strong>HI:</strong> खेतों की सिंचाई के लिए पानी की शक्ति से चलने वाले पुराने यन्त्र (रहट)।</p>
+                <div class="real-example"><strong>Example:</strong> पनचक्की (Watermill) जिससे गांवों में बहते पानी से आटा पीसा जाता है।</div>
+            </div>
+
+            <div class="card">
+                <h3>7. Local Knowledge Systems <span class="badge">स्थानीय ज्ञान</span></h3>
+                <p><strong>EN:</strong> Wisdom passed down generations including weather prediction and soil understanding.</p>
+                <p><strong>HI:</strong> पीढ़ियों से चला आ रहा ज्ञान, जैसे पक्षियों के व्यवहार से बारिश का अनुमान लगाना।</p>
+                <div class="real-example"><strong>Example:</strong> बुजुर्गों द्वारा बादलों की दिशा देखकर बारिश की सटीक भविष्यवाणी करना।</div>
+            </div>
+
+            <div class="card">
+                <h3>8. Rural Innovations <span class="badge">ग्रामीण नवाचार</span></h3>
+                <p><strong>EN:</strong> Low-cost, practical solutions for everyday problems (e.g., smokeless chulha, Gobar gas).</p>
+                <p><strong>HI:</strong> कम लागत में ग्रामीण समस्याओं का समाधान (जैसे गोबर गैस प्लांट, धुआं-रहित चूल्हा)।</p>
+                <div class="real-example"><strong>Example:</strong> बायो-गैस (Gobar Gas) का उपयोग करके घर में खाना पकाना।</div>
+            </div>
+
+            <div class="card">
+                <h3>9. Skill Development <span class="badge">कौशल विकास</span></h3>
+                <p><strong>EN:</strong> Learning traditional arts/crafts to build self-confidence and create rural jobs.</p>
+                <p><strong>HI:</strong> पारंपरिक कला और शिल्प सीखकर आत्म-निर्भर बनना और रोजगार पाना।</p>
+                <div class="real-example"><strong>Example:</strong> स्थानीय कारीगरों द्वारा हस्तशिल्प (Handicrafts) बनाकर ऑनलाइन बेचना।</div>
+            </div>
+
+            <div class="card">
+                <h3>10. Self-Reliance <span class="badge">आत्मनिर्भर भारत</span></h3>
+                <p><strong>EN:</strong> Promoting local products, reducing dependency on imports ("Vocal for Local").</p>
+                <p><strong>HI:</strong> स्वदेशी उत्पादों का उपयोग कर देश को आत्मनिर्भर बनाना।</p>
+                <div class="real-example"><strong>Example:</strong> विदेशी प्लास्टिक के सामान की जगह स्थानीय मिट्टी के बर्तन और दीये खरीदना।</div>
+            </div>
+        </div>
+
+        <!-- MCQ Quiz Section -->
+        <h2 class="section-title">📝 Interactive MCQ Quiz (15 Questions)</h2>
+        <p style="margin-bottom: 15px; color: #666;">सही उत्तर पर <strong>Green</strong> और गलत पर <strong>Red</strong> हो जाएगा।</p>
+
+        <div class="mcq-container" id="quizContainer"></div>
+
+        <!-- Homework Section -->
+        <h2 class="section-title">🏠 Homework / Activity (गृहकार्य)</h2>
+        <div class="hw-card">
+            <h4>Task 1: Model Creation / मॉडल निर्माण</h4>
+            <p>Make a simple drawing or working model of a Traditional Water Wheel / Rahat / Clay Pot cooler.</p>
+        </div>
+        <div class="hw-card">
+            <h4>Task 2: Herbal Medicine List / जड़ी-बूटी सूची</h4>
+            <p>List 5 local herbal medicinal plants (e.g. Neem, Tulsi) and write 2 benefits of each.</p>
+        </div>
+        <div class="hw-card">
+            <h4>Task 3: Vocal for Local Essay / लघु निबंध</h4>
+            <p>Write 3 practical ways how you can promote local artisans and become 'Atmanirbhar' in daily life.</p>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>Day 8 Tutorial — Traditional Knowledge & Indigenous Skills</p>
+    </footer>
+
+    <script>
+        const quizData = [
+            { q: "1. Traditional agriculture relies on / पारंपरिक कृषि निर्भर करती है:", options: ["Chemicals", "Natural Cycles & Indigenous Seeds", "Heavy Machinery", "Synthetic Pesticides"], correct: 1 },
+            { q: "2. Example of Indigenous Technology / स्वदेशी तकनीक का उदाहरण:", options: ["Rainwater Harvesting & Bamboo Bridges", "Nuclear Reactor", "Electric Supercars", "Microchips"], correct: 0 },
+            { q: "3. What makes Clay Pots cool water? / मटके का पानी ठंडा क्यों होता है?", options: ["Chemical Reaction", "Evaporation", "Refrigeration", "Condensation"], correct: 1 },
+            { q: "4. Khadi & Pashmina belong to / खादी व पश्मीना संबंधित हैं:", options: ["Pottery", "Herbal Medicine", "Textile Technology", "Water Management"], correct: 2 },
+            { q: "5. Tulsi and Neem are used in / तुलसी और नीम का उपयोग होता है:", options: ["Allopathy", "Ayurveda", "Homeopathy", "Unani"], correct: 1 },
+            { q: "6. Rahat (Persian Wheel) is used for / रहट का उपयोग होता है:", options: ["Irrigation water lifting", "Weaving Cloth", "Making Pots", "Predicting Weather"], correct: 0 },
+            { q: "7. Local Knowledge Systems pass through / स्थानीय ज्ञान आगे बढ़ता है:", options: ["Internet", "Generations", "Textbooks", "Television"], correct: 1 },
+            { q: "8. Gobar Gas plant is an example of / गोबर गैस उदाहरण है:", options: ["Rural Innovation", "Industrial Waste", "Non-renewable Energy", "High-cost Tech"], correct: 0 },
+            { q: "9. Main objective of Skill India / स्किल इंडिया का मुख्य उद्देश्य:", options: ["Promote foreign goods", "Build confidence & economic skills", "Stop traditional arts", "None"], correct: 1 },
+            { q: "10. 'Vocal for Local' is linked with / 'वोकल फॉर लोकल' का संबंध है:", options: ["Atmanirbhar Bharat", "Space Research", "Global Trade", "Digital Gaming"], correct: 0 },
+            { q: "11. Benefit of traditional knowledge / पारंपरिक ज्ञान का लाभ:", options: ["Sustainability", "Cultural Preservation", "Cost-effective", "All of the above"], correct: 3 },
+            { q: "12. Organic farming preserves / जैविक खेती रक्षा करती है:", options: ["Soil Health", "Plastic Production", "Chemical Sales", "Air Pollution"], correct: 0 },
+            { q: "13. Natural Dyes are made from / प्राकृतिक रंग बनते हैं:", options: ["Petroleum", "Plants, Flowers, & Roots", "Synthetic Chemicals", "Plastics"], correct: 1 },
+            { q: "14. Panchakki runs on / पनचक्की चलती है:", options: ["Electricity", "Flowing Water Power", "Diesel", "Coal"], correct: 1 },
+            { q: "15. Core mantra of traditional knowledge / पारंपरिक ज्ञान का मूलमंत्र:", options: ["Innovation Through Tradition", "Over-exploitation", "Forget past methods", "Import everything"], correct: 0 }
+        ];
+
+        function renderQuiz() {
+            const container = document.getElementById('quizContainer');
+            let html = '';
+            quizData.forEach((item, index) => {
+                html += `
+                    <div class="question-card" id="q-card-${index}">
+                        <div class="question-text">${item.q}</div>
+                        <div class="options">
+                            ${item.options.map((opt, optIdx) => `
+                                <button class="option-btn" onclick="checkAnswer(${index}, ${optIdx})">${opt}</button>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        function checkAnswer(qIdx, selectedOpt) {
+            const card = document.getElementById(`q-card-${qIdx}`);
+            const buttons = card.querySelectorAll('.option-btn');
+            const correctOpt = quizData[qIdx].correct;
+
+            buttons.forEach((btn, idx) => {
+                btn.disabled = true;
+                if (idx === correctOpt) {
+                    btn.classList.add('correct');
+                }
+                if (idx === selectedOpt && selectedOpt !== correctOpt) {
+                    btn.classList.add('wrong');
+                }
+            });
+        }
+
+        window.onload = renderQuiz;
+    </script>
+</body>
+</html>
