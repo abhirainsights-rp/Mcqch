@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="hi"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Hindi Samas Tutorial - Abhira Insights</title><meta name="description" content="Hindi Samas tutorial with tricks, examples, audio and MCQs for Class 10, Class 12 and competitive exams. Hindi Vyakaran Samas by Abhira Insights.">
+<style>
+:root{--bg:#fff7e8;--card:#fff;--ink:#3b2a1a;--mut:#7a6650;--c:#e8590c;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#1f1710;--card:#2b2016;--ink:#fbeedd;--mut:#c9b49a}}
+*{box-sizing:border-box}html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--ink);font-family:"Noto Sans Devanagari","Mangal","Nirmala UI",system-ui,sans-serif;display:flex;flex-direction:column;overflow-x:hidden}
+header{text-align:center;padding:10px 12px 4px}
+h1{margin:0;font-size:clamp(26px,4.5vw,48px);background:linear-gradient(90deg,#f59f00,#e8590c,#f59f00,#0c8599);background-size:300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:sh 4s linear infinite}
+@keyframes sh{to{background-position:300% 0}}
+h2{margin:2px 0 0;font-size:clamp(16px,2.4vw,26px);color:var(--mut);font-weight:600}
+.bar{height:8px;background:#0001;margin:8px 3vw;border-radius:9px;overflow:hidden}.bar i{display:block;height:100%;width:0;background:var(--c);transition:.5s}
+main{flex:1;display:flex;align-items:center;justify-content:center;padding:6px 3vw;min-height:0}
+.card{width:100%;max-width:1400px;max-height:100%;overflow:auto;background:var(--card);border-radius:22px;border:4px solid var(--c);box-shadow:0 8px 0 var(--c);padding:clamp(14px,2.5vw,36px);animation:pop .5s}
+@keyframes pop{from{transform:translateY(20px) scale(.97);opacity:0}}
+.top{display:flex;align-items:center;gap:12px}.em{font-size:clamp(40px,7vw,84px);animation:bn 2s infinite}
+@keyframes bn{50%{transform:translateY(-8px) rotate(6deg)}}
+h3{margin:0;font-size:clamp(24px,4vw,46px);color:var(--c)}
+.k{display:inline-block;margin:10px 0;padding:8px 18px;border-radius:40px;background:var(--c);color:#fff;font-weight:800;font-size:clamp(18px,2.8vw,32px)}
+.h{font-size:clamp(17px,2.4vw,28px);line-height:1.6;margin:6px 0}
+.g{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:12px;margin:12px 0}
+.ex{border:3px dashed var(--c);border-radius:16px;padding:12px;text-align:center;cursor:pointer;background:#0000000a;transition:.2s}.ex:hover{transform:scale(1.03)}
+.ex b{display:block;font-size:clamp(22px,3.2vw,38px);color:var(--c)}.ex span{font-size:clamp(15px,2vw,24px)}
+.n{background:#f59f0030;border-left:8px solid var(--c);border-radius:10px;padding:10px 14px;font-size:clamp(15px,2.1vw,25px);line-height:1.5}
+nav{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;padding:8px 8px 12px}
+button{font:inherit;font-weight:700;font-size:clamp(15px,2vw,22px);border:0;border-radius:40px;padding:10px 20px;background:var(--c);color:#fff;cursor:pointer;box-shadow:0 4px 0 #0004}button:active{transform:translateY(3px);box-shadow:none}
+button.o{background:var(--card);color:var(--ink);border:3px solid var(--c)}
+.opt{display:block;width:100%;text-align:left;margin:8px 0;background:var(--card);color:var(--ink);border:3px solid var(--c)}
+.opt.ok{background:#2f9e44;color:#fff}.opt.no{background:#e03131;color:#fff}
+#cv{position:fixed;inset:0;pointer-events:none;width:100%;height:100%}
+.big{text-align:center}.big .em{font-size:90px}
+</style></head><body>
+<header><h1>Abhira Insights</h1><h2>हिंदी व्याकरण – समास</h2></header>
+<div class="bar"><i id="pb"></i></div>
+<main><div class="card" id="cd"></div></main>
+<nav id="nv"></nav><canvas id="cv"></canvas>
+<script>
+var SIX=[
+{e:"👑",t:"1. अव्ययीभाव समास",k:"“पहला शब्द राजा”",c:"#e8590c",h:"जिस शब्द की शुरुआत यथा, प्रति, भर, आ, हर जैसे अव्यय से हो। पूरा शब्द क्रिया-विशेषण जैसा बन जाता है और कभी बदलता नहीं।",ex:[["यथाशक्ति","शक्ति के अनुसार"],["प्रतिदिन","हर दिन"],["भरपेट","पेट भरकर"],["आजन्म","जन्म से लेकर"]],n:"कहानी: राजा सबसे आगे चलता है और पूरी सेना उसके पीछे। यहाँ पहला शब्द राजा है, इसलिए पूरा शब्द उसी के हुक्म पर चलता है!"},
+{e:"🕵️",t:"2. तत्पुरुष समास",k:"“बीच का चोर”",c:"#0c8599",h:"विग्रह करने पर बीच में कारक चिह्न (को, से, के लिए, का, में) छिपकर बैठे मिलते हैं। इसमें दूसरा पद प्रधान होता है।",ex:[["रसोईघर","रसोई के लिए घर"],["राजपुत्र","राजा का पुत्र"],["हस्तलिखित","हाथ से लिखित"],["देशनिकाला","देश से निकाला"]],n:"कहानी: चोर दो शब्दों के बीच छिपा है। जब शब्द तोड़ो तो “का, से, के लिए” चोर पकड़ में आ जाता है! 🚔"},
+{e:"🌸",t:"3. कर्मधारय समास",k:"“तुलना या खूबी”",c:"#d6336c",h:"एक पद दूसरे की विशेषता बताए (जो है) या दोनों में तुलना हो (के समान)। दोनों पद एक ही चीज़ के बारे में बात करते हैं।",ex:[["नीलकमल","नीला है जो कमल"],["चरणकमल","कमल के समान चरण"],["महापुरुष","महान है जो पुरुष"],["कमलनयन","कमल के समान नयन"]],n:"याद रखो: “जो है” या “के समान” दिखे तो कर्मधारय। रंग-रूप बताने वाला शब्द पहले आता है। 🎨"},
+{e:"🔢",t:"4. द्विगु समास",k:"“नंबर प्लेट”",c:"#2f9e44",h:"जिसका पहला पद संख्या (गिनती) हो और पूरा शब्द समूह का अर्थ दे। विग्रह में “का समूह” आता है।",ex:[["चौराहा","चार राहों का समूह"],["नवरत्न","नौ रत्नों का समूह"],["त्रिलोक","तीन लोकों का समूह"],["सप्ताह","सात दिनों का समूह"]],n:"गाड़ी की नंबर प्लेट पर पहले नंबर दिखता है। शब्द के आगे नंबर दिखे और समूह का भाव हो तो द्विगु! 🚗"},
+{e:"🤼",t:"5. द्वंद्व समास",k:"“दंगल वाली जोड़ी”",c:"#7048e8",h:"दोनों पद बराबर महत्व के होते हैं और बीच में योजक चिह्न (-) लगता है। विग्रह करने पर “और” या “या” आता है।",ex:[["माता-पिता","माता और पिता"],["दिन-रात","दिन और रात"],["भाई-बहन","भाई और बहन"],["सुख-दुख","सुख और दुख"]],n:"दंगल में दोनों पहलवान बराबर होते हैं। यहाँ भी दोनों शब्द राजा हैं, कोई छोटा-बड़ा नहीं! 💪"},
+{e:"🕉️",t:"6. बहुव्रीहि समास",k:"“तीसरा इंसान”",c:"#c92a2a",h:"दोनों पद मिलकर किसी तीसरे खास अर्थ की तरफ इशारा करते हैं, अक्सर किसी देवी-देवता या व्यक्ति की ओर। विग्रह में “जिसका / जिसके” आता है।",ex:[["नीलकंठ","नीला है कंठ जिसका (शिवजी)"],["दशानन","दस हैं आनन जिसके (रावण)"],["चक्रपाणि","चक्र है हाथ में जिसके (विष्णुजी)"],["लंबोदर","लंबा है उदर जिसका (गणेशजी)"]],n:"जासूसी सवाल: “जिसका / जिसके” लगाने पर कोई तीसरा नाम सामने आए तो बहुव्रीहि! 🔍"}];
+var S=[
+{e:"🎒",t:"समास क्या है?",k:"समास = जोड़कर छोटा करना",c:"#f08c00",h:"“राजा का पुत्र” बोलने में चार शब्द लगे, पर “राजपुत्र” एक ही शब्द है! बीच के का, को, से जैसे शब्द गायब हो गए। इसी को समास कहते हैं।",ex:[["राजपुत्र","राजा का पुत्र"],["माता-पिता","माता और पिता"]],n:"जुड़ा हुआ शब्द = समस्त पद। उसे तोड़ना = समास-विग्रह। 🧩 जोड़ना = समास, तोड़ना = विग्रह। इसमें दो पद होते हैं: पहला पूर्वपद, दूसरा उत्तरपद।"},
+{e:"🗺️",t:"समास के 6 भेद",k:"छह दोस्त, छह जादुई ट्रिक",c:"#0c8599",h:"समास के छह प्रकार हैं। हर एक की एक मज़ेदार ट्रिक याद कर लो, फिर परीक्षा में पहचानना बहुत आसान हो जाएगा।",ex:SIX.map(function(x){return[x.t.slice(3),x.k]}),n:"क्रम याद रखो: अव्ययीभाव, तत्पुरुष, कर्मधारय, द्विगु, द्वंद्व, बहुव्रीहि।",j:"ट्रिक है"}
+].concat(SIX,[
+{e:"👑",t:"प्रधान पद का नियम",k:"कौन राजा? (Advanced)",c:"#364fc7",h:"परीक्षा में अक्सर पूछा जाता है कि किस समास में कौन-सा पद प्रधान है। इसे पक्का याद कर लो।",ex:[["अव्ययीभाव","पूर्वपद प्रधान"],["तत्पुरुष","उत्तरपद प्रधान"],["कर्मधारय","उत्तरपद प्रधान"],["द्विगु","उत्तरपद प्रधान"],["द्वंद्व","दोनों पद प्रधान"],["बहुव्रीहि","कोई पद नहीं, तीसरा अर्थ प्रधान"]],n:"सूत्र: पूर्व में अव्ययीभाव, उत्तर में तत्पुरुष, कर्मधारय और द्विगु, दोनों में द्वंद्व, और बहुव्रीहि में दोनों से बाहर कोई तीसरा।",j:"में"},
+{e:"⚖️",t:"तत्पुरुष के उपभेद",k:"कारक के अनुसार 6 रूप",c:"#0b7285",h:"विग्रह में जो कारक चिह्न छिपा हो, उसी से तत्पुरुष का उपभेद तय होता है।",ex:[["कर्म तत्पुरुष (को)","स्वर्गप्राप्त – स्वर्ग को प्राप्त"],["करण तत्पुरुष (से, द्वारा)","हस्तलिखित – हाथ से लिखित"],["संप्रदान तत्पुरुष (के लिए)","रसोईघर – रसोई के लिए घर"],["अपादान तत्पुरुष (से अलग)","देशनिकाला – देश से निकाला"],["संबंध तत्पुरुष (का, के, की)","राजपुत्र – राजा का पुत्र"],["अधिकरण तत्पुरुष (में, पर)","नीतिनिपुण – नीति में निपुण"]],n:"विशेष: निषेध वाला नञ् तत्पुरुष भी पूछा जाता है, जैसे अधर्म यानी न धर्म और अनादि यानी न आदि।",j:"जैसे"},
+{e:"🧬",t:"अन्य समासों के उपभेद",k:"आगे की तैयारी (Advanced)",c:"#5f3dc4",h:"प्रतियोगी परीक्षाओं में इन उपभेदों से सीधे सवाल आते हैं।",ex:[["इतरेतर द्वंद्व","राम-लक्ष्मण – राम और लक्ष्मण"],["समाहार द्वंद्व","दाल-रोटी – दाल, रोटी आदि का समूह"],["वैकल्पिक द्वंद्व","थोड़ा-बहुत – थोड़ा या बहुत"],["कर्मधारय (उपमान)","घनश्याम – घन के समान श्याम"],["द्विगु (समाहार)","पंचवटी – पाँच वटों का समूह"],["बहुव्रीहि","त्रिनेत्र – तीन हैं नेत्र जिसके, यानी शिवजी"]],n:"याद रखो: द्वंद्व के तीन भेद होते हैं: इतरेतर, समाहार और वैकल्पिक।",j:"जैसे"},
+{e:"🪤",t:"जाल वाले शब्द",k:"संख्या देखकर धोखा मत खाओ",c:"#c2255c",h:"संख्या से शुरू होने वाला हर शब्द द्विगु नहीं होता। अगर समूह निकले तो द्विगु, और अगर किसी तीसरे का नाम निकले तो बहुव्रीहि।",ex:[["त्रिलोक","द्विगु, तीन लोकों का समूह"],["त्रिनेत्र","बहुव्रीहि, शिवजी"],["पंचवटी","द्विगु, पाँच वटों का समूह"],["दशानन","बहुव्रीहि, रावण"],["महाजन","कर्मधारय, महान है जो जन"],["पीतांबर","बहुव्रीहि, पीला है वस्त्र जिसका, यानी कृष्णजी"]],n:"जाँच का तरीका: जिसका या जिसके लगाकर देखो। तीसरा नाम निकला तो बहुव्रीहि।",j:"है"},
+{e:"⚠️",t:"भ्रम दूर करो",k:"नीलकमल बनाम नीलकंठ",c:"#e67700",h:"दोनों शब्द “नील” से शुरू होते हैं, पर समास अलग है! नीलकमल में कमल ही नीला है, तो यह कर्मधारय है। नीलकंठ में नीला कंठ किसी तीसरे यानी शिवजी की पहचान है, तो यह बहुव्रीहि है।",ex:[["नीलकमल","कर्मधारय (कमल ही नीला)"],["नीलकंठ","बहुव्रीहि (तीसरे यानी शिवजी)"]],n:"सुनहरा नियम: अगर शब्द खुद की ही खूबी बताए तो कर्मधारय, और अगर किसी तीसरे का नाम निकले तो बहुव्रीहि।",j:"है"},
+{e:"⚡",t:"परीक्षा की सुपर ट्रिक",k:"सवाल पूछो, समास पहचानो",c:"#e8590c",h:"शब्द देखते ही ये छह सवाल खुद से पूछो। जिस सवाल का जवाब हाँ मिले, वही समास है।",ex:[["अव्यय प्रधान है? (प्रतिदिन)","अव्ययीभाव"],["कारक-संबंध है? (राजपुत्र)","तत्पुरुष"],["एक पद दूसरे की विशेषता है? (नीलकमल)","कर्मधारय"],["संख्या और समूह है? (नवरत्न)","द्विगु"],["‘और’ का भाव है? (माता-पिता)","द्वंद्व"],["किसी तीसरे का बोध है? (दशानन)","बहुव्रीहि"]],n:"अब बारी तुम्हारी है। नीचे बारह सवाल हल करके दिखाओ! 🏆",j:"तो जवाब है"}
+]);
+var Q=[
+["“माता-पिता” में कौन-सा समास है?",["द्वंद्व","तत्पुरुष","बहुव्रीहि","द्विगु"],0,"माता और पिता, ‘और’ का भाव है, इसलिए द्वंद्व।"],
+["किस समास में पूर्वपद प्रधान होता है?",["अव्ययीभाव","तत्पुरुष","कर्मधारय","द्विगु"],0,"अव्ययीभाव में पूर्वपद प्रधान होता है। तत्पुरुष, कर्मधारय और द्विगु में उत्तरपद प्रधान होता है।"],
+["“नीलकमल” में कौन-सा समास है?",["बहुव्रीहि","द्विगु","कर्मधारय","द्वंद्व"],2,"नीला है जो कमल, एक पद दूसरे की विशेषता बता रहा है, इसलिए कर्मधारय।"],
+["“दस हैं आनन जिसके” यह किसका विग्रह है और समास कौन-सा है?",["दशानन, बहुव्रीहि","दशमुख, द्विगु","दशरथ, तत्पुरुष","दशांश, द्वंद्व"],0,"जिसके, यानी तीसरा अर्थ रावण, इसलिए बहुव्रीहि।"],
+["“नवरत्न” में कौन-सा समास है?",["तत्पुरुष","द्विगु","कर्मधारय","बहुव्रीहि"],1,"नौ रत्नों का समूह, पहला पद संख्या है, इसलिए द्विगु।"],
+["“पंचवटी” में कौन-सा समास है?",["बहुव्रीहि","द्विगु","कर्मधारय","तत्पुरुष"],1,"पाँच वटों का समूह, पहला पद संख्या है, इसलिए द्विगु।"],
+["“रसोई के लिए घर” का समस्त पद और समास कौन-सा है?",["रसोईघर, द्वंद्व","रसोईघर, तत्पुरुष","रसोईघर, द्विगु","रसोईघर, कर्मधारय"],1,"के लिए कारक चिह्न छिपा है, इसलिए तत्पुरुष।"],
+["“हस्तलिखित” (हाथ से लिखित) में तत्पुरुष का कौन-सा उपभेद है?",["कर्म तत्पुरुष","अपादान तत्पुरुष","अधिकरण तत्पुरुष","करण तत्पुरुष"],3,"‘से’ कारक चिह्न (साधन) छिपा है, इसलिए करण तत्पुरुष।"],
+["“थोड़ा-बहुत” (थोड़ा या बहुत) किसका उदाहरण है?",["इतरेतर द्वंद्व","समाहार द्वंद्व","वैकल्पिक द्वंद्व","बहुव्रीहि"],2,"‘या’ का भाव है, इसलिए वैकल्पिक द्वंद्व।"],
+["“नीलकंठ” में कौन-सा समास है?",["कर्मधारय","बहुव्रीहि","द्विगु","द्वंद्व"],1,"नीला है कंठ जिसका, यानी शिवजी। तीसरे का बोध, इसलिए बहुव्रीहि।"],
+["“यथाशक्ति” में कौन-सा समास है?",["तत्पुरुष","बहुव्रीहि","अव्ययीभाव","कर्मधारय"],2,"यथा अव्यय से शुरू, शक्ति के अनुसार, इसलिए अव्ययीभाव।"],
+["“दिन और रात” का समस्त पद और समास कौन-सा है?",["दिन-रात, द्वंद्व","दिनरात, तत्पुरुष","दिन-रात, द्विगु","दिन-रात, बहुव्रीहि"],0,"और का भाव, दोनों पद बराबर, इसलिए द्वंद्व।"]];
+var i=0,auto=true,mode="s",qi=0,sc=0,lock=false,tm,cd=document.getElementById("cd"),nv=document.getElementById("nv"),pb=document.getElementById("pb"),AC;
+var syn=window.speechSynthesis;
+function beep(f,d){try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();var o=AC.createOscillator(),g=AC.createGain();o.frequency.value=f;g.gain.value=.12;o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+d)}catch(e){}}
+function say(tx,cb){clearTimeout(tm);var done=false;function fin(){if(!done){done=true;clearTimeout(tm);cb&&cb()}}
+if(!syn){tm=setTimeout(fin,tx.length*80+3000);return}
+syn.cancel();var u=new SpeechSynthesisUtterance(tx);u.lang="hi-IN";u.rate=.9;var v=syn.getVoices().filter(function(x){return/hi/i.test(x.lang)})[0];if(v)u.voice=v;u.onend=fin;u.onerror=fin;syn.speak(u);tm=setTimeout(fin,tx.length*130+6000)}
+function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;")}
+function nav(h){nv.innerHTML=h}
+function slide(){mode="s";var s=S[i];document.documentElement.style.setProperty("--c",s.c||"#e8590c");pb.style.width=((i+1)/(S.length+1)*100)+"%";
+cd.style.borderColor=cd.style.boxShadow="";
+cd.innerHTML='<div class="top"><span class="em">'+s.e+'</span><h3>'+s.t+'</h3></div><div class="k">'+s.k+'</div><p class="h">'+s.h+'</p><div class="g">'+s.ex.map(function(x,j){return'<div class="ex" onclick="say(\''+(x[0]+" "+(s.j||"यानी")+" "+x[1]).replace(/'/g,"")+'\')"><b>'+x[0]+'</b><span>'+(s.j?"➜ ":"= ")+x[1]+'</span></div>'}).join("")+'</div><div class="n">💡 '+s.n+'</div>';
+nav('<button class="o" onclick="go(-1)">⬅ पीछे</button><button onclick="rep()">🔊 फिर सुनो</button><button class="o" id="au" onclick="tg()">'+(auto?"⏸ ऑटो चालू":"▶ ऑटो बंद")+'</button><button onclick="go(1)">आगे ➡</button>');
+beep(660,.15);rep()}
+function rep(){var s=S[i];if(!auto){say(spk(s));return}say(spk(s),function(){setTimeout(function(){if(auto&&mode=="s")go(1)},1200)})}
+function spk(s){return s.t+". "+s.k.replace(/[“”]/g,"")+". "+s.h+" उदाहरण: "+s.ex.map(function(x){return x[0]+" "+(s.j||"यानी")+" "+x[1]}).join(". ")+". "+s.n}
+function tg(){auto=!auto;if(auto)rep();else{syn&&syn.cancel();clearTimeout(tm)}document.getElementById("au").textContent=auto?"⏸ ऑटो चालू":"▶ ऑटो बंद"}
+function go(d){syn&&syn.cancel();clearTimeout(tm);i+=d;if(i<0)i=0;if(i>=S.length){quiz(0);return}slide()}
+function start(){cd.innerHTML='<div class="big"><div class="em">🌟</div><h3>स्वागत है, दोस्तों!</h3><p class="h">कक्षा 10, 12 और प्रतियोगी परीक्षाओं की तैयारी के लिए समास का पूरा पाठ। आवाज़ ऑन रखो और बटन दबाओ!</p></div>';document.documentElement.style.setProperty("--c","#f08c00");nav('<button onclick="slide()">▶ पाठ शुरू करें</button>');pb.style.width="2%"}
+function quiz(n){mode="q";qi=n;lock=false;if(n==0)sc=0;document.documentElement.style.setProperty("--c","#7048e8");pb.style.width=(100*(n+1)/12)+"%";
+if(n>=Q.length)return fin();var q=Q[n];cd.innerHTML='<div class="top"><span class="em">📝</span><h3>सवाल '+(n+1)+' / 12</h3></div><p class="h"><b>'+q[0]+'</b></p>'+q[1].map(function(o,j){return'<button class="opt" onclick="pick('+j+')">'+"ABCD"[j]+") "+o+'</button>'}).join("")+'<div class="n" id="ex" style="display:none"></div>';
+nav('<button class="o" onclick="say(Q[qi][0])">🔊 सवाल सुनो</button><button id="nx" style="display:none" onclick="quiz(qi+1)">अगला ➡</button>');say(q[0])}
+function pick(j){if(lock)return;lock=true;var q=Q[qi],b=cd.querySelectorAll(".opt");b[q[2]].classList.add("ok");var r=j==q[2];if(r){sc++;beep(880,.25);conf(40)}else{b[j].classList.add("no");beep(200,.4)}
+var e=document.getElementById("ex");e.style.display="block";e.textContent=(r?"✅ बिल्कुल सही! ":"❌ सही उत्तर "+"ABCD"[q[2]]+" है। ")+q[3];say((r?"बहुत बढ़िया! ":"कोई बात नहीं। ")+q[3]);document.getElementById("nx").style.display="inline-block"}
+function fin(){var m=sc>=10?"समास मास्टर! 🏆":sc>=7?"बहुत अच्छे! 🌟":"और अभ्यास करो, तुम कर सकते हो! 💪";cd.innerHTML='<div class="big"><div class="em">🎉</div><h3>तुम्हारा स्कोर: '+sc+' / 12</h3><p class="h">'+m+'</p></div>';nav('<button onclick="quiz(0)">🔁 फिर से खेलें</button><button class="o" onclick="i=0;slide()">📖 पाठ दोबारा</button>');conf(160);say("तुम्हारा स्कोर "+sc+" बारह में से। "+m.replace(/[^\u0900-\u097F\s।!]/g,""))}
+function conf(n){var c=document.getElementById("cv"),x=c.getContext("2d");c.width=innerWidth;c.height=innerHeight;var p=[],k=["#f59f00","#e8590c","#0c8599","#d6336c","#2f9e44","#7048e8"];for(var a=0;a<n;a++)p.push({x:Math.random()*c.width,y:-10,vx:Math.random()*4-2,vy:Math.random()*4+2,s:Math.random()*8+4,c:k[a%6]});
+(function f(){x.clearRect(0,0,c.width,c.height);p.forEach(function(q){q.x+=q.vx;q.y+=q.vy;x.fillStyle=q.c;x.fillRect(q.x,q.y,q.s,q.s)});p=p.filter(function(q){return q.y<c.height});if(p.length)requestAnimationFrame(f)})()}
+start();
+</script></body></html>
